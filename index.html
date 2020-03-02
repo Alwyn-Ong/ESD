@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+
+    <title>Bookstore</title>
+
+    <link rel="stylesheet" href="">
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- Bootstrap libraries -->
+    <meta name="viewport" 
+        content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" 
+    crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script 
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+    
+    <script 
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="main-container" class="container">
+        <h1 class="display-4">Book Listing</h1>
+        <table id="booksTable" class='table table-striped' border='1'>
+            <thead class='thead-dark'>
+                <tr>
+                    <th>Title</th>
+                    <th>ISBN 13</th>
+                    <th>Price</th>
+                    <th>Availability</th>
+                </tr>
+            </thead>
+        </table>
+        <a id="addBookBtn" class="btn btn-primary" 
+     href="add-book.html">Add a book</a>
+     <a class="btn btn-primary" href="search-book.html">Search</a>
+    </div>
+
+    <script>
+        // Helper function to display error message
+        function showError(message) {
+            // Hide the table and button in the event of error
+            $('#booksTable').hide();
+            $('#addBookBtn').hide();
+    
+            // Display an error under the main container
+            $('#main-container')
+                .append("<label>"+message+"</label>");
+        }
+    
+        // anonymous async function 
+        // - using await requires the function that calls it to be async
+        $(async() => {           
+            // Change serviceURL to your own
+            var serviceURL = "http://127.0.0.1:5000/book";
+    
+            try {
+                const response =
+                 await fetch(
+                   serviceURL, { method: 'GET' }
+                );
+                const data = await response.json();
+                var books = data.books; //the arr is in data.books of the JSON data
+    
+                // array or array.length are false
+                if (!books || !books.length) {
+                    showError('Books list empty or undefined.')
+                } else {
+                    // for loop to setup all table rows with obtained book data
+                    var rows = "";
+                    for (const book of books) {
+                        eachRow =
+                            "<td>" + book.title + "</td>" +
+                            "<td>" + book.isbn13 + "</td>" +
+                            "<td>" + book.price + "</td>" +
+                            "<td>" + book.availability + "</td>";
+                        rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+                    }
+                    // add all the rows to the table
+                    $('#booksTable').append(rows);
+                }
+            } catch (error) {
+                // Errors when calling the service; such as network error, 
+                // service offline, etc
+                showError
+                ('There is a problem retrieving books data, please try again later.<br />'+error);
+           
+                } // error
+            });
+    </script>
+</body>
+</html>
+    
