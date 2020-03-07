@@ -1,0 +1,13 @@
+header .carousel-inner .carousel-item{
+    height: 90vh;
+}
+
+.carousel-caption{
+    padding-bottom: 150px;
+}
+
+.d-block {
+    opacity: 0.8;
+  }
+  
+  
