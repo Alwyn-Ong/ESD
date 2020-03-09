@@ -2641,6 +2641,17 @@ fieldset:disabled a.btn {
   background-color: #218838;
   border-color: #1e7e34;
 }
+.btn-status {
+  color: #fff;
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.btn-status:hover {
+  color: #fff;
+  background-color: #218838;
+  border-color: #1e7e34;
+}
 
 .btn-success:focus, .btn-success.focus {
   color: #fff;
@@ -4839,6 +4850,8 @@ input[type="button"].btn-block {
 .card-img-top {
   border-top-left-radius: calc(0.25rem - 1px);
   border-top-right-radius: calc(0.25rem - 1px);
+  filter: blur(8px);
+
 }
 
 .card-img,
@@ -6400,6 +6413,7 @@ a.close.disabled {
 
 .carousel {
   position: relative;
+  margin: auto;
 }
 
 .carousel.pointer-event {
@@ -6411,6 +6425,7 @@ a.close.disabled {
   position: relative;
   width: 100%;
   overflow: hidden;
+
 }
 
 .carousel-inner::after {
@@ -6422,7 +6437,7 @@ a.close.disabled {
 .carousel-item {
   position: relative;
   display: none;
-  float: left;
+  /* float: center; */
   width: 100%;
   margin-right: -100%;
   -webkit-backface-visibility: hidden;
@@ -6430,6 +6445,7 @@ a.close.disabled {
   transition: -webkit-transform 0.6s ease-in-out;
   transition: transform 0.6s ease-in-out;
   transition: transform 0.6s ease-in-out, -webkit-transform 0.6s ease-in-out;
+  align-items: center;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -6597,6 +6613,7 @@ a.close.disabled {
   padding-bottom: 20px;
   color: #fff;
   text-align: center;
+  opacity: 10;
 }
 
 @-webkit-keyframes spinner-border {
@@ -10237,6 +10254,18 @@ header .carousel-inner .carousel-item{
 
 header .navbar {
   background-color: rgba(233, 158, 60, 0.63);
+}
+
+.img{
+  /* bottom: 0;
+  left: 0;
+  opacity: .2;
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: auto; */
+  filter: blur(10px);
+  -webkit-filter: blur(10px);
 }
 
 
