@@ -15,21 +15,21 @@ CORS(app)
 class profile(db.Model):
     __tablename__ = 'profiledetails'
 
-    profileID = db.Column(db.Integer(), primary_key=True)
-    userID = db.Column(db.Integer(), unique=True, nullable=False)
+    profileID = db.Column(db.Integer(), primary_key=True, autoincrement=False)
     bio = db.Column(db.String(2083), nullable=False)
     gender = db.Column(db.String(1), nullable=False)
     age = db.Column(db.Integer(), nullable=False)
+    location = db.Column(db.VARCHAR(255), nullable=False)
 
-    def __init__(self, profileID, userID, bio, gender, age):
+    def __init__(self, profileID, bio, gender, age, location):
         self.profileID = profileID
-        self.userID = userID
         self.bio = bio
         self.gender = gender
         self.age = age
+        self.location = location
 
     def json(self):
-        return {"profileid": self.profileID, "userid": self.userID, "bio": self.bio, "gender": self.gender, "age": self.age}
+        return {"profileid": self.profileID, "bio": self.bio, "gender": self.gender, "age": self.age, "location":self.location}
 
 ## retrieve all profiles
 @app.route("/allprofiles")
@@ -38,17 +38,17 @@ def get_all():
     return jsonify({"all profiles": [profiles.json() for profiles in profile.query.all()]})    
 
 #retrieve current profile (used as placeholder to edit)
-@app.route("/profile/<int:userid>")
-def find_by_userid(userid):
-    userprofile = profile.query.filter_by(userID=userid).first()
+@app.route("/profile/<int:profileid>")
+def find_by_userid(profileid):
+    userprofile = profile.query.filter_by(profileID=profileid).first()
     if userprofile:
         return jsonify(userprofile.json())
     return jsonify({"message": "profile not found"}), 404
 
 #update profile
-@app.route("/profile/<int:userid>/<string:attribute>",methods=['PUT'])
-def update_profile(userid,attribute):
-    userprofile = profile.query.filter_by(userID=userid).first()
+@app.route("/profile/<int:profileid>/<string:attribute>",methods=['PUT'])
+def update_profile(profileid,attribute):
+    userprofile = profile.query.filter_by(profileID=profileid).first()
     changecolumn = attribute
     # if userprofile:
     userprofile.changecolumn = 'changed'
@@ -62,9 +62,22 @@ def update_profile(userid,attribute):
 #create profile 
 @app.route("/profile", methods=['POST'])
 def create_profile():
-    userID = 7
+    ##profileID not suposed to be given
+    profileID = request.json['profileID']
+    location = request.json['location']
     bio = request.json['bio']
     gender = request.json['gender']
     age = request.json['age']
+
+    new_profile = profile(profileID, bio, gender, age, location)
+    try:
+        db.session.add(new_profile)
+        db.session.commit()
+    except:
+        return jsonify({"message": "An error occurred creating the profile."}), 500
+
+    return jsonify(new_profile.json()), 201
+
+
 if __name__ == "__main__":
     app.run(port=5000,debug=True)
