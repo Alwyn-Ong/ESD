@@ -1,11 +1,20 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import json
+from flask_jwt_extended import (
+    JWTManager, jwt_required, create_access_token,
+    get_jwt_identity
+)
+# JWT Config https://flask-jwt-extended.readthedocs.io/en/stable/basic_usage/
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/account'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# Setup the Flask-JWT-Extended extension (JWT Config)
+app.config['JWT_SECRET_KEY'] = 'super-secret'
+jwt = JWTManager(app)
 
 db = SQLAlchemy(app)
 
@@ -40,7 +49,7 @@ class Account(db.Model):
 #     return jsonify({"message":"Book not found"}), 404
 
 @app.route("/login/", methods=['POST'])
-def authenticate_user():
+def login():
     """
     Checks user password against that in Account DB
 
@@ -53,20 +62,47 @@ def authenticate_user():
     
     If username is in DB,
     Returns True or False, depending if the password matches that in the DB
-
-
     """
+
+    # Data Validation (JWT Config)
+    if not request.is_json:
+        return jsonify({"msg": "Missing JSON in request"}), 400
+
+    username = request.json.get('username', None)
+    password = request.json.get('password', None)
+    if not username:
+        return jsonify({"msg": "Missing username parameter"}), 400
+    if not password:
+        return jsonify({"msg": "Missing password parameter"}), 400
+
+
     data = request.get_json()
     if (Account.query.filter_by(username=data["username"]).first()) == None:
         return jsonify({"message":"User '{}' does not exist.".format(data["username"])}), 400
     account = Account.query.filter_by(username=data["username"]).first()
     # account = Account(**data)
 
-    return json.dumps(account.password == data['password'])
+    # Checks if either username or pw is wrong (JWT config)
+    if username != account.username or password != account.password:
+        return jsonify({"msg": "Bad username or password"}), 401
+
+    # Identity can be any data that is json serializable (JWT config)
+    access_token = create_access_token(identity=username)
+    return jsonify(access_token=access_token), 200
+
+    # return json.dumps(account.password == data['password'])
         # return jsonify({"message":"Username or password is wrong."}), 404
         # return json.dumps(False)
     # return json.dumps(True)
 
+# Protect a view with jwt_required, which requires a valid access token
+# in the request to access.
+@app.route('/protected', methods=['GET'])
+@jwt_required
+def protected():
+    # Access the identity of the current user with get_jwt_identity
+    current_user = get_jwt_identity()
+    return jsonify(logged_in_as=current_user), 200
 
 @app.route("/register/",methods=['POST'])
 def create_account():
