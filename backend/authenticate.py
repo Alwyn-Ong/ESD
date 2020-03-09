@@ -1,13 +1,59 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import json
+from flask_jwt import JWT, jwt_required, current_identity
+from werkzeug.security import safe_str_cmp
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/account'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# For JWT, from https://pythonhosted.org/Flask-JWT/
+class User(object):
+    def __init__(self, id, username, password):
+        self.id = id
+        self.username = username
+        self.password = password
+
+    def __str__(self):
+        return "User(id='%s')" % self.id
+def authenticate(username, password):
+    """
+    Authenticates based on username and password.
+    Returns user if password is correct and false if not
+    """
+    try:
+        account = Account.query.filter_by(username=username)
+        user = User(account.accountid,account.username,account.password)
+        if password == account.password:
+            return user
+    except:
+        return False
+
+def identity(payload):
+    user_id = payload['identity']
+    try:
+        account = Account.query.filter_by(accountid = user_id)
+        user = User(account.accountid,account.username,account.password)
+        return user
+    except:
+        return False
+
+@app.route('/protected')
+@jwt_required()
+def protected():
+    return '%s' % current_identity
+
+app.config['SECRET_KEY'] = 'sh...secret'
+app.debug = True
+jwt = JWT(app, authenticate, identity)
+
+
+
+
 
 db = SQLAlchemy(app)
+
 
 class Account(db.Model):
     __tablename__ = 'account'
@@ -39,8 +85,9 @@ class Account(db.Model):
 #         return jsonify(book.json())
 #     return jsonify({"message":"Book not found"}), 404
 
+
 @app.route("/login/", methods=['POST'])
-def authenticate_user():
+def login():
     """
     Checks user password against that in Account DB
 
@@ -58,11 +105,16 @@ def authenticate_user():
     """
     data = request.get_json()
     if (Account.query.filter_by(username=data["username"]).first()) == None:
-        return jsonify({"message":"User '{}' does not exist.".format(data["username"])}), 400
+            return jsonify({"message":"User '{}' does not exist.".format(data["username"])}), 400
     account = Account.query.filter_by(username=data["username"]).first()
     # account = Account(**data)
+    token = authenticate(data["username"],data["password"])
+    print(token)
+    if token == False:
+        return json.dumps(False)
 
-    return json.dumps(account.password == data['password'])
+    return jsonify(token)
+    # return json.dumps(account.password == data['password'])
         # return jsonify({"message":"Username or password is wrong."}), 404
         # return json.dumps(False)
     # return json.dumps(True)
@@ -105,6 +157,8 @@ def create_account():
 
     return json.dumps(True)
     # 201 is create
+
+
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
