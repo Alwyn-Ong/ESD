@@ -1,0 +1,62 @@
+body{
+    font-family: ubuntu;
+  }
+  .user-detail-main{
+    background: #f5f5f5;
+  }
+  .profile-back{
+    height: 125px;
+    background-size: 100% 100%;
+    background-size: cover;
+    background-position: center;
+  }
+  .profile-back img{
+    height: 120px;
+    width: 120px;
+    margin-top: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .user-detail{
+    padding-top: 10px; 
+  }
+  .user-detail button{
+    font-size: 12px;
+  }
+  #accordionMyStory .card-header{
+    border-top: 5px solid #00B5EC;
+  }
+  #accordionMyPlan .card-header{
+    border-top: 5px solid #32B92D;
+  }
+  #accordionMyTasks .card-header{
+    border-top: 5px solid #8E44AD;
+  }
+  #accordionUserInfo .card-header{
+    border-top: 5px solid #C82333;
+  }
+  #accordionSocialStatistics .card-header{
+    border-top: 5px solid #00AAA0;
+  }
+  #accordionSaleStatistics .card-header{
+    border-top: 5px solid #7B8D8E;
+  }
+  .card-header h6{
+    display: inline-block;
+  }
+  .card-header a{
+    cursor: pointer;
+  }
+  .card-body p{
+    font-size: 14px;
+  }
+  
+  @media (min-width: 320px) and (max-width: 640px) {
+      .accordion-group-one{
+        padding-left: 15px !important;
+      }
+      .accordion-group-three{
+        padding-right: 15px !important;
+      }
+  }

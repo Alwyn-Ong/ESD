@@ -27,11 +27,11 @@
                     <a class="nav-link" href="Matches.php">Matches</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Chat</a>
+                  <a class="nav-link" href="../chat.html">Chat</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Account</a>
-                  </li>
+                    <a class="nav-link" href="../account.html">Account</a>
+                </li>
             </ul>
         </div>
     </nav>

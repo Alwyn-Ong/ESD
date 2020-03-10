@@ -20,18 +20,18 @@
 
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
             <ul class="navbar-nav">
-                <li class="nav-item active">
+            <li class="nav-item active">
                     <a class="nav-link" href="Discover.php">Discover</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="Matches.php">Matches</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Chat</a>
+                  <a class="nav-link" href="../chat.html">Chat</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Account</a>
-                  </li>
+                    <a class="nav-link" href="../account.html">Account</a>
+                </li>
             </ul>
         </div>
     </nav>
