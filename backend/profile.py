@@ -46,12 +46,24 @@ def find_by_userid(profileid):
     return jsonify({"message": "profile not found"}), 404
 
 #update profile
-@app.route("/profile/<int:profileid>/<string:attribute>",methods=['PUT'])
-def update_profile(profileid,attribute):
-    userprofile = profile.query.filter_by(profileID=profileid).first()
-    changecolumn = attribute
-    # if userprofile:
-    userprofile.changecolumn = 'changed'
+@app.route("/updateprofile",methods=['PUT'])
+def update_profile():
+    #profileID hardcoded for now
+    profileID = 5
+    ##
+    userprofile = profile.query.filter_by(profileID=profileID).first()
+    #update the entire profile
+    data = request.get_json()
+    location = data['location']
+    userprofile.location = location
+    bio = data['bio']
+    userprofile.bio = bio
+    gender = data['gender']
+    userprofile.gender = gender
+    age = data['age']
+    userprofile.age = age
+    ##session_id = 
+
     try:
         db.session.commit()
     except:
@@ -64,6 +76,7 @@ def update_profile(profileid,attribute):
 def create_profile():
     ##profileID not suposed to be given
     profileID = request.json['profileID']
+    ##hardcoded for now
     location = request.json['location']
     bio = request.json['bio']
     gender = request.json['gender']
