@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SGLoveLah - Account</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	  <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/account.css" type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+<body>
+
+    <!-- JavaScript grab information -->
+    <script>
+        var profileJSON = {
+                    name: 'Aunty Alichel',
+                    bio: 'Why buy a belt when you can just gain weight?',
+                    gender: 'Female',
+                    add: 'SMU',
+                    age: '24'
+                }
+        var name = profileJSON['name'];
+        var bio = profileJSON['bio'];
+        var loc = profileJSON['add'];
+        var gender = profileJSON['gender'];
+        var age = profileJSON['age'];
+        
+        var accountJSON = {
+                    email: 'jwwong.2018@sis.smu.edu.sg',
+                    password: 'walaoeheh'
+        }
+        var email = accountJSON['email'];
+        var password = accountJSON['password'];
+
+    </script>
+
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <a class="navbar-brand" href="#">SGLoveLah</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="frontend/Discover.php">Discover</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="frontend/Matches.php">Matches</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="chat.html">Chat</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="account.html">Account</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2 col-12 profile-main mt-4">
+                <div class="row">
+                    <div class="col-md-12 col-12 user-detail-main border mb-3 pb-2">
+                        <div class="row">
+                            <div class="col-md-12 col-12 profile-back">
+                                <img src="img/profile.jpg" class="rounded-circle">
+                            </div>
+                    
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-12 user-detail text-center">
+                                <h4 id='name' class="m-0"><strong>Wong Kin Hou</strong></h4>
+                                <p id='location'  class="m-0">Coding Kor Kor</p>
+                                <p id='gender' class="mb-1">AIA Singapore Pte Ltd</p>
+                                
+                                <!-- JavaScript for changing variables -->
+                                <script>
+                                    
+                                    $('#name').text(name);
+                                    $('#location').text(loc);
+                                    $('#gender').text(gender);
+
+                                </script>
+
+                            </div>
+                        </div>
+                        <form method="post" enctype="multipart/form-data">
+                          <div class="form-group">
+                            <label><strong>Upload Profile Picture</strong></label>
+                            <div class="custom-file">
+                              <input type="file" name="files" multiple class="custom-file-input" id="customFile">
+                              <label class="custom-file-label" for="customFile">Choose file</label>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <button type="button" name="upload" value="upload" id="upload" class="btn btn-block btn-dark"><i class="fa fa-fw fa-upload"></i> Upload</button>
+                          </div>
+                        </form>
+                    </div>
+                </div>
+                
+                
+                <div class="row">
+                    <div class="col-md-4 col-12 mt-4 pl-0 accordion-group-one">
+                        <div id="accordionMyStory" class="mb-2">
+                          <div class="card rounded-0 story-card">
+                            <div class="card-header rounded-0 pt-2 pb-2" id="headingMyStory">
+                                <h6 class="mb-0">Profile</h6>
+                                <a class="float-right" data-toggle="collapse" data-target="#collapseMyStory" aria-expanded="true" aria-controls="collapseMyStory">
+                                    <i class="icon fa fa-minus"></i>
+                                </a>
+                            </div>
+                            <div  id="collapseMyStory" class="collapse show" aria-labelledby="headingMyStory" data-parent="#accordionMyStory">
+                              <div style='height:340px;'  class="card-body pt-2 pb-2">
+                                <div class="body-section mb-3">
+                                    <h6 class="section-heading mb-1"><strong>Display Name</strong></h6>
+                                    <p id='display-name' class="section-content m-0">Wong Kin Hou</p>
+                                </div>
+                                <div class="body-section mb-3">
+                                  <h6 class="section-heading mb-1"><strong>Gender</strong></h6>
+                                  <p id ='display-gender' class="section-content m-0">Male</p>
+                              </div>
+                                <div class="body-section mb-3">
+                                    <h6 class="section-heading mb-1"><strong>Bio</strong></h6>
+                                    <p id='display-bio' class="section-content m-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                    tempor incididunt.</p>
+                                </div>
+                                <div class="body-section mb-3">
+                                    <h6 class="section-heading mb-1"><strong>Age</strong></h6>
+                                    <p id='display-age' class="section-content m-0">19/06/1995</p>
+                                </div>
+                                <script>
+                                    // JavaScript for changing variables
+                                    $('#display-name').text(name);
+                                    $('#display-gender').text(gender);
+                                    $('#display-bio').text(bio);
+                                    $('#display-age').text(age);
+                                </script>
+                                <button class="btn btn-info btn-sm">Edit</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                    </div>
+                    <div  class="col-md-4 col-12 mt-4 accordion-group-two">
+                        <div  id="accordionUserInfo" class="mb-2">
+                          <div style='height:390px;' class="card rounded-0 info-card">
+                            <div class="card-header rounded-0 pt-2 pb-2" id="headingUserInfo">
+                                <h6 class="mb-0">Account Settings</h6>
+                                <a class="float-right" data-toggle="collapse" data-target="#collapseUserInfo" aria-expanded="true" aria-controls="collapseUserInfo">
+                                    <i class="icon fa fa-minus"></i>
+                                </a>
+                            </div>
+                            <div id="collapseUserInfo" class="collapse show" aria-labelledby="headingUserInfo" data-parent="#accordionUserInfo">
+                              <div class="card-body pt-2 pb-2">
+                                <div class="body-section mb-3">
+                                    <h6 class="section-heading mb-1"><strong>Email</strong></h6>
+                                    <p id='email' class="section-content m-0">wkh@gmail.com</p>
+                                </div>
+                                <div class="body-section mb-3">
+                                    <h6 class="section-heading mb-1"><strong>Password</strong></h6>
+                                    <p id='password' class="section-content m-0">
+                                        ************
+                                    </p>
+                                </div>
+                                <script>
+                                    /* JavaSript to change variables */
+                                    $('#email').text(email);
+                                    $('#password').text(password);
+
+                                </script>
+                                
+                            
+                                <button class="btn btn-danger btn-sm">Edit</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-4 col-12 mt-4 pr-0 accordion-group-three">
+                      <div id="accordionMyPlan">
+                        <div style='height:390px;' class="card rounded-0 story-card">
+                          <div class="card-header rounded-0 pt-2 pb-2" id="headingMyPlan">
+                              <h6 class="mb-0">My Plan</h6>
+                              <a class="float-right" data-toggle="collapse" data-target="#collapseMyPlan" aria-expanded="true" aria-controls="collapseMyPlan">
+                                  <i class="icon fa fa-minus"></i>
+                              </a>
+                          </div>
+                          <div id="collapseMyPlan" class="collapse show" aria-labelledby="headingMyPlan" data-parent="#accordionMyPlan">
+                            <div class="card-body pt-2 pb-2">
+                              <div class="body-section mb-3">
+                                  <h6 class="section-heading mb-1"><strong>Current Plan : Basic Plan</strong></h6>
+                                  <p class="section-content m-0">Your current plan is free.</p>
+                              </div>
+                              <div class="body-section mb-3">
+                                  <ul>
+                                      <li>Unlimited Swipe</li>
+                                      <li>Exclusive Invitation</li>
+                                      <li>Online Dating Tips</li>
+                                  </ul>
+                              </div>
+                              <button class="btn btn-success btn-sm">Upgrade Account</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="text-center">
+    <a href="index.html">
+        <button type="button" class="btn btn-warning">Logout</button>
+    </a>
+</div>
+<br>
+</body>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script><script  src="js/account.js"></script>
+
+</html>

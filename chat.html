@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SGLoveLah - Chats</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css'>
+	<link rel="stylesheet" href="css/chat.css">
+    <link rel="stylesheet" href="css/bootstrap.css" type='text/css'>
+
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <a class="navbar-brand" href="#">SGLoveLah</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+              <li class="nav-item active">
+                <a class="nav-link" href="frontend/Discover.php">Discover</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="frontend/Matches.php">Matches</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="chat.html">Chat</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="account.html">Account</a>
+              </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<section class="py-5">
+    <div class="container">
+        <h3 class="text-uppercase font-weight-light text-center m-5">User Chats</h3>
+    </div>
+
+    <div class="container">
+        <div class="row no-gutters">
+            <div class="col-md-4 border-right">
+                <div class="settings-tray">
+                  <img class="profile-image" src="img/profile.jpg" alt="Profile img">
+                  <span class="settings-tray--right">
+                    <i class="material-icons">cached</i>
+                    <i class="material-icons">message</i>
+                    <i class="material-icons">menu</i>
+                  </span>
+                </div>
+                <div class="search-box">
+                  <div class="input-wrapper">
+                    <i class="material-icons">search</i>
+                    <input placeholder="Search here" type="text">
+                  </div>
+                </div>
+                <div class="friend-drawer friend-drawer--onhover">
+                  <img class="profile-image" src="https://clarity-enhanced.net/wp-content/themes/clarity-enhanced/assets/img/bootstrap-chat-app-assets/robocop.jpg" alt="">
+                  <div class="text">
+                    <h6>Robo Cop</h6>
+                    <p class="text-muted">Hey, you're arrested!</p>
+                  </div>
+                  <span class="time text-muted small">13:21</span>
+                </div>
+                <hr>
+                <div class="friend-drawer friend-drawer--onhover">
+                  <img class="profile-image" src="https://clarity-enhanced.net/wp-content/themes/clarity-enhanced/assets/img/bootstrap-chat-app-assets/optimus-prime.jpeg" alt="">
+                  <div class="text">
+                    <h6>Optimus</h6>
+                    <p class="text-muted">Wanna grab a beer?</p>
+                  </div>
+                  <span class="time text-muted small">00:32</span>
+                </div>
+                <hr>
+                <div class="friend-drawer friend-drawer--onhover ">
+                  <img class="profile-image" src="https://clarity-enhanced.net/wp-content/themes/clarity-enhanced/assets/img/bootstrap-chat-app-assets/real-terminator.png" alt="">
+                  <div class="text">
+                    <h6>Skynet</h6>
+                    <p class="text-muted">Seen that canned piece of s?</p>
+                  </div>
+                  <span class="time text-muted small">13:21</span>
+                </div>
+                <hr>
+                <div class="friend-drawer friend-drawer--onhover">
+                  <img class="profile-image" src="https://clarity-enhanced.net/wp-content/themes/clarity-enhanced/assets/img/bootstrap-chat-app-assets/termy.jpg" alt="">
+                  <div class="text">
+                    <h6>Termy</h6>
+                    <p class="text-muted">Im studying spanish...</p>
+                  </div>
+                  <span class="time text-muted small">13:21</span>
+                </div>
+                <hr>
+                <div class="friend-drawer friend-drawer--onhover">
+                  <img class="profile-image" src="https://clarity-enhanced.net/wp-content/themes/clarity-enhanced/assets/img/bootstrap-chat-app-assets/rick.jpg" alt="">
+                  <div class="text">
+                    <h6>Richard</h6>
+                    <p class="text-muted">I'm not sure...</p>
+                  </div>
+                  <span class="time text-muted small">13:21</span>
+                </div>
+                <hr>
+                <div class="friend-drawer friend-drawer--onhover">
+                  <img class="profile-image" src="https://clarity-enhanced.net/wp-content/themes/clarity-enhanced/assets/img/bootstrap-chat-app-assets/rachel.jpeg" alt="">
+                  <div class="text">
+                    <h6>Alice</h6>
+                    <p class="text-muted">Hey, I have something for you!</p>
+                  </div>
+                  <span class="time text-muted small">13:21</span>
+                </div>
+              </div>
+
+              <div class="col-md-8">
+                <div class="settings-tray">
+                    <div class="friend-drawer no-gutters friend-drawer--grey">
+                    <img class="profile-image" src="https://clarity-enhanced.net/wp-content/themes/clarity-enhanced/assets/img/bootstrap-chat-app-assets/robocop.jpg" alt="">
+                    <div class="text">
+                      <h6>Robo Cop</h6>
+                      <p class="text-muted">Layin' down the law since like before Christ...</p>
+                    </div>
+                    <span class="settings-tray--right">
+                      <i class="material-icons">cached</i>
+                      <i class="material-icons">message</i>
+                      <i class="material-icons">menu</i>
+                    </span>
+                  </div>
+                </div>
+                <div class="chat-panel">
+                  <div class="row no-gutters">
+                    <div class="col-md-5">
+                      <div class="chat-bubble chat-bubble--left">
+                        Hey man, how's it going?
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row no-gutters">
+                    <div class="col-md-4 offset-md-9">
+                      <div class="chat-bubble chat-bubble--right">
+                        Just the usual, struggling in SMU. How about you?
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row no-gutters">
+                    <div class="col-md-5">
+                      <div class="chat-bubble chat-bubble--left">
+                        Man, you should have signed on in the Army.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row no-gutters">
+                    <div class="col-md-5">
+                      <div class="chat-bubble chat-bubble--left">
+                        Just look at me, saving lives and making meaningful impact
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row no-gutters">
+                    <div class="col-md-5">
+                      <div class="chat-bubble chat-bubble--left">
+                        And the pay is great.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row no-gutters">
+                    <div class="col-md-4 offset-md-9">
+                      <div class="chat-bubble chat-bubble--right">
+                        Wow, that sounds like a great job.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row no-gutters">
+                    <div class="col-md-4 offset-md-9">
+                      <div class="chat-bubble chat-bubble--right">
+                        Piss off show-off.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="chat-box-tray">
+                        <i class="material-icons">sentiment_very_satisfied</i>
+                        <input type="text" placeholder="Type your message here...">
+                        <i class="material-icons">mic</i>
+                        <i class="material-icons">send</i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+    </div>
+</section>
+</body>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script><script  src="js/chat.js"></script>
+</html>
