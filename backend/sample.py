@@ -3,7 +3,7 @@ from flask import request
 from flask import jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-
+##pip3 install pyrebase
 
 name = 'testing'
 app = Flask(__name__)
