@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/sglovelah_images'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/sglovelah_image'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 299}
 
@@ -17,22 +17,33 @@ class image(db.Model):
 
     profileID = db.Column(db.Integer(), primary_key=True, autoincrement=False)
     profileImage = db.Column(db.String(2083), nullable=False)
+    data = db.Column(db.LargeBinary, nullable=False)
 
-    def __init__(self, profileID, profileImage):
+    def __init__(self, profileID, profileImage, data):
         self.profileID = profileID
         self.profileImage = profileImage
+        self.data = data
 
     def json(self):
-        return {"profileid": self.profileID, "profileImage": self.profileImage)
+        return {"profileid": self.profileID, "profileImage": self.profileImage, "data": self.data}
 
-## retrieve all profiles
-@app.route("/upload" , methods= ['POST'] )
-def upload():
-    #check if its only called by matching service then can call this service
-    file = request.files['inputFile']
+#upload image
+@app.route("/upload", methods= ['POST','PUT'])
+def upload(profileID = 2):
+    ##pass profileID to this function (retrieve from json)
+    ##hardcode for now
+    if request.method == 'POST':
+        file = request.files['inputFile']
+        newfile = image(profileID, file.filename, file.read())
+        db.session.add(newfile)
+        db.session.commit()
+    return 'successful upload of image' 
 
-    return file.filename
-
-
+#retrieve image
+@app.route("/getimage")
+def retrieve():
+    ##pass profileID to this function
+    ##hardcode for now
+    profileID = 2
 if __name__ == "__main__":
     app.run(port=5000,debug=True)
