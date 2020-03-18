@@ -80,8 +80,10 @@ def create_profile():
     bio = request.json['bio']
     gender = request.json['gender']
     age = request.json['age']
-    
+
     new_profile = profile(profileID, bio, gender, age, location)
+    ## retrieve image,
+    ## pass and store image in image microservice.
     try:
         db.session.add(new_profile)
         db.session.commit()
