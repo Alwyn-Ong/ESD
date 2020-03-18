@@ -157,8 +157,8 @@
     <br>
     <form action="Discover.php">
     <div class="text-center" >
-        <button type="submit" onclick="likeSelected()" value = "Like" class="btn btn-status" name="Like">Like</button>
-        <button type="button" value = "notLike" class="btn btn-status" name="notLike">Not Like</button>
+        <button style="width:100px;" type="submit" onclick="likeSelected()" value = "Like" class="btn btn-status" name="Like">Like</button>
+        <button style="width:100px; background-color:#800000;" type="button" value = "notLike" class="btn btn-status" name="notLike">Dislike</button>
     </div>
     </form>
 </section>
