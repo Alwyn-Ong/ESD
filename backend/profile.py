@@ -62,7 +62,6 @@ def update_profile():
     userprofile.gender = gender
     age = data['age']
     userprofile.age = age
-    ##session_id = 
 
     try:
         db.session.commit()
@@ -81,7 +80,7 @@ def create_profile():
     bio = request.json['bio']
     gender = request.json['gender']
     age = request.json['age']
-
+    
     new_profile = profile(profileID, bio, gender, age, location)
     try:
         db.session.add(new_profile)
