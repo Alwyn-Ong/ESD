@@ -86,7 +86,7 @@ def create_account():
 
     Else, if there is an error creating, return error message
 
-    Upon successful creation in account DB, return True.
+    Upon successful creation in account DB, return accountid.
     """
     data = request.get_json()
     
@@ -103,7 +103,7 @@ def create_account():
         # print(e)
         return jsonify({f"message": "An error {e} occured creating the account."}), 500
 
-    return json.dumps(True)
+    return json.dumps(account.accountid)
     # 201 is create
 
 if __name__ == '__main__':
