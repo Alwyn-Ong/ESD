@@ -17,7 +17,7 @@
             <div class='col-sm'></div>
             <div class='col-sm'>
                 <div style='height:50px;' class='row'><h1>Registration</h1></div>
-                <form method='POST' >
+                <form method='POST' action='createProfile.html'>
                     <div style='margin-top:50px;' class="form-group">
                       <label for="exampleInputEmail1">Email address</label>
                       <input id='email' type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email" required>
@@ -39,7 +39,7 @@
                         // Error Function
                         function addError(message) {
                             // Display an error under the main container
-                            $('body').append("<br><label id='error' style='color:red'>"+message+"</label><br>");
+                            $('body').append("<br><center><label id='error' style='color:red'>"+message+"</label></center><br>");
                         }
 
                         // Action Listner
@@ -56,12 +56,12 @@
                                 addError('Passwords do not match!')
                                 return
                             }
-                            if(!email || !password || !confirmpassord){
+                            if(!email || !password || !confirmPassword){
                                 addError('Fill up all fields!')
                                 return
                             }
                             
-                            var serviceURL = "http://127.0.0.1:5000/account/";
+                            var serviceURL = "http://127.0.0.1:8000/register/";
 
                             var requestBody = {
                                 email: email, password: password
@@ -87,10 +87,14 @@
                                 console.log(data);
                                 // var isbnNumber = $('#isbn13').val();
                             if(response.ok){
-                                    addError('Your registration is successful!')
+                                    alert('Your registration is successful! Please create your profile.');
+                                    // alert(data);
+                                    sessionStorage.setItem("accountID", data);
+                                    
+                                    window.location.href = "createProfile.html";
                             }
                             else{
-                                addError('Error, Username: <b>' + '</b>' + ' already exists.')
+                                addError('Error, Email: <b>' + email + '</b>' + ' already exists.')
                             }
                             } catch (error) {
 

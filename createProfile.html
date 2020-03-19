@@ -33,27 +33,88 @@
                     <!-- Input Bio -->
                     <div class="form-group">
                       <label for="exampleInputEmail1">Bio</label>
-                      <input type="text" class="form-control" id="bio" aria-describedby="emailHelp" placeholder="Biography" required>
+                      <input id='bio' type="text" class="form-control" id="bio" aria-describedby="emailHelp" placeholder="Biography" required>
                       <small id="emailHelp" class="form-text text-muted">Write something interesting about yourself, you never know when you will actually BTO.</small>
                     </div>
                     <div class="form-group">
                       <label for="exampleInputPassword1">Location</label>
-                      <input type="text" class="form-control" id="location" placeholder="Location" required>
+                      <input id='location' type="text" class="form-control" id="location" placeholder="Location" required>
                     </div>
                     <div class="form-group">
                         <label for="sel1">Gender:</label>
-                        <select class="form-control" id="gender">
-                          <option>Male</option>
-                          <option>Female</option>
+                        <select id='gender' class="form-control" id="gender">
+                          <option>M</option>
+                          <option>F</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Age</label>
-                        <input type="number" class="form-control" id="age" min='18' required>
+                        <input id='age' type="number" class="form-control" id="age" min='18' required>
                       </div>
                     
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button id='submit' type="submit" class="btn btn-primary">Submit</button>
                 </form>
+                <script>
+                  // Error Function
+                  function addError(message) {
+                    // Display an error under the main container
+                    $('body').append("<br><center><label id='error' style='color:red'>"+message+"</label></center><br>");
+                  }
+
+                  // POST
+                  async function postData(serviceURL, requestBody){
+                    // console.log(requestBody);
+                    var requestParam = {
+                        headers: { "content-type": "application/json;" },
+                        mode: 'cors', // other options: no-cors, navigate, same-origin
+                        method: 'POST',
+                        body: JSON.stringify(requestBody)
+                    }
+                    
+                    try {
+                        const response = await fetch(serviceURL, requestParam);
+                        console.log(response);
+                        data = await response.json();
+                        console.log(data);
+
+                    if(response.ok){
+                        alert('You have successfully created a profile!')
+                    }
+                    else{
+                        alert('Error, ISBN13: <b>' + '</b>' + ' already exists.')
+                    }
+                    } catch (error) {
+
+                        console.error(error);
+                    }
+              }
+
+                  // Grabing input values
+                  $("#submit").click(function(event){
+                    event.preventDefault(); // event - allows console logs to be displayed (solves refresh problem)
+                    var name = 'James';
+                    var bio = $('#bio').val();
+                    var location = $('#location').val();
+                    var gender = $('#gender').val();
+                    var age = $('#age').val();
+                    var profileID = sessionStorage.getItem("accountID");
+                    console.log(profileID);
+
+                    
+                    var serviceURL = "http://127.0.0.1:2000/profile/";
+
+                    var requestBody = {
+                        
+                        profileID: profileID, name: name, location : location, bio: bio, gender: gender, age: age
+                    };
+
+                    postData(serviceURL, requestBody);
+                    // $('#error').remove();
+                  })
+
+
+
+                </script>
             </div>
             <div class='col-sm'></div>
         </div>
