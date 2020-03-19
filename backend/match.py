@@ -21,7 +21,7 @@ import uuid
 
 app = Flask(__name__)
 # Database name in this case is match
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/match'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/sglovelah_match'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
