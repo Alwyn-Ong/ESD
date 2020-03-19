@@ -31,11 +31,9 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `account`;
 CREATE TABLE IF NOT EXISTS `account` (
   `AccountID` int(50) NOT NULL AUTO_INCREMENT,
-  `Username` varchar(255) NOT NULL,
   `Email` varchar(255) NOT NULL,
   `Password` varchar(255) NOT NULL,
   PRIMARY KEY (`AccountID`),
-  UNIQUE KEY `Username` (`Username`),
   UNIQUE KEY `Email` (`Email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 COMMIT;
