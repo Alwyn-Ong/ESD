@@ -27,6 +27,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+
 class Match(db.Model):
     __tablename__ = 'match'
 
@@ -62,13 +63,15 @@ def add_match():
     Else, if there is an error creating, return error message
     """
     data = request.get_json()
+    id1 = data["id1"]
+    id2 = data["id2"]
 
     # Checks if there are currently any existing matches in the database
 
-    match_check = Match.query.filter_by(id1=data["id1"], id2=data["id2"]).first()
+    match_check = Match.query.filter_by(id1=id1, id2=id2).first()
 
     if match_check != None:
-        return jsonify({"message": f"The match with id1:{data['id1']} and id2:{data['id2']} already exists."}), 500
+        return jsonify({"message": f"The match with id1:{id1} and id2:{id2} already exists."}), 500
     
     # if (Account.query.filter_by(username=data["username"]).first()) :
     #     return jsonify({"message":"A match with userid pair '{}' already exists.".format(data["username"])}), 400
@@ -81,6 +84,18 @@ def add_match():
     try: 
         db.session.add(match)
         db.session.commit()
+
+        # Returns a MySQL row corresponding to the newly created match
+        matchid = Match.query.filter_by(id1=id1,id2=id2).first()
+
+        # Obtains the matchid from the row for processing
+        matchid = matchid.matchid
+
+        # Request from chat
+
+
+
+
     except Exception as e:
         # print(e)
         return jsonify({"message": f"An error {e} occured creating the match."}), 500
