@@ -31,11 +31,87 @@ class chatdetails(db.Model):
     def json(self):
         return {"matchID": self.matchID, "blacklisted": self.blacklisted, "chatroom_name": self.chatroom_name}
 
+class chatroom_details(db.Model):
+    __tablename__ = 'chatroom_details'
+
+    def __init__(self, chatroom_ID, chatroom_name, serveraddress, Used):
+        self.chatroom_ID = chatroom_ID
+        self.chatroom_name = chatroom_name
+        self.serveraddress = serveraddress
+        self.Used = Used
+
+    def json(self):
+        return {"chatroom_ID": self.chatroom_ID, "chatroom_name": self.chatroom_name, "serveraddress": self.serveraddress, "Used": self.Used}
+
+class chatroom_one(db.Model):
+    __tablename__ = 'chatroom1'
+
+    def __init__(self, messageID, userID, created_on, msg):
+        self.messageID = messageID
+        self.userID = userID
+        self.created_on = created_on
+        self.msg = msg
+
+    def json(self):
+        return {"messageID": self.messageID, "userID": self.userID, "created_on": self.created_on, "msg": self.msg}
+
+class chatroom_two(db.Model):
+    __tablename__ = 'chatroom2'
+
+    def __init__(self, messageID, userID, created_on, msg):
+        self.messageID = messageID
+        self.userID = userID,
+        self.created_on = created_on
+        self.msg = msg
+
+    def json(self):
+        return {"messageID": self.messageID, "userID": self.userID, "created_on": self.created_on, "msg": self.msg}
+
+class chatroom_three(db.Model):
+    __tablename__ = 'chatroom3'
+
+    def __init__(self, messageID, userID, created_on, msg):
+        self.messageID = messageID
+        self.userID = userID
+        self.created_on = created_on
+        self.msg = msg
+
+    def json(self):
+        return {"messageID": self.messageID, "userID": self.userID, "created_on": self.created_on, "msg": self.msg}
+
+class chatroom_four(db.Model):
+    __tablename__ = 'chatroom4'
+
+    def __init__(self, messageID, userID, created_on, msg):
+        self.messageID = messageID
+        self.userID = userID
+        self.created_on = created_on
+        self.msg = msg
+
+    def json(self):
+        return {"messageID": self.messageID, "userID": self.userID, "created_on": self.created_on, "msg": self.msg}
+
+class chatroom_five(db.Model):
+    __tablename__ = 'chatroom5'
+
+    def __init__(self, messageID, userID, created_on, msg):
+        self.messageID = messageID
+        self.userID = userID
+        self.created_on = created_on
+        self.msg = msg
+
+    def json(self):
+        return {"messageID": self.messageID, "userID": self.userID, "created_on": self.created_on, "msg": self.msg}
+
+
+
 
 @socketio.on('message')
 def handleMessage(msg):
     print('Message:' + msg)
     send(msg, broadcast=True)
+
+
 
 if __name__ == '__main__':
     socketio.run(app)
