@@ -51,10 +51,10 @@ class chatroom1(db.Model):
 
     messageID = db.Column(db.Integer(), primary_key=True, autoincrement=True)
     userID = db.Column(db.Integer(), nullable=False)
-    created_on = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    created_on = db.Column(db.DateTime, default=db.func.current_timestamp())
     msg = db.Column(db.VARCHAR(500), nullable=False)
 
-    def __init__(self, userID, msg, created_on= datetime.utcnow, messageID=None):
+    def __init__(self, userID, msg, created_on=None, messageID=None):
         self.messageID = messageID
         self.userID = userID
         self.created_on = created_on
@@ -68,10 +68,10 @@ class chatroom2(db.Model):
 
     messageID = db.Column(db.Integer(), primary_key=True, autoincrement=True)
     userID = db.Column(db.Integer(), nullable=False)
-    created_on = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    created_on = db.Column(db.DateTime, default=db.func.current_timestamp())
     msg = db.Column(db.VARCHAR(500), nullable=False)
 
-    def __init__(self, userID, msg, created_on= datetime.utcnow, messageID=None):
+    def __init__(self, userID, msg, created_on=None, messageID=None):
         self.messageID = messageID
         self.userID = userID
         self.created_on = created_on
@@ -85,10 +85,10 @@ class chatroom3(db.Model):
 
     messageID = db.Column(db.Integer(), primary_key=True, autoincrement=True)
     userID = db.Column(db.Integer(), nullable=False)
-    created_on = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    created_on = db.Column(db.DateTime, default=db.func.current_timestamp())
     msg = db.Column(db.VARCHAR(500), nullable=False)
 
-    def __init__(self, userID, msg, created_on= datetime.utcnow, messageID=None):
+    def __init__(self, userID, msg, created_on=None, messageID=None):
         self.messageID = messageID
         self.userID = userID
         self.created_on = created_on
@@ -119,10 +119,10 @@ class chatroom5(db.Model):
 
     messageID = db.Column(db.Integer(), primary_key=True, autoincrement=True)
     userID = db.Column(db.Integer(), nullable=False)
-    created_on = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    created_on = db.Column(db.DateTime, default=db.func.current_timestamp())
     msg = db.Column(db.VARCHAR(500), nullable=False)
 
-    def __init__(self, userID, msg, created_on= datetime.utcnow, messageID=None):
+    def __init__(self, userID, msg, created_on=None, messageID=None):
         self.messageID = messageID
         self.userID = userID
         self.created_on = created_on
@@ -173,7 +173,8 @@ def getchataddress(matchID=5):
     chatroomserveraddress = chatroomID.serveraddress
 
     return jsonify({"chatserver": chatroomserveraddress})
-    
+
+##update chat logs everytime i send message    
 @app.route('/updatechatlogs', methods=['POST'])
 def updatechatlogs():
     ## hardcode matchID and userID (From session) and msg
@@ -193,8 +194,6 @@ def updatechatlogs():
         newmsg = chatroom3(userID,msg)
     elif chatroomname == 'chatroom4':
         newmsg = chatroomfour(userID,msg)
-        # return json.dumps(type(newmsg.json()))
-        # return jsonify(newmsg.json())
     elif chatroomname == 'chatroom5':
         newmsg = chatroom5(userID,msg)
     try:
@@ -205,5 +204,6 @@ def updatechatlogs():
 
     return jsonify(newmsg.json()), 201
 
+#
 if __name__ == "__main__":
     app.run(port=5000,debug=True)
