@@ -16,13 +16,15 @@ class profile(db.Model):
     __tablename__ = 'profiledetails'
 
     profileID = db.Column(db.Integer(), primary_key=True, autoincrement=False)
+    name = db.Column(db.VARCHAR(50), nullable=False)
     bio = db.Column(db.String(2083), nullable=False)
     gender = db.Column(db.String(1), nullable=False)
     age = db.Column(db.Integer(), nullable=False)
     location = db.Column(db.VARCHAR(255), nullable=False)
 
-    def __init__(self, profileID, bio, gender, age, location):
+    def __init__(self, profileID, name, bio, gender, age, location):
         self.profileID = profileID
+        self.name = name
         self.bio = bio
         self.gender = gender
         self.age = age
@@ -49,7 +51,7 @@ def find_by_userid(profileid):
 @app.route("/updateprofile",methods=['PUT'])
 def update_profile():
     #profileID hardcoded for now
-    profileID = 5
+    profileID = 1
     ##
     userprofile = profile.query.filter_by(profileID=profileID).first()
     #update the entire profile
@@ -62,6 +64,8 @@ def update_profile():
     userprofile.gender = gender
     age = data['age']
     userprofile.age = age
+    name = data['name']
+    userprofile.name = name
 
     try:
         db.session.commit()
@@ -76,12 +80,13 @@ def create_profile():
     ##profileID not suposed to be given
     profileID = request.json['profileID']
     ##hardcoded for now
+    name = request.json['name']
     location = request.json['location']
     bio = request.json['bio']
     gender = request.json['gender']
     age = request.json['age']
 
-    new_profile = profile(profileID, bio, gender, age, location)
+    new_profile = profile(profileID, name, bio, gender, age, location)
     ## retrieve image,
     ## pass and store image in image microservice.
     try:
