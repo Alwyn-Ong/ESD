@@ -5,6 +5,8 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import json
+from flask_cors import CORS
+
 # import sys
 # import os
 # import random
@@ -26,6 +28,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
 db = SQLAlchemy(app)
+CORS(app)
 
 class Match(db.Model):
     __tablename__ = 'match'
