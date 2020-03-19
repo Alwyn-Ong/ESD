@@ -101,7 +101,7 @@ def create_account():
         db.session.commit()
     except Exception as e:
         # print(e)
-        return jsonify({f"message": "An error {e} occured creating the book."}), 500
+        return jsonify({f"message": "An error {e} occured creating the account."}), 500
 
     return json.dumps(True)
     # 201 is create
