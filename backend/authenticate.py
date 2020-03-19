@@ -13,19 +13,17 @@ class Account(db.Model):
     __tablename__ = 'account'
 
     accountid = db.Column (db.Integer, primary_key=True)
-    username = db.Column (db.String(255),nullable=False)
     email = db.Column (db.String(255),nullable=False)
     password = db.Column(db.Integer,nullable=False)
 
-    def __init__(self, username, email, password, accountid= None):
+    def __init__(self, email, email, password, accountid= None):
         # As account id is auto incremental
         self.accountid = None
-        self.username = username
         self.email = email
         self.password = password
 
     def json(self):
-        return {"accountid": self.accountid, "username": self.username, "email": self.email, "password": self.password}
+        return {"accountid": self.accountid, "email": self.email, "password": self.password}
 
 
 # @app.route("/book")
@@ -46,24 +44,27 @@ def authenticate_user():
 
     Passes in data in the format 
     {
-        "username":"",
+        "email":"",
         "password":""
     }
+
+    Returns True/False
+
     Returns a message saying user does not exist if the user is not in the DB
     
-    If username is in DB,
+    If email is in DB,
     Returns True or False, depending if the password matches that in the DB
 
 
     """
     data = request.get_json()
-    if (Account.query.filter_by(username=data["username"]).first()) == None:
-        return jsonify({"message":"User '{}' does not exist.".format(data["username"])}), 400
-    account = Account.query.filter_by(username=data["username"]).first()
+    if (Account.query.filter_by(email=data["email"]).first()) == None:
+        return jsonify({"message":"User with email '{}' does not exist.".format(data["email"])}), 400
+    account = Account.query.filter_by(email=data["email"]).first()
     # account = Account(**data)
 
     return json.dumps(account.password == data['password'])
-        # return jsonify({"message":"Username or password is wrong."}), 404
+        # return jsonify({"message":"email or password is wrong."}), 404
         # return json.dumps(False)
     # return json.dumps(True)
 
@@ -75,12 +76,11 @@ def create_account():
 
     Passes in data in the format
     {
-        "username"="",
         "email"="",
         "password"=""
     }
 
-    Returns 400 Error if username already exists
+    Returns 400 Error if email already exists
 
     Else, if there is an error creating, return error message
 
@@ -88,8 +88,6 @@ def create_account():
     """
     data = request.get_json()
     
-    if (Account.query.filter_by(username=data["username"]).first()) :
-        return jsonify({"message":"An account with username '{}' already exists.".format(data["username"])}), 400
     
     elif (Account.query.filter_by(email=data["email"]).first()) :
         return jsonify({"message":"An account with email '{}' already exists.".format(data["email"])}), 400
