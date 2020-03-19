@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 import json
 
 app = Flask(__name__)
@@ -8,6 +9,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
 db = SQLAlchemy(app)
+CORS(app)
 
 class Account(db.Model):
     __tablename__ = 'account'
@@ -16,7 +18,7 @@ class Account(db.Model):
     email = db.Column (db.String(255),nullable=False)
     password = db.Column(db.Integer,nullable=False)
 
-    def __init__(self, email, email, password, accountid= None):
+    def __init__(self, email, password, accountid= None):
         # As account id is auto incremental
         self.accountid = None
         self.email = email
@@ -89,7 +91,7 @@ def create_account():
     data = request.get_json()
     
     
-    elif (Account.query.filter_by(email=data["email"]).first()) :
+    if (Account.query.filter_by(email=data["email"]).first()) :
         return jsonify({"message":"An account with email '{}' already exists.".format(data["email"])}), 400
 
     account = Account(**data)
