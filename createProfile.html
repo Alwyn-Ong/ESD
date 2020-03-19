@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Create Profile</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/account.css" type='text/css'>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+    <body>
+
+        <div class='container'>
+            <div class='col-sm'></div>
+            <div class='col-sm'>
+                <div style='height:50px;' class='row'><h1>Create profile</h1></div>
+                <form style='margin-top:50px;' method='POST' action='createProfile.html'>
+                    <!-- Upload Profile Picture -->
+                    <div class="form-group">
+                        <label><strong>Upload Profile Picture</strong></label>
+                        <div class="custom-file">
+                          <input type="file" name="files" multiple class="custom-file-input" id="customFile">
+                          <label class="custom-file-label" for="customFile">Choose file</label>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <button type="button" name="upload" value="upload" id="upload" class="btn btn-block btn-dark"><i class="fa fa-fw fa-upload"></i> Upload</button>
+                    </div>
+
+                    <!-- Input Bio -->
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Bio</label>
+                      <input type="text" class="form-control" id="bio" aria-describedby="emailHelp" placeholder="Biography" required>
+                      <small id="emailHelp" class="form-text text-muted">Write something interesting about yourself, you never know when you will actually BTO.</small>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Location</label>
+                      <input type="text" class="form-control" id="location" placeholder="Location" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sel1">Gender:</label>
+                        <select class="form-control" id="gender">
+                          <option>Male</option>
+                          <option>Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Age</label>
+                        <input type="number" class="form-control" id="age" min='18' required>
+                      </div>
+                    
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div class='col-sm'></div>
+        </div>
+
+    </body>
+</html>
