@@ -59,7 +59,7 @@ def authenticate_user():
 
 
     """
-    data = request.get_json()
+    data = request.get_json() 
     if (Account.query.filter_by(email=data["email"]).first()) == None:
         return jsonify({"message":"User with email '{}' does not exist.".format(data["email"])}), 400
     account = Account.query.filter_by(email=data["email"]).first()

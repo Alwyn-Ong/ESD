@@ -30,15 +30,21 @@
                         <button type="button" name="upload" value="upload" id="upload" class="btn btn-block btn-dark"><i class="fa fa-fw fa-upload"></i> Upload</button>
                     </div>
 
+
+                    <!-- Input Name -->
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Name</label>
+                      <input id='name' type="text" class="form-control" aria-describedby="emailHelp" placeholder="Name" required>
+                    </div>
                     <!-- Input Bio -->
                     <div class="form-group">
                       <label for="exampleInputEmail1">Bio</label>
-                      <input id='bio' type="text" class="form-control" id="bio" aria-describedby="emailHelp" placeholder="Biography" required>
+                      <input id='bio' type="text" class="form-control" aria-describedby="emailHelp" placeholder="Biography" required>
                       <small id="emailHelp" class="form-text text-muted">Write something interesting about yourself, you never know when you will actually BTO.</small>
                     </div>
                     <div class="form-group">
                       <label for="exampleInputPassword1">Location</label>
-                      <input id='location' type="text" class="form-control" id="location" placeholder="Location" required>
+                      <input id='location' type="text" class="form-control" placeholder="Location" required>
                     </div>
                     <div class="form-group">
                         <label for="sel1">Gender:</label>
@@ -49,7 +55,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Age</label>
-                        <input id='age' type="number" class="form-control" id="age" min='18' required>
+                        <input id='age' type="number" class="form-control" min='18' required>
                       </div>
                     
                     <button id='submit' type="submit" class="btn btn-primary">Submit</button>
@@ -92,7 +98,7 @@
                   // Grabing input values
                   $("#submit").click(function(event){
                     event.preventDefault(); // event - allows console logs to be displayed (solves refresh problem)
-                    var name = 'James';
+                    var name = $('#name').val();
                     var bio = $('#bio').val();
                     var location = $('#location').val();
                     var gender = $('#gender').val();
@@ -101,7 +107,7 @@
                     console.log(profileID);
 
                     
-                    var serviceURL = "http://127.0.0.1:2000/profile/";
+                    var serviceURL = "http://127.0.0.1:2000/profile";
 
                     var requestBody = {
                         
@@ -109,6 +115,7 @@
                     };
 
                     postData(serviceURL, requestBody);
+                    window.location.href = "index.html";
                     // $('#error').remove();
                   })
 
