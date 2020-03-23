@@ -2,7 +2,21 @@
 <head>
 <title>Chat Room</title>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script 
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+    
+    <script 
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 </head>
 <body>
 <script type="text/javascript">
@@ -10,6 +24,7 @@
 var user = 'John'
 var IP = 'http://127.0.0.1:5002'
 $(document).ready(function() {
+	
     // if(IP == 'http://127.0.0.1:5001'){
     //     msg = 'johnybaby'
     //     $("#messages").append('<li>'+msg+'</li>');
@@ -21,7 +36,38 @@ $(document).ready(function() {
 	var socket = io.connect(IP);
 
 	socket.on('connect', function() {
-		socket.send(user + ' has connected!');
+		
+		// socket.send(chatlogs);
+		console.log('hello')
+		$(async()=>{
+			var SERVICEURL = 'http://127.0.0.1:5000/postchathistory';
+
+			// console.log(isbnNumber)
+			console.log(SERVICEURL)
+
+			try{
+
+			const response = 
+					await fetch(
+						SERVICEURL, {method: 'GET'}
+					);
+			if(!response.ok){
+				console.log('fail');
+			}else{
+				const data = await response.json();
+				var chatlogs = data.chathistory;
+				console.log(chatlogs);
+				chatlogs.forEach(function(item,index){
+					socket.send(user + ': ' + item.msg)
+				});
+			}
+			}catch(error){
+                console.log('error')
+        	}   
+			socket.send(user + ' has connected!');
+		})
+
+		
 	});
 
     socket.on('disconnect', function() {
@@ -35,6 +81,30 @@ $(document).ready(function() {
 
 	$('#sendbutton').on('click', function() {
 		socket.send(user +': '+ $('#myMessage').val());
+		$(async ()=>{
+			var messagetostore =  $('#myMessage').val();
+			console.log(messagetostore)
+			var SERVICEURL = 'http://127.0.0.1:5000/updatechatlogs';
+
+			try{
+				const response = 
+				await fetch(
+							SERVICEURL, {
+							method: 'POST',
+							headers: { "Content-Type": "application/json" },
+							mode: 'no-cors',
+							body: JSON.stringify({ message: messagetostore, userID: 3, matchID: 5 })
+							});
+				if(!response.ok){
+					console.log('fail');
+				}else{
+					console.log('success');
+				}    
+			}catch(error){
+			console.log('error')
+			}
+
+		})
 		$('#myMessage').val('');
 	});
 

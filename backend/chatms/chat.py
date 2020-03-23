@@ -97,7 +97,7 @@ class chatroom3(db.Model):
     def json(self):
         return {"messageID": self.messageID, "userID": self.userID, "created_on": self.created_on, "msg": self.msg}
 
-class chatroomfour(db.Model):
+class chatroom4(db.Model):
     __tablename__ = 'chatroom4'
 
     messageID = db.Column(db.Integer(), primary_key=True, autoincrement=True)
@@ -178,9 +178,19 @@ def getchataddress(matchID=5):
 @app.route('/updatechatlogs', methods=['POST'])
 def updatechatlogs():
     ## hardcode matchID and userID (From session) and msg
-    matchID = 5
-    userID = 3
-    msg = 'hello hello testing database'
+    # matchID = 5
+    # userID = 3
+    
+    # msg = 'yes i typed it'
+
+    message = request.get_json()
+    print(message)
+    # return message
+    # print(message)
+    msg = message["message"]
+    matchID = message["matchID"]
+    userID = message["userID"]
+
     chatprofile = chatdetails.query.filter_by(matchID=matchID).first()
     chatroomID = chatprofile.chatroom_ID
     chatroomprofile = chatroom_details.query.filter_by(chatroom_ID=chatroomID).first()
@@ -193,7 +203,7 @@ def updatechatlogs():
     elif chatroomname == 'chatroom3':
         newmsg = chatroom3(userID,msg)
     elif chatroomname == 'chatroom4':
-        newmsg = chatroomfour(userID,msg)
+        newmsg = chatroom4(userID,msg)
     elif chatroomname == 'chatroom5':
         newmsg = chatroom5(userID,msg)
     try:
@@ -204,6 +214,26 @@ def updatechatlogs():
 
     return jsonify(newmsg.json()), 201
 
+#
+@app.route('/postchathistory')
+def postchathistory():
+    matchID = 5
+    userID = 3
+    chatprofile = chatdetails.query.filter_by(matchID=matchID).first()
+    chatroomID = chatprofile.chatroom_ID
+    chatroomprofile = chatroom_details.query.filter_by(chatroom_ID=chatroomID).first()
+    chatroomname = chatroomprofile.chatroom_name
+    if chatroomname == 'chatroom1':
+        chatlog = chatroom1.query.all()
+    elif chatroomname == 'chatroom2':
+        chatlog = chatroom2.query.all()
+    elif chatroomname == 'chatroom3':
+        chatlog = chatroom3.query.all()
+    elif chatroomname == 'chatroom4':
+        chatlog = chatroom4.query.all()
+    elif chatroomname == 'chatroom5':
+        chatlog = chatroom5.query.all()
+    return jsonify({"chathistory": [chat.json() for chat in chatlog]}) 
 #
 if __name__ == "__main__":
     app.run(port=5000,debug=True)
