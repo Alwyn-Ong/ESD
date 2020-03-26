@@ -62,13 +62,13 @@
                                 return
                             }
                             
-                            var serviceURL = "http://127.0.0.1:8000/register/";
-
+                            var registerURL = "http://127.0.0.1:8000/register/";
+                            
                             var requestBody = {
                                 email: email, password: password
                             };
 
-                            postData(serviceURL, requestBody);
+                            postData(registerURL, requestBody);
                             $('#error').remove();
                         });
 
