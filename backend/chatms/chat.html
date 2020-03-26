@@ -58,7 +58,7 @@ $(document).ready(function() {
 				var chatlogs = data.chathistory;
 				console.log(chatlogs);
 				chatlogs.forEach(function(item,index){
-					socket.send(user + ': ' + item.msg)
+					socket.send('('+item.created_on+') '+ user + ': ' + item.msg)
 				});
 			}
 			}catch(error){
@@ -76,24 +76,26 @@ $(document).ready(function() {
 
 	socket.on('message', function(msg) {
 		$("#messages").append('<li>'+msg+'</li>');
-		console.log('Received message');
 	});
 
 	$('#sendbutton').on('click', function() {
-		socket.send(user +': '+ $('#myMessage').val());
+		event.preventDefault();
+		console.log('test');
 		$(async ()=>{
-			var messagetostore =  $('#myMessage').val();
-			console.log(messagetostore)
-			var SERVICEURL = 'http://127.0.0.1:5000/updatechatlogs';
+			var messagetosend =  $('#myMessage').val();
+			console.log(messagetosend);
+			var testvariable = 'sendmessageover';
+			console.log(testvariable);
 
+			var updateURL = 'http://127.0.0.1:5000/updatechatlogs';
+			console.log(updateURL);
 			try{
 				const response = 
 				await fetch(
-							SERVICEURL, {
+							updateURL, {
 							method: 'POST',
 							headers: { "Content-Type": "application/json" },
-							mode: 'no-cors',
-							body: JSON.stringify({ message: messagetostore, userID: 3, matchID: 5 })
+							body: JSON.stringify({ messagetosend: messagetosend, userID: 3, matchID: 5 })
 							});
 				if(!response.ok){
 					console.log('fail');
@@ -104,8 +106,11 @@ $(document).ready(function() {
 			console.log('error')
 			}
 
+			socket.send(user +': '+ $('#myMessage').val());
+
+			$('#myMessage').val('');
 		})
-		$('#myMessage').val('');
+		
 	});
 
 });

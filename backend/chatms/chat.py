@@ -13,6 +13,7 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 299}
 
 db = SQLAlchemy(app)
 CORS(app)
+# app.use(require("body-parser").json())
 
 class chatdetails(db.Model):
     __tablename__ = 'chatdetails'
@@ -182,14 +183,15 @@ def updatechatlogs():
     # userID = 3
     
     # msg = 'yes i typed it'
-
-    message = request.get_json()
-    print(message)
+    print(request)
+    data = request.get_json()
+    print(type(data))
+    print(data)
     # return message
     # print(message)
-    msg = message["message"]
-    matchID = message["matchID"]
-    userID = message["userID"]
+    msg = data["messagetosend"]
+    matchID = data["matchID"]
+    userID = data["userID"]
 
     chatprofile = chatdetails.query.filter_by(matchID=matchID).first()
     chatroomID = chatprofile.chatroom_ID
