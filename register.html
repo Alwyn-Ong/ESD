@@ -47,6 +47,7 @@
                             event.preventDefault(); // event - allows console logs to be displayed (solves refresh problem)
                             console.log(event);
                             var email = $('#email').val();
+                            console.log(email)
                             var password = $('#password').val();
                             // alert(password);
                             var confirmPassword = $('#confirmPassword').val();
@@ -75,7 +76,7 @@
                             // console.log(requestBody);
                             var requestParam = {
                                 headers: { "content-type": "application/json;" },
-                                mode: 'cors', // other options: no-cors, navigate, same-origin
+                                mode: 'cors', // other options: no-cors, navigate, same-origin
                                 method: 'POST',
                                 body: JSON.stringify(requestBody)
                             }

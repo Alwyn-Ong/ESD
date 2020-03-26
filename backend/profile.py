@@ -31,7 +31,7 @@ class profile(db.Model):
         self.location = location
 
     def json(self):
-        return {"profileid": self.profileID, "bio": self.bio, "gender": self.gender, "age": self.age, "location":self.location}
+        return {"profileid": self.profileID, "name":self.name, "bio": self.bio, "gender": self.gender, "age": self.age, "location":self.location}
 
 ## retrieve all profiles
 @app.route("/allprofiles")

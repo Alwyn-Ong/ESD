@@ -19,19 +19,58 @@
 
     <!-- JavaScript grab information -->
     <script>
-        var profileJSON = {
-                    name: 'Aunty Alichel',
-                    bio: 'Why buy a belt when you can just gain weight?',
-                    gender: 'Female',
-                    add: 'SMU',
-                    age: '24'
-                }
-        var name = profileJSON['name'];
-        var bio = profileJSON['bio'];
-        var loc = profileJSON['add'];
-        var gender = profileJSON['gender'];
-        var age = profileJSON['age'];
+        // var profileJSON = {
+        //             name: 'Aunty Alichel',
+        //             bio: 'Why buy a belt when you can just gain weight?',
+        //             gender: 'Female',
+        //             add: 'SMU',
+        //             age: '24'
+        //         }
+        // var name = profileJSON['name'];
+        // var bio = profileJSON['bio'];
+        // var loc = profileJSON['add'];
+        // var gender = profileJSON['gender'];
+        // var age = profileJSON['age'];
         
+        
+        
+
+        $(async() => {           
+            // Change serviceURL to your own
+            var profileID = sessionStorage.getItem("accountID");
+            retrieveprofileURL = 'http://127.0.0.1:2000/profile/1'
+            //+profileID
+            console.log(retrieveprofileURL)
+
+            try {
+                const response =
+                 await fetch(
+                   retrieveprofileURL, { method: 'GET' }
+                );
+                
+                var profileJSON = await response.json();
+                console.log(profileJSON);
+                var name = profileJSON['name'];
+                var bio = profileJSON['bio'];
+                var loc = profileJSON['location'];
+                var gender = profileJSON['gender'];
+                var age = profileJSON['age'];
+                console.log(name)
+
+            }catch (error) {
+                console.log('error in retrieving profile')
+            } // error
+
+            $('#name').text(name);
+            $('#location').text(loc);
+            $('#gender').text();
+            $('#display-name').text(loc);
+            $('#display-gender').text(gender);
+            $('#display-age').text(age);
+            $('#display-bio').text(bio);
+        });
+
+
         var accountJSON = {
                     email: 'jwwong.2018@sis.smu.edu.sg',
                     password: 'walaoeheh'
@@ -86,13 +125,13 @@
                                 <p id='gender' class="mb-1">AIA Singapore Pte Ltd</p>
                                 
                                 <!-- JavaScript for changing variables -->
-                                <script>
+                                <!-- <script>
                                     
                                     $('#name').text(name);
                                     $('#location').text(loc);
                                     $('#gender').text(gender);
 
-                                </script>
+                                </script> -->
 
                             </div>
                         </div>
@@ -113,20 +152,20 @@
                 
                 
                 <div class="row">
-                    <div class="col-md-4 col-12 mt-4 pl-0 accordion-group-one">
+                    <div class="col-md-12 col-12 mt-4 pl-0 accordion-group-one">
                         <div id="accordionMyStory" class="mb-2">
                           <div class="card rounded-0 story-card">
                             <div class="card-header rounded-0 pt-2 pb-2" id="headingMyStory">
                                 <h6 class="mb-0">Profile</h6>
-                                <a class="float-right" data-toggle="collapse" data-target="#collapseMyStory" aria-expanded="true" aria-controls="collapseMyStory">
+                                <a class="float-center" data-toggle="collapse" data-target="#collapseMyStory" aria-expanded="true" aria-controls="collapseMyStory">
                                     <i class="icon fa fa-minus"></i>
                                 </a>
                             </div>
                             <div  id="collapseMyStory" class="collapse show" aria-labelledby="headingMyStory" data-parent="#accordionMyStory">
                               <div style='height:340px;'  class="card-body pt-2 pb-2">
                                 <div class="body-section mb-3">
-                                    <h6 class="section-heading mb-1"><strong>Display Name</strong></h6>
-                                    <p id='display-name' class="section-content m-0">Wong Kin Hou</p>
+                                    <h6 class="section-heading mb-1"><strong>Location</strong></h6>
+                                    <p id='display-name' class="section-content m-0">Tampines</p>
                                 </div>
                                 <div class="body-section mb-3">
                                   <h6 class="section-heading mb-1"><strong>Gender</strong></h6>
@@ -141,85 +180,11 @@
                                     <h6 class="section-heading mb-1"><strong>Age</strong></h6>
                                     <p id='display-age' class="section-content m-0">19/06/1995</p>
                                 </div>
-                                <script>
-                                    // JavaScript for changing variables
-                                    $('#display-name').text(name);
-                                    $('#display-gender').text(gender);
-                                    $('#display-bio').text(bio);
-                                    $('#display-age').text(age);
-                                </script>
                                 <button class="btn btn-info btn-sm">Edit</button>
                               </div>
                             </div>
                           </div>
-                        </div>
-                        
-                    </div>
-                    <div  class="col-md-4 col-12 mt-4 accordion-group-two">
-                        <div  id="accordionUserInfo" class="mb-2">
-                          <div style='height:390px;' class="card rounded-0 info-card">
-                            <div class="card-header rounded-0 pt-2 pb-2" id="headingUserInfo">
-                                <h6 class="mb-0">Account Settings</h6>
-                                <a class="float-right" data-toggle="collapse" data-target="#collapseUserInfo" aria-expanded="true" aria-controls="collapseUserInfo">
-                                    <i class="icon fa fa-minus"></i>
-                                </a>
-                            </div>
-                            <div id="collapseUserInfo" class="collapse show" aria-labelledby="headingUserInfo" data-parent="#accordionUserInfo">
-                              <div class="card-body pt-2 pb-2">
-                                <div class="body-section mb-3">
-                                    <h6 class="section-heading mb-1"><strong>Email</strong></h6>
-                                    <p id='email' class="section-content m-0">wkh@gmail.com</p>
-                                </div>
-                                <div class="body-section mb-3">
-                                    <h6 class="section-heading mb-1"><strong>Password</strong></h6>
-                                    <p id='password' class="section-content m-0">
-                                        ************
-                                    </p>
-                                </div>
-                                <script>
-                                    /* JavaSript to change variables */
-                                    $('#email').text(email);
-                                    $('#password').text(password);
-
-                                </script>
-                                
-                            
-                                <button class="btn btn-danger btn-sm">Edit</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        
-                    </div>
-                    <div class="col-md-4 col-12 mt-4 pr-0 accordion-group-three">
-                      <div id="accordionMyPlan">
-                        <div style='height:390px;' class="card rounded-0 story-card">
-                          <div class="card-header rounded-0 pt-2 pb-2" id="headingMyPlan">
-                              <h6 class="mb-0">My Plan</h6>
-                              <a class="float-right" data-toggle="collapse" data-target="#collapseMyPlan" aria-expanded="true" aria-controls="collapseMyPlan">
-                                  <i class="icon fa fa-minus"></i>
-                              </a>
-                          </div>
-                          <div id="collapseMyPlan" class="collapse show" aria-labelledby="headingMyPlan" data-parent="#accordionMyPlan">
-                            <div class="card-body pt-2 pb-2">
-                              <div class="body-section mb-3">
-                                  <h6 class="section-heading mb-1"><strong>Current Plan : Basic Plan</strong></h6>
-                                  <p class="section-content m-0">Your current plan is free.</p>
-                              </div>
-                              <div class="body-section mb-3">
-                                  <ul>
-                                      <li>Unlimited Swipe</li>
-                                      <li>Exclusive Invitation</li>
-                                      <li>Online Dating Tips</li>
-                                  </ul>
-                              </div>
-                              <button class="btn btn-success btn-sm">Upgrade Account</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                        
+                        </div>             
                     </div>
                 </div>
             </div>
