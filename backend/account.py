@@ -59,14 +59,17 @@ def authenticate_user():
 
 
     """
-    data = request.get_json()
+    data = request.get_json() 
     if (Account.query.filter_by(email=data["email"]).first()) == None:
         return jsonify({"message":"User with email '{}' does not exist.".format(data["email"])}), 400
     account = Account.query.filter_by(email=data["email"]).first()
     # account = Account(**data)
 
-    return json.dumps(account.password == data['password'])
-        # return jsonify({"message":"email or password is wrong."}), 404
+    if account.password == data["password"]:
+        return json.dumps(account.accountid)
+
+    # return json.dumps(account.password == data['password'])
+    return jsonify({"message":"email or password is wrong."}), 404
         # return json.dumps(False)
     # return json.dumps(True)
 
@@ -107,7 +110,7 @@ def create_account():
     # 201 is create
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run(port=8000, debug=True)
 #Doesnt start up flask server if imported from elsewhere, can just run function
 
 

@@ -19,19 +19,56 @@
 
     <!-- JavaScript grab information -->
     <script>
-        var profileJSON = {
-                    name: 'Aunty Alichel',
-                    bio: 'Why buy a belt when you can just gain weight?',
-                    gender: 'Female',
-                    add: 'SMU',
-                    age: '24'
-                }
-        var name = profileJSON['name'];
-        var bio = profileJSON['bio'];
-        var loc = profileJSON['add'];
-        var gender = profileJSON['gender'];
-        var age = profileJSON['age'];
         
+        $(async() => {           
+            // Change serviceURL to your own
+            var profileID = sessionStorage.getItem("accountID");
+            retrieveprofileURL = 'http://127.0.0.1:2000/profile/' + profileID
+            //+profileID
+            console.log(retrieveprofileURL)
+
+            try {
+                const response =
+                 await fetch(
+                   retrieveprofileURL, { method: 'GET' }
+                );
+                
+                var profileJSON = await response.json();
+                console.log(profileJSON);
+                var name = profileJSON['name'];
+                var bio = profileJSON['bio'];
+                var loc = profileJSON['location'];
+                var gender = profileJSON['gender'];
+                var age = profileJSON['age'];
+                console.log(name)
+
+                var showName = "Name: " + name
+                var showLoc = "Location: " + loc
+                var showGender = "Gender: " + gender
+                var showBio = "Bio: " + bio
+
+            }catch (error) {
+                console.log('error in retrieving profile')
+            } // error
+            
+            $('#name').text(showName);
+            $('#location').text(showLoc);
+            $('#gender').text(showGender);
+            
+            // biography
+            $('#display-name').text(name);
+            document.getElementById("display-name").value = name;
+            document.getElementById("display-age").value = age;
+            document.getElementById("display-gender").value = gender;
+            document.getElementById("display-loc").value = loc;
+            document.getElementById("display-bio").value = bio;
+            // $('#display-loc').text(loc);
+            // $('#display-gender').text(gender);
+            // $('#display-age').text(age);
+            // $('#display-bio').text(bio);
+        });
+
+
         var accountJSON = {
                     email: 'jwwong.2018@sis.smu.edu.sg',
                     password: 'walaoeheh'
@@ -39,6 +76,8 @@
         var email = accountJSON['email'];
         var password = accountJSON['password'];
 
+
+        
     </script>
 
 <header>
@@ -81,18 +120,10 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 col-12 user-detail text-center">
-                                <h4 id='name' class="m-0"><strong>Wong Kin Hou</strong></h4>
-                                <p id='location'  class="m-0">Coding Kor Kor</p>
-                                <p id='gender' class="mb-1">AIA Singapore Pte Ltd</p>
+                                <h4 id='name' class="m-0"><strong>Name</strong></h4>
+                                <p id='location'  class="m-0">Location</p>
+                                <p id='gender' class="mb-1">Gender</p>
                                 
-                                <!-- JavaScript for changing variables -->
-                                <script>
-                                    
-                                    $('#name').text(name);
-                                    $('#location').text(loc);
-                                    $('#gender').text(gender);
-
-                                </script>
 
                             </div>
                         </div>
@@ -113,113 +144,51 @@
                 
                 
                 <div class="row">
-                    <div class="col-md-4 col-12 mt-4 pl-0 accordion-group-one">
+                    <div class="col-md-12 col-12 mt-4 pl-0 accordion-group-one">
                         <div id="accordionMyStory" class="mb-2">
                           <div class="card rounded-0 story-card">
                             <div class="card-header rounded-0 pt-2 pb-2" id="headingMyStory">
                                 <h6 class="mb-0">Profile</h6>
-                                <a class="float-right" data-toggle="collapse" data-target="#collapseMyStory" aria-expanded="true" aria-controls="collapseMyStory">
+                                <a class="float-center" data-toggle="collapse" data-target="#collapseMyStory" aria-expanded="true" aria-controls="collapseMyStory">
                                     <i class="icon fa fa-minus"></i>
                                 </a>
                             </div>
-                            <div  id="collapseMyStory" class="collapse show" aria-labelledby="headingMyStory" data-parent="#accordionMyStory">
-                              <div style='height:340px;'  class="card-body pt-2 pb-2">
-                                <div class="body-section mb-3">
-                                    <h6 class="section-heading mb-1"><strong>Display Name</strong></h6>
-                                    <p id='display-name' class="section-content m-0">Wong Kin Hou</p>
-                                </div>
-                                <div class="body-section mb-3">
-                                  <h6 class="section-heading mb-1"><strong>Gender</strong></h6>
-                                  <p id ='display-gender' class="section-content m-0">Male</p>
-                              </div>
-                                <div class="body-section mb-3">
-                                    <h6 class="section-heading mb-1"><strong>Bio</strong></h6>
-                                    <p id='display-bio' class="section-content m-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                    tempor incididunt.</p>
-                                </div>
-                                <div class="body-section mb-3">
-                                    <h6 class="section-heading mb-1"><strong>Age</strong></h6>
-                                    <p id='display-age' class="section-content m-0">19/06/1995</p>
-                                </div>
-                                <script>
-                                    // JavaScript for changing variables
-                                    $('#display-name').text(name);
-                                    $('#display-gender').text(gender);
-                                    $('#display-bio').text(bio);
-                                    $('#display-age').text(age);
-                                </script>
-                                <button class="btn btn-info btn-sm">Edit</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        
-                    </div>
-                    <div  class="col-md-4 col-12 mt-4 accordion-group-two">
-                        <div  id="accordionUserInfo" class="mb-2">
-                          <div style='height:390px;' class="card rounded-0 info-card">
-                            <div class="card-header rounded-0 pt-2 pb-2" id="headingUserInfo">
-                                <h6 class="mb-0">Account Settings</h6>
-                                <a class="float-right" data-toggle="collapse" data-target="#collapseUserInfo" aria-expanded="true" aria-controls="collapseUserInfo">
-                                    <i class="icon fa fa-minus"></i>
-                                </a>
-                            </div>
-                            <div id="collapseUserInfo" class="collapse show" aria-labelledby="headingUserInfo" data-parent="#accordionUserInfo">
-                              <div class="card-body pt-2 pb-2">
-                                <div class="body-section mb-3">
-                                    <h6 class="section-heading mb-1"><strong>Email</strong></h6>
-                                    <p id='email' class="section-content m-0">wkh@gmail.com</p>
-                                </div>
-                                <div class="body-section mb-3">
-                                    <h6 class="section-heading mb-1"><strong>Password</strong></h6>
-                                    <p id='password' class="section-content m-0">
-                                        ************
-                                    </p>
-                                </div>
-                                <script>
-                                    /* JavaSript to change variables */
-                                    $('#email').text(email);
-                                    $('#password').text(password);
 
-                                </script>
-                                
                             
-                                <button class="btn btn-danger btn-sm">Edit</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        
-                    </div>
-                    <div class="col-md-4 col-12 mt-4 pr-0 accordion-group-three">
-                      <div id="accordionMyPlan">
-                        <div style='height:390px;' class="card rounded-0 story-card">
-                          <div class="card-header rounded-0 pt-2 pb-2" id="headingMyPlan">
-                              <h6 class="mb-0">My Plan</h6>
-                              <a class="float-right" data-toggle="collapse" data-target="#collapseMyPlan" aria-expanded="true" aria-controls="collapseMyPlan">
-                                  <i class="icon fa fa-minus"></i>
-                              </a>
-                          </div>
-                          <div id="collapseMyPlan" class="collapse show" aria-labelledby="headingMyPlan" data-parent="#accordionMyPlan">
-                            <div class="card-body pt-2 pb-2">
-                              <div class="body-section mb-3">
-                                  <h6 class="section-heading mb-1"><strong>Current Plan : Basic Plan</strong></h6>
-                                  <p class="section-content m-0">Your current plan is free.</p>
-                              </div>
-                              <div class="body-section mb-3">
-                                  <ul>
-                                      <li>Unlimited Swipe</li>
-                                      <li>Exclusive Invitation</li>
-                                      <li>Online Dating Tips</li>
-                                  </ul>
-                              </div>
-                              <button class="btn btn-success btn-sm">Upgrade Account</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                            <!-- Update Profile Form -->
+                            <!-- <form method='POST' action=''> -->
+                                <!-- Input Name -->
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Name</label>
+                                    <input id='display-name' type="text" class="form-control" aria-describedby="emailHelp" placeholder="Name" required>
+                                </div>
+                                <!-- Input Bio -->
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Bio</label>
+                                    <input id='display-bio' type="text" class="form-control" aria-describedby="emailHelp" placeholder="Biography" required>
+                                    <small id="emailHelp" class="form-text text-muted">Write something interesting about yourself, you never know when you will actually BTO.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Location</label>
+                                    <input id='display-loc' type="text" class="form-control" placeholder="Location" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sel1">Gender:</label>
+                                    <select id='display-gender' class="form-control" id="gender">
+                                        <option>M</option>
+                                        <option>F</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Age</label>
+                                    <input id='display-age' type="number" class="form-control" min='18' required>
+                                    </div>
+                                
+                                <center><button id='updateBtn' type="submit" class="btn btn-primary">Update</button></center>
+                            <!-- </form> -->
 
-                        
+                          </div>
+                        </div>             
                     </div>
                 </div>
             </div>
@@ -234,5 +203,72 @@
 <br>
 </body>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script><script  src="js/account.js"></script>
+
+<script>
+        // <-- Update User Profile -->
+        // Error Function
+        function addError(message) {
+                            // Display an error under the main container
+                            $('body').append("<br><center><label id='error' style='color:red'>"+message+"</label></center><br>");
+                        }
+
+        // Action Listener
+        $("#updateBtn").click(function(event){
+                    event.preventDefault(); // event - allows console logs to be displayed (solves refresh problem)
+                    console.log(event);
+        
+                    var name = $('#display-name').val();
+                    console.log(name);
+                    var bio = $('#display-bio').val();
+                    console.log(bio);
+                    var location = $('#display-loc').val();
+                    console.log(location);
+                    var gender = $('#display-gender').val();
+                    console.log(gender);
+                    var age = $('#display-age').val();
+                    console.log(age);
+
+                    var profileID = sessionStorage.getItem("accountID");
+                    var serviceURL = "http://127.0.0.1:2000/updateprofile/" + profileID;
+
+                    var requestBody = {
+                        name: name, bio: bio, location: location, gender: gender, age: age
+                    };
+
+                    putData(serviceURL, requestBody);
+                    $('#error').remove();
+                });
+
+                async function putData(serviceURL, requestBody){
+                    // console.log(requestBody);
+                    var requestParam = {
+                        headers: { "content-type": "application/json;" },
+                        mode: 'cors', // other options: no-cors, navigate, same-origin
+                        method: 'PUT',
+                        body: JSON.stringify(requestBody)
+                    }
+                    
+                    try {
+                        const response = await fetch(serviceURL, requestParam);
+                        console.log(response);
+                        
+                        // data = await response.json();
+                //         console.log(data);
+                        // var isbnNumber = $('#isbn13').val();
+                    if(response.ok){
+                        alert('Profile Information Successfully Updated!')
+                        window.location.href = "account.html";
+            
+                            
+                    }
+                    else{
+                        alert('Profile Information Failed to update!');
+                    }
+                    } catch (error) {
+
+                        console.error(error);
+                    }
+                }
+</script>
 
 </html>
