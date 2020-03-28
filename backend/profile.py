@@ -70,7 +70,7 @@ def update_profile(profileID):
     try:
         db.session.commit()
     except:
-        return jsonify({"message": "An error occurred in updating the book."}), 500
+        return jsonify({"message": "An error occurred in updating the profile."}), 500
 
     return "201"
 
@@ -87,6 +87,7 @@ def create_profile():
     age = request.json['age']
 
     new_profile = profile(profileID, name, bio, gender, age, location)
+    return new_profile.json()
     ## retrieve image,
     ## pass and store image in image microservice.
     try:
