@@ -65,8 +65,11 @@ def authenticate_user():
     account = Account.query.filter_by(email=data["email"]).first()
     # account = Account(**data)
 
-    return json.dumps(account.password == data['password'])
-        # return jsonify({"message":"email or password is wrong."}), 404
+    if account.password == data["password"]:
+        return account.accountid
+
+    # return json.dumps(account.password == data['password'])
+    return jsonify({"message":"email or password is wrong."}), 404
         # return json.dumps(False)
     # return json.dumps(True)
 
