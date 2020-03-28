@@ -50,7 +50,22 @@ class Recommendation(db.Model):
         return {'visit_id': self.visit_id, 'user_id': self.user_id, 'visited_id': self.visited_id}
 
 def send_match_update(user_id,visited_id):
-    """inform Shipping/Monitoring/Error as needed"""
+    """
+    Sends message (as a json_string) to match_receiver.py, containing the following:
+
+    {
+        "userid":user_id,
+        "visitedid":visited_id
+    }
+
+    Function will trigger when the user ends up liking a person that likes you back.
+
+    Allows recommendation to send a one-to-one fire-and-forget message to match_receiver.py
+
+    Match_receiver.py will update the new match using the 2 ids using a function call to match.
+
+    
+    """
     # default username / password to the broker are both 'guest'
     hostname = "localhost" # default broker hostname. Web management interface default at http://localhost:15672
     port = 5672 # default messaging port.
