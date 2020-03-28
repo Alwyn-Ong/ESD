@@ -1,13 +1,15 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 import json
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/account'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/sglovelah_account'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
 db = SQLAlchemy(app)
+CORS(app)
 
 class Account(db.Model):
     __tablename__ = 'account'
@@ -16,7 +18,7 @@ class Account(db.Model):
     email = db.Column (db.String(255),nullable=False)
     password = db.Column(db.Integer,nullable=False)
 
-    def __init__(self, email, email, password, accountid= None):
+    def __init__(self, email, password, accountid= None):
         # As account id is auto incremental
         self.accountid = None
         self.email = email
@@ -57,14 +59,17 @@ def authenticate_user():
 
 
     """
-    data = request.get_json()
+    data = request.get_json() 
     if (Account.query.filter_by(email=data["email"]).first()) == None:
         return jsonify({"message":"User with email '{}' does not exist.".format(data["email"])}), 400
     account = Account.query.filter_by(email=data["email"]).first()
     # account = Account(**data)
 
-    return json.dumps(account.password == data['password'])
-        # return jsonify({"message":"email or password is wrong."}), 404
+    if account.password == data["password"]:
+        return json.dumps(account.accountid)
+
+    # return json.dumps(account.password == data['password'])
+    return jsonify({"message":"email or password is wrong."}), 404
         # return json.dumps(False)
     # return json.dumps(True)
 
@@ -84,12 +89,12 @@ def create_account():
 
     Else, if there is an error creating, return error message
 
-    Upon successful creation in account DB, return True.
+    Upon successful creation in account DB, return accountid.
     """
     data = request.get_json()
     
     
-    elif (Account.query.filter_by(email=data["email"]).first()) :
+    if (Account.query.filter_by(email=data["email"]).first()) :
         return jsonify({"message":"An account with email '{}' already exists.".format(data["email"])}), 400
 
     account = Account(**data)
@@ -101,11 +106,11 @@ def create_account():
         # print(e)
         return jsonify({f"message": "An error {e} occured creating the account."}), 500
 
-    return json.dumps(True)
+    return json.dumps(account.accountid)
     # 201 is create
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run(port=8000, debug=True)
 #Doesnt start up flask server if imported from elsewhere, can just run function
 
 

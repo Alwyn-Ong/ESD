@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Registration</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/account.css" type='text/css'>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+    <body>
+
+        <div class='container'>
+            <div class='col-sm'></div>
+            <div class='col-sm'>
+                <div style='height:50px;' class='row'><h1>Registration</h1></div>
+                <form method='POST' action='createProfile.html'>
+                    <div style='margin-top:50px;' class="form-group">
+                      <label for="exampleInputEmail1">Email address</label>
+                      <input id='email' type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email" required>
+                      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Password</label>
+                      <input id='password' type="password" class="form-control" placeholder="Password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input id='confirmPassword' type="password" class="form-control" placeholder="Confirm Password" required>
+                      </div>
+                    
+                    <button id='registerBtn' type="submit" class="btn btn-primary">Submit</button>
+                </form>
+
+                <script>
+                        // Error Function
+                        function addError(message) {
+                            // Display an error under the main container
+                            $('body').append("<br><center><label id='error' style='color:red'>"+message+"</label></center><br>");
+                        }
+
+                        // Action Listner
+                        $("#registerBtn").click(function(event){
+                            event.preventDefault(); // event - allows console logs to be displayed (solves refresh problem)
+                            console.log(event);
+                            var email = $('#email').val();
+                            console.log(email)
+                            var password = $('#password').val();
+                            // alert(password);
+                            var confirmPassword = $('#confirmPassword').val();
+                            // alert(confirmPassword);
+                            if(password != confirmPassword){
+                                alert('Passwords do not match!')
+                                addError('Passwords do not match!')
+                                return
+                            }
+                            if(!email || !password || !confirmPassword){
+                                addError('Fill up all fields!')
+                                return
+                            }
+                            
+                            var registerURL = "http://127.0.0.1:8000/register/";
+                            
+                            var requestBody = {
+                                email: email, password: password
+                            };
+
+                            postData(registerURL, requestBody);
+                            $('#error').remove();
+                        });
+
+                        async function postData(serviceURL, requestBody){
+                            // console.log(requestBody);
+                            var requestParam = {
+                                headers: { "content-type": "application/json;" },
+                                mode: 'cors', // other options: no-cors, navigate, same-origin
+                                method: 'POST',
+                                body: JSON.stringify(requestBody)
+                            }
+                            
+                            try {
+                                const response = await fetch(serviceURL, requestParam);
+                                console.log(response);
+                                data = await response.json();
+                                console.log(data);
+                                // var isbnNumber = $('#isbn13').val();
+                            if(response.ok){
+                                    alert('Your registration is successful! Please create your profile.');
+                                    // alert(data);
+                                    sessionStorage.setItem("accountID", data);
+                                    
+                                    window.location.href = "createProfile.html";
+                            }
+                            else{
+                                addError('Error, Email: <b>' + email + '</b>' + ' already exists.')
+                            }
+                            } catch (error) {
+
+                                console.error(error);
+                            }
+                        }
+                </script>
+            </div>
+            <div class='col-sm'></div>
+        </div>
+
+    </body>
+</html>

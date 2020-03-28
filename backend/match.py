@@ -5,6 +5,8 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import json
+from flask_cors import CORS
+
 # import sys
 # import os
 # import random
@@ -21,11 +23,12 @@ import uuid
 
 app = Flask(__name__)
 # Database name in this case is match
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/match'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/sglovelah_match'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
 db = SQLAlchemy(app)
+CORS(app)
 
 
 class Match(db.Model):
@@ -48,23 +51,32 @@ class Match(db.Model):
         return {"matchid": self.matchid, "id1": self.id1, "id2": self.id2, "ready_status_1": self.ready_status_1, "ready_status_2": self.ready_status_2}
 
 @app.route("/match/",methods=['POST'])
-def add_match():
+def add_match(id1,id2):
     """
     Creates a match in the Match DB.
 
     Passes in json data in the format
     {
         "id1"="",
-        "id2"="",
+        "id2"=""
     }
 
     Upon successful creation in account DB, return True.
 
     Else, if there is an error creating, return error message
     """
+
+    # Gets variables if done through http call
+
+    # Implemented to account for function call from match_receiver
+
     data = request.get_json()
     id1 = data["id1"]
     id2 = data["id2"]
+
+    if id1 == None and id2 == None:
+        id1 = data["id1"]
+        id2 = data["id2"]
 
     # Checks if there are currently any existing matches in the database
 
@@ -79,7 +91,7 @@ def add_match():
     # elif (Account.query.filter_by(email=data["email"]).first()) :
     #     return jsonify({"message":"An account with email '{}' already exists.".format(data["email"])}), 400
 
-    match = Match(**data)
+    match = Match(id1,id2)
 
     try: 
         db.session.add(match)
@@ -100,7 +112,7 @@ def add_match():
         # print(e)
         return jsonify({"message": f"An error {e} occured creating the match."}), 500
 
-    return json.dumps(True)
+    return jsonify({"message":"Successful creation into DB"}), 200
     # 201 is create
 
 @app.route("/match/",methods=['GET'])

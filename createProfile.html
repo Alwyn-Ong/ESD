@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Create Profile</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/account.css" type='text/css'>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+    <body>
+
+        <div class='container'>
+            <div class='col-sm'></div>
+            <div class='col-sm'>
+                <div style='height:50px;' class='row'><h1>Create profile</h1></div>
+                <form style='margin-top:50px;' method='POST' action='createProfile.html'>
+                    <!-- Upload Profile Picture -->
+                    <div class="form-group">
+                        <label><strong>Upload Profile Picture</strong></label>
+                        <div class="custom-file">
+                          <input type="file" name="files" multiple class="custom-file-input" id="customFile">
+                          <label class="custom-file-label" for="customFile">Choose file</label>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <button type="button" name="upload" value="upload" id="upload" class="btn btn-block btn-dark"><i class="fa fa-fw fa-upload"></i> Upload</button>
+                    </div>
+
+
+                    <!-- Input Name -->
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Name</label>
+                      <input id='name' type="text" class="form-control" aria-describedby="emailHelp" placeholder="Name" required>
+                    </div>
+                    <!-- Input Bio -->
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Bio</label>
+                      <input id='bio' type="text" class="form-control" aria-describedby="emailHelp" placeholder="Biography" required>
+                      <small id="emailHelp" class="form-text text-muted">Write something interesting about yourself, you never know when you will actually BTO.</small>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Location</label>
+                      <input id='location' type="text" class="form-control" placeholder="Location" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sel1">Gender:</label>
+                        <select id='gender' class="form-control" id="gender">
+                          <option>M</option>
+                          <option>F</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Age</label>
+                        <input id='age' type="number" class="form-control" min='18' required>
+                      </div>
+                    
+                    <button id='submit' type="submit" class="btn btn-primary">Submit</button>
+                </form>
+
+                <!-- Create Profile JavaScript -->
+                <script>
+                  // Error Function
+                  function addError(message) {
+                    // Display an error under the main container
+                    $('body').append("<br><center><label id='error' style='color:red'>"+message+"</label></center><br>");
+                  }
+
+                  // POST
+                  async function postData(serviceURL, requestBody){
+                    // console.log(requestBody);
+                    var requestParam = {
+                        headers: { "content-type": "application/json;" },
+                        mode: 'cors', // other options: no-cors, navigate, same-origin
+                        method: 'POST',
+                        body: JSON.stringify(requestBody)
+                    }
+                    
+                    try {
+                        const response = await fetch(serviceURL, requestParam);
+                        console.log(response);
+                        data = await response.json();
+                        console.log(data);
+
+                    if(response.ok){
+
+                        // alert('Hi ' + name + ', your account has been created!')
+                        alert('Your account has been created!')
+                        window.location.href = "index.html";
+                    
+                    }
+                    else{
+                        alert('Error: your profile already exists.')
+                    }
+                    } catch (error) {
+
+                        console.error(error);
+                    }
+              }
+
+                  // Grabing input values
+                  $("#submit").click(function(event){
+                    event.preventDefault(); // event - allows console logs to be displayed (solves refresh problem)
+                    var name = $('#name').val();
+                    var bio = $('#bio').val();
+                    var location = $('#location').val();
+                    var gender = $('#gender').val();
+                    var age = $('#age').val();
+                    var profileID = sessionStorage.getItem("accountID");
+                    console.log(profileID);
+
+                    
+                    var serviceURL = "http://127.0.0.1:2000/profile";
+
+                    var requestBody = {
+                        
+                        profileID: profileID, name: name, location : location, bio: bio, gender: gender, age: age
+                    };
+
+                    postData(serviceURL, requestBody);
+                    
+                    
+                  })
+
+
+
+                </script>
+            </div>
+            <div class='col-sm'></div>
+        </div>
+
+    </body>
+</html>
