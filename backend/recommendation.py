@@ -18,7 +18,7 @@ import requests
 import profile
 
 # Stores url of microservices for HTTP Call
-profileURL = "http://localhost:5000"
+profileURL = "http://localhost:2000"
 
 app = Flask(__name__)
 # Database name in this case is match
@@ -141,8 +141,14 @@ def get_recommendation(userid):
     for profile in profile_list:
         profile_id = profile["profileid"]
 
+        # Currently prioritises people that already like you
+
         # First checks for people that already like user
-        if Recommendation.query.filter_by(user_id=int(profile_id),visited_id=int(userid),like_status="1").first() == None:
+        if (Recommendation.query.filter_by(user_id=int(profile_id),visited_id=int(userid),like_status="1").first() == None
+            
+            # Next checks if you have already visited the person
+            and Recommendation.query.filter_by(user_id=int(userid),visited_id=int(profile_id)).first() == None):
+
             # return json.dumps(str(type(profile["profileid"])))
             # return json.dumps(str(type(userid)))
             return jsonify(profile)
@@ -150,7 +156,7 @@ def get_recommendation(userid):
     for profile in profile_list:
         profile_id = profile["profileid"]
 
-        # Else return anyone else
+        # Else return a user that you have already visited
         if Recommendation.query.filter_by(user_id=int(userid),visited_id=int(profile_id)).first() == None:
             return jsonify(profile)
 
