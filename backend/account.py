@@ -66,7 +66,7 @@ def authenticate_user():
     # account = Account(**data)
 
     if account.password == data["password"]:
-        return account.accountid
+        return json.dumps(account.accountid)
 
     # return json.dumps(account.password == data['password'])
     return jsonify({"message":"email or password is wrong."}), 404

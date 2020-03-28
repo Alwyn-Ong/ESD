@@ -19,26 +19,11 @@
 
     <!-- JavaScript grab information -->
     <script>
-        // var profileJSON = {
-        //             name: 'Aunty Alichel',
-        //             bio: 'Why buy a belt when you can just gain weight?',
-        //             gender: 'Female',
-        //             add: 'SMU',
-        //             age: '24'
-        //         }
-        // var name = profileJSON['name'];
-        // var bio = profileJSON['bio'];
-        // var loc = profileJSON['add'];
-        // var gender = profileJSON['gender'];
-        // var age = profileJSON['age'];
         
-        
-        
-
         $(async() => {           
             // Change serviceURL to your own
             var profileID = sessionStorage.getItem("accountID");
-            retrieveprofileURL = 'http://127.0.0.1:2000/profile/1'
+            retrieveprofileURL = 'http://127.0.0.1:2000/profile/' + profileID
             //+profileID
             console.log(retrieveprofileURL)
 
@@ -57,17 +42,30 @@
                 var age = profileJSON['age'];
                 console.log(name)
 
+                var showName = "Name: " + name
+                var showLoc = "Location: " + loc
+                var showGender = "Gender: " + gender
+                var showBio = "Bio: " + bio
+
             }catch (error) {
                 console.log('error in retrieving profile')
             } // error
-
-            $('#name').text(name);
-            $('#location').text(loc);
-            $('#gender').text();
-            $('#display-name').text(loc);
-            $('#display-gender').text(gender);
-            $('#display-age').text(age);
-            $('#display-bio').text(bio);
+            
+            $('#name').text(showName);
+            $('#location').text(showLoc);
+            $('#gender').text(showGender);
+            
+            // biography
+            $('#display-name').text(name);
+            document.getElementById("display-name").value = name;
+            document.getElementById("display-age").value = age;
+            document.getElementById("display-gender").value = gender;
+            document.getElementById("display-loc").value = loc;
+            document.getElementById("display-bio").value = bio;
+            // $('#display-loc').text(loc);
+            // $('#display-gender').text(gender);
+            // $('#display-age').text(age);
+            // $('#display-bio').text(bio);
         });
 
 
@@ -78,6 +76,8 @@
         var email = accountJSON['email'];
         var password = accountJSON['password'];
 
+
+        
     </script>
 
 <header>
@@ -120,18 +120,10 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 col-12 user-detail text-center">
-                                <h4 id='name' class="m-0"><strong>Wong Kin Hou</strong></h4>
-                                <p id='location'  class="m-0">Coding Kor Kor</p>
-                                <p id='gender' class="mb-1">AIA Singapore Pte Ltd</p>
+                                <h4 id='name' class="m-0"><strong>Name</strong></h4>
+                                <p id='location'  class="m-0">Location</p>
+                                <p id='gender' class="mb-1">Gender</p>
                                 
-                                <!-- JavaScript for changing variables -->
-                                <!-- <script>
-                                    
-                                    $('#name').text(name);
-                                    $('#location').text(loc);
-                                    $('#gender').text(gender);
-
-                                </script> -->
 
                             </div>
                         </div>
@@ -161,28 +153,40 @@
                                     <i class="icon fa fa-minus"></i>
                                 </a>
                             </div>
-                            <div  id="collapseMyStory" class="collapse show" aria-labelledby="headingMyStory" data-parent="#accordionMyStory">
-                              <div style='height:340px;'  class="card-body pt-2 pb-2">
-                                <div class="body-section mb-3">
-                                    <h6 class="section-heading mb-1"><strong>Location</strong></h6>
-                                    <p id='display-name' class="section-content m-0">Tampines</p>
+
+                            
+                            <!-- Update Profile Form -->
+                            <!-- <form method='POST' action=''> -->
+                                <!-- Input Name -->
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Name</label>
+                                    <input id='display-name' type="text" class="form-control" aria-describedby="emailHelp" placeholder="Name" required>
                                 </div>
-                                <div class="body-section mb-3">
-                                  <h6 class="section-heading mb-1"><strong>Gender</strong></h6>
-                                  <p id ='display-gender' class="section-content m-0">Male</p>
-                              </div>
-                                <div class="body-section mb-3">
-                                    <h6 class="section-heading mb-1"><strong>Bio</strong></h6>
-                                    <p id='display-bio' class="section-content m-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                    tempor incididunt.</p>
+                                <!-- Input Bio -->
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Bio</label>
+                                    <input id='display-bio' type="text" class="form-control" aria-describedby="emailHelp" placeholder="Biography" required>
+                                    <small id="emailHelp" class="form-text text-muted">Write something interesting about yourself, you never know when you will actually BTO.</small>
                                 </div>
-                                <div class="body-section mb-3">
-                                    <h6 class="section-heading mb-1"><strong>Age</strong></h6>
-                                    <p id='display-age' class="section-content m-0">19/06/1995</p>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Location</label>
+                                    <input id='display-loc' type="text" class="form-control" placeholder="Location" required>
                                 </div>
-                                <button class="btn btn-info btn-sm">Edit</button>
-                              </div>
-                            </div>
+                                <div class="form-group">
+                                    <label for="sel1">Gender:</label>
+                                    <select id='display-gender' class="form-control" id="gender">
+                                        <option>M</option>
+                                        <option>F</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Age</label>
+                                    <input id='display-age' type="number" class="form-control" min='18' required>
+                                    </div>
+                                
+                                <center><button id='updateBtn' type="submit" class="btn btn-primary">Update</button></center>
+                            <!-- </form> -->
+
                           </div>
                         </div>             
                     </div>
@@ -199,5 +203,72 @@
 <br>
 </body>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script><script  src="js/account.js"></script>
+
+<script>
+        // <-- Update User Profile -->
+        // Error Function
+        function addError(message) {
+                            // Display an error under the main container
+                            $('body').append("<br><center><label id='error' style='color:red'>"+message+"</label></center><br>");
+                        }
+
+        // Action Listener
+        $("#updateBtn").click(function(event){
+                    event.preventDefault(); // event - allows console logs to be displayed (solves refresh problem)
+                    console.log(event);
+        
+                    var name = $('#display-name').val();
+                    console.log(name);
+                    var bio = $('#display-bio').val();
+                    console.log(bio);
+                    var location = $('#display-loc').val();
+                    console.log(location);
+                    var gender = $('#display-gender').val();
+                    console.log(gender);
+                    var age = $('#display-age').val();
+                    console.log(age);
+
+                    var profileID = sessionStorage.getItem("accountID");
+                    var serviceURL = "http://127.0.0.1:2000/updateprofile/" + profileID;
+
+                    var requestBody = {
+                        name: name, bio: bio, location: location, gender: gender, age: age
+                    };
+
+                    putData(serviceURL, requestBody);
+                    $('#error').remove();
+                });
+
+                async function putData(serviceURL, requestBody){
+                    // console.log(requestBody);
+                    var requestParam = {
+                        headers: { "content-type": "application/json;" },
+                        mode: 'cors', // other options: no-cors, navigate, same-origin
+                        method: 'PUT',
+                        body: JSON.stringify(requestBody)
+                    }
+                    
+                    try {
+                        const response = await fetch(serviceURL, requestParam);
+                        console.log(response);
+                        
+                        // data = await response.json();
+                //         console.log(data);
+                        // var isbnNumber = $('#isbn13').val();
+                    if(response.ok){
+                        alert('Profile Information Successfully Updated!')
+                        window.location.href = "account.html";
+            
+                            
+                    }
+                    else{
+                        alert('Profile Information Failed to update!');
+                    }
+                    } catch (error) {
+
+                        console.error(error);
+                    }
+                }
+</script>
 
 </html>

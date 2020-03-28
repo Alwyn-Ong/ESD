@@ -40,7 +40,7 @@ def get_all():
     return jsonify({"all profiles": [profiles.json() for profiles in profile.query.all()]})    
 
 #retrieve current profile (used as placeholder to edit)
-@app.route("/profile/<int:profileid>")
+@app.route("/profile/<int:profileid>",methods=['GET'])
 def find_by_userid(profileid):
     userprofile = profile.query.filter_by(profileID=profileid).first()
     if userprofile:
@@ -48,10 +48,10 @@ def find_by_userid(profileid):
     return jsonify({"message": "profile not found"}), 404
 
 #update profile
-@app.route("/updateprofile",methods=['PUT'])
-def update_profile():
+@app.route("/updateprofile/<int:profileID>",methods=['PUT'])
+def update_profile(profileID):
     #profileID hardcoded for now
-    profileID = 1
+    # profileID = 1
     ##
     userprofile = profile.query.filter_by(profileID=profileID).first()
     #update the entire profile

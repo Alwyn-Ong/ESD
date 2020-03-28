@@ -87,7 +87,7 @@
                         alert('You have successfully created a profile!')
                     }
                     else{
-                        alert('Error, ISBN13: <b>' + '</b>' + ' already exists.')
+                        alert('Error: your profile already exists.')
                     }
                     } catch (error) {
 
@@ -115,8 +115,9 @@
                     };
 
                     postData(serviceURL, requestBody);
-                    window.location.href = "index.html";
-                    // $('#error').remove();
+                    
+                    // window.location.href = "index.html";
+                    alert('Hi ' + name + ', your account has been created!')
                   })
 
 
