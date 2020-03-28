@@ -87,7 +87,7 @@ def create_profile():
     age = request.json['age']
 
     new_profile = profile(profileID, name, bio, gender, age, location)
-    return new_profile.json()
+    # return new_profile.json()
     ## retrieve image,
     ## pass and store image in image microservice.
     try:

@@ -60,6 +60,8 @@
                     
                     <button id='submit' type="submit" class="btn btn-primary">Submit</button>
                 </form>
+
+                <!-- Create Profile JavaScript -->
                 <script>
                   // Error Function
                   function addError(message) {
@@ -84,7 +86,11 @@
                         console.log(data);
 
                     if(response.ok){
-                        alert('You have successfully created a profile!')
+
+                        // alert('Hi ' + name + ', your account has been created!')
+                        alert('Your account has been created!')
+                        window.location.href = "index.html";
+                    
                     }
                     else{
                         alert('Error: your profile already exists.')
@@ -116,8 +122,7 @@
 
                     postData(serviceURL, requestBody);
                     
-                    // window.location.href = "index.html";
-                    alert('Hi ' + name + ', your account has been created!')
+                    
                   })
 
 
