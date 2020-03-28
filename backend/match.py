@@ -50,28 +50,37 @@ class Match(db.Model):
         return {"matchid": self.matchid, "id1": self.id1, "id2": self.id2, "ready_status_1": self.ready_status_1, "ready_status_2": self.ready_status_2}
 
 @app.route("/match/",methods=['POST'])
-def add_match():
+def add_match(id1,id2):
     """
     Creates a match in the Match DB.
 
     Passes in json data in the format
     {
         "id1"="",
-        "id2"="",
+        "id2"=""
     }
 
     Upon successful creation in account DB, return True.
 
     Else, if there is an error creating, return error message
     """
+
+    # Gets variables if done through http call
+
+    # Implemented to account for function call from match_receiver
+
     data = request.get_json()
+
+    if id1 == None and id2 == None:
+        id1 = data["id1"]
+        id2 = data["id2"]
 
     # Checks if there are currently any existing matches in the database
 
-    match_check = Match.query.filter_by(id1=data["id1"], id2=data["id2"]).first()
+    match_check = Match.query.filter_by(id1=id1, id2=id2).first()
 
     if match_check != None:
-        return jsonify({"message": f"The match with id1:{data['id1']} and id2:{data['id2']} already exists."}), 500
+        return jsonify({"message": f"The match with id1:{id1} and id2:{id2} already exists."}), 500
     
     # if (Account.query.filter_by(username=data["username"]).first()) :
     #     return jsonify({"message":"A match with userid pair '{}' already exists.".format(data["username"])}), 400
@@ -79,7 +88,7 @@ def add_match():
     # elif (Account.query.filter_by(email=data["email"]).first()) :
     #     return jsonify({"message":"An account with email '{}' already exists.".format(data["email"])}), 400
 
-    match = Match(**data)
+    match = Match(id1,id2)
 
     try: 
         db.session.add(match)
@@ -88,7 +97,7 @@ def add_match():
         # print(e)
         return jsonify({"message": f"An error {e} occured creating the match."}), 500
 
-    return json.dumps(True)
+    return jsonify({"message":"Successful creation into DB"}), 200
     # 201 is create
 
 @app.route("/match/",methods=['GET'])
