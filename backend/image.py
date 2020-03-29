@@ -31,11 +31,12 @@ class image(db.Model):
 
 #upload image
 @app.route("/upload", methods= ['POST','PUT'])
-def upload(profileID = 2):
+def upload(profileID = 3):
     ##pass profileID to this function (retrieve from json)
     ##hardcode for now
     if request.method == 'POST':
-        file = request.files['inputFile']
+        
+        file = request.files['profilepic']
         newfile = image(profileID, file.filename, file.read())
         db.session.add(newfile)
         db.session.commit()
@@ -58,4 +59,4 @@ def retrieve():
 
 
 if __name__ == "__main__":
-    app.run(port=5000,debug=True)
+    app.run(port=3000,debug=True)
