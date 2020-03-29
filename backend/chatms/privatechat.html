@@ -175,7 +175,19 @@
 var user = 'John'
 var IP = 'http://127.0.0.1:5002'
 $(document).ready(function() {
-	
+		$(async()=>{
+			console.log('here');
+			var matchID = sessionStorage.getItem("matchID");
+			getchatURL = "http://127.0.0.1:5009/getchataddress/"+matchID
+			const chatroomIP =
+			await fetch(
+				getchatURL, { method: 'GET' }
+			);
+			var chatI = await chatroomIP.json();
+			var chatIP = chatI.chatserver;
+			console.log(chatIP);
+			console.log('above');
+		
     // if(IP == 'http://127.0.0.1:5001'){
     //     msg = 'johnybaby'
     //     $("#messages").append('<li>'+msg+'</li>');
@@ -191,7 +203,7 @@ $(document).ready(function() {
 		// socket.send(chatlogs);
 		console.log('hello')
 		$(async()=>{
-			var SERVICEURL = 'http://127.0.0.1:5000/postchathistory';
+			var SERVICEURL = 'http://127.0.0.1:5009/postchathistory';
 
 			// console.log(isbnNumber)
 			console.log(SERVICEURL)
@@ -238,7 +250,7 @@ $(document).ready(function() {
 			var testvariable = 'sendmessageover';
 			console.log(testvariable);
 
-			var updateURL = 'http://127.0.0.1:5000/updatechatlogs';
+			var updateURL = 'http://127.0.0.1:5009/updatechatlogs';
 			console.log(updateURL);
 			try{
 				const response = 
@@ -264,6 +276,7 @@ $(document).ready(function() {
 		
 	});
 
+	})
 });
 </script>
 <!-- <ul id="messages"></ul>

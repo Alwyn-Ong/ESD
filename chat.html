@@ -90,7 +90,7 @@
             var tempID = 1
             retrieveprofileURL = 'http://127.0.0.1:7007/allmatches/' + tempID
             //+profileID
-            console.log(retrieveprofileURL)
+            // console.log(retrieveprofileURL)
 
             try {
                 const response =
@@ -101,12 +101,12 @@
                 var matcheslist = matchesJSON.matchids
 
             }catch (error) {
-                console.log('error in retrieving profiles')
+                // console.log('error in retrieving profiles')
             }
             for (let index = 0; index < matcheslist.length; ++index){
                   // console.log(matcheslist[index]);
                   matchedURL = "http://127.0.0.1:2000/profile/" + matcheslist[index] 
-                  console.log(matchedURL);
+                //   console.log(matchedURL);
                   const matchedprofiles =
                   await fetch(
                     matchedURL, { method: 'GET' }
@@ -114,11 +114,19 @@
                   var matchedprofile = await matchedprofiles.json();
                   var currentname = matchedprofile.name
                   imageURL = "http://127.0.0.1:5007/getimage/" + matcheslist[index]
-                  console.log(imageURL)
+                //   console.log(imageURL)
+
+                  checkmatchURL = "http://127.0.0.1:7007/match/" + matcheslist[index] + "/" + tempID
+
+                  const matchIDresult =
+                  await fetch(
+                      checkmatchURL, { method: 'GET' }
+                  );
+                  var currentmatchID = await matchIDresult.json();
 
                   $('<div class="friend-drawer friend-drawer--onhover">'+
                   '<img class="profile-image" src='+imageURL+'>'
-                  +'<div class="text">'+'<h6>'+currentname+'</h6>'+'</div>'+'<button class="time text-muted small">Join</button>'
+                  +'<div class="text">'+'<h6>'+currentname+'</h6>'+'</div>'+'<button onclick="gotoprivate('+currentmatchID+')" class="time text-muted small">Join</button>'
                   +'</div><hr>').appendTo("#appendhere");
                   
                   
@@ -126,5 +134,12 @@
             }
             console.log(listofmatches);
   })
+
+  function gotoprivate(matchID){
+      sessionStorage.setItem("matchID", matchID);
+    //   console.log('SUCCESS');
+    //   console.log(matchID);
+      window.location.href = "./backend/chatms/privatechat.html";
+  }
 </script>
 </html>

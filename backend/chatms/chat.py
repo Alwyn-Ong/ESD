@@ -166,10 +166,10 @@ def blacklistuser():
     return "201"
 
 ## get IP address of which server to join based on matchID
-@app.route("/getchataddress")
-def getchataddress(matchID=5):
+@app.route("/getchataddress/<int:id>")
+def getchataddress(id):
     ##hardcoded matchID
-    chatprofile = chatdetails.query.filter_by(matchID=matchID).first()
+    chatprofile = chatdetails.query.filter_by(matchID=id).first()
     chatroomID = chatroom_details.query.filter_by(chatroom_ID=chatprofile.chatroom_ID).first()
     chatroomserveraddress = chatroomID.serveraddress
 
@@ -238,4 +238,4 @@ def postchathistory():
     return jsonify({"chathistory": [chat.json() for chat in chatlog]}) 
 #
 if __name__ == "__main__":
-    app.run(port=5000,debug=True)
+    app.run(port=5009,debug=True)
