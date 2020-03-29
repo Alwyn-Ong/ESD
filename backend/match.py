@@ -115,23 +115,23 @@ def add_match(id1,id2):
     return jsonify({"message":"Successful creation into DB"}), 200
     # 201 is create
 
-@app.route("/match/",methods=['GET'])
-def get_match_id():
+@app.route("/match/<int:id1>/<int:id2>",methods=['GET'])
+def get_match_id(id1,id2):
     """
-    Retrieves a match in the Match DB.
+    Retrieves a matchid from the Match DB.
 
     Takes in a url in the format
 
-    /match/?id1=123&id2=234
-    
+    /match/id1/id2
+
     If match exists:
     
     Returns the match id corresponding to id1 and id2
 
     Else, return error message match does not exist
     """
-    id1 = request.args.get("id1")
-    id2 = request.args.get("id2")
+    # id1 = request.args.get("id1")
+    # id2 = request.args.get("id2")
     
     matchid1 = Match.query.filter_by(id1 = id1, id2 = id2).first()
     matchid2 = Match.query.filter_by(id1 = id2, id2 = id1).first()
@@ -143,14 +143,14 @@ def get_match_id():
 
     return jsonify({"message":f"A match with userid pair {id1} and {id2} does not exist."}) , 404
 
-@app.route("/ready/",methods=['GET'])
-def get_partner_ready_status():
+@app.route("/ready/<int:id1>/<int:id2>",methods=['GET'])
+def get_partner_ready_status(id1,id2):
     """
     Retrieves the ready status of the partner of an id in the Match DB.
 
     Takes in a url in the format
 
-    /match/?id1=123&id2=234
+    /match/1/2
     
     If match exists:
     
@@ -158,8 +158,8 @@ def get_partner_ready_status():
 
     Else, return error message match does not exist
     """
-    id1 = request.args.get("id1")
-    id2 = request.args.get("id2")
+    # id1 = request.args.get("id1")
+    # id2 = request.args.get("id2")
     
     matchid1 = Match.query.filter_by(id1 = id1, id2 = id2).first()
     matchid2 = Match.query.filter_by(id1 = id2, id2 = id1).first()
@@ -170,6 +170,38 @@ def get_partner_ready_status():
         return json.dumps(matchid2.ready_status_1)
 
     return jsonify({"message":f"A match with userid pair {id1} and {id2} does not exist."}) , 404
+
+@app.route("/allmatches/<int:id>",methods=['GET'])
+def get_all_matches(id):
+    """
+    Retrieves all the matches of an id in the Match DB. For use in calling chat
+
+    Takes in a url in the format
+
+    /match/1
+    
+    If match exists:
+    
+    Returns the ready status of the other partner
+
+    Else, return error message match does not exist
+    """
+    # id1 = request.args.get("id1")
+    # id2 = request.args.get("id2")
+    
+    # First checks for matches with user as id1
+    matchids = Match.query.filter_by(id1 = id)
+
+    # Subsequently checks for matches with user as id2
+    matchids2 = Match.query.filter_by(id2 = id)
+
+    if matchids == None and matchids2 == None:
+
+        # Returns error message if user is in neither id1 nor id2
+        return jsonify({"message":f"User {id} is not found."})
+    
+    # Returns a list of users that are matched with user as id1 and id2
+    return jsonify({"matchids": [matchid.id2 for matchid in matchids] + [matchid2.id1 for matchid2 in matchids2]})
 
 @app.route("/ready/",methods=['PUT'])
 def update_partner_ready_status():
