@@ -35,7 +35,8 @@ def upload(profileID = 3):
     ##pass profileID to this function (retrieve from json)
     ##hardcode for now
     if request.method == 'POST':
-        file = request.files['inputFile']
+        
+        file = request.files['profilepic']
         newfile = image(profileID, file.filename, file.read())
         db.session.add(newfile)
         db.session.commit()
