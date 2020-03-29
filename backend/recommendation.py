@@ -106,7 +106,7 @@ def send_match_update(user_id,visited_id):
 @app.route("/recommendation/<int:userid>",methods=["GET"])
 def get_recommendation(userid):
     """
-    Retrieves a list of recommendations, based on user.
+    Retrieves a recommendation, based on user.
 
     Takes in an url in the format
 
@@ -166,7 +166,7 @@ def get_recommendation(userid):
 @app.route("/recommendation/",methods=["POST"])
 def store_visited():
     """
-    Retrieves a person's profile, based on user.
+    Stores the visitation of id1 visiting id2
 
     Takes in json data in the format
     {
