@@ -115,11 +115,21 @@ def get_recommendation(userid):
 
     profiles = result["all profiles"]
 
+
+    # First finds the gender of the user by getting from the user profile
+    
+    for profile in profiles:
+        if profile["profileid"] == userid:
+            gender = profile["gender"]
+
     # Stores a list of profiles (excluding original userid)
     profile_list = []
 
+    # Next generates a list of relevant profiles to choose from
     for profile in profiles:
-        if profile["profileid"] != int(userid):
+
+        # Adds if not the user and different gender
+        if profile["profileid"] != userid and profile["gender"] != gender:
             profile_list.append(profile)
 
     # Finds an appropiate person to return
@@ -215,4 +225,4 @@ def store_visited():
 
 
 if __name__ == "__main__":
-    app.run(port=5002,debug=True)
+    app.run(port=6002,debug=True)
