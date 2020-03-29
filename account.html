@@ -79,6 +79,7 @@
 
         
     </script>
+    
 
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
@@ -90,10 +91,10 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="frontend/Discover.php">Discover</a>
+                    <a class="nav-link" href="discover.html">Discover</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="frontend/Matches.php">Matches</a>
+                    <a class="nav-link" href="matches.html">Matches</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="chat.html">Chat</a>
@@ -102,6 +103,10 @@
                     <a class="nav-link" href="account.html">Account</a>
                 </li>
             </ul>
+            
+            <br>
+            <!-- Logout Button -->
+            <button id='logoutBtn' type="submit" class="btn btn-danger">Logout</button>
         </div>
     </nav>
 </header>
@@ -116,7 +121,7 @@
                             <div class="col-md-12 col-12 profile-back">
                                 <img src="img/profile.jpg" class="rounded-circle">
                             </div>
-                    
+                            
                         </div>
                         <div class="row">
                             <div class="col-md-12 col-12 user-detail text-center">
@@ -197,7 +202,8 @@
 </section>
 <div class="text-center">
     <a href="index.html">
-        <button type="button" class="btn btn-warning">Logout</button>
+        <!-- <button type="button" class="btn btn-warning">Logout</button> -->
+        
     </a>
 </div>
 <br>
@@ -205,11 +211,10 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script><script  src="js/account.js"></script>
 
 <script>
-        // <-- Update User Profile -->
-        // Error Function
+        // Update User Profile
         function addError(message) {
-                            // Display an error under the main container
-                            $('body').append("<br><center><label id='error' style='color:red'>"+message+"</label></center><br>");
+            // Display an error under the main container
+            $('body').append("<br><center><label id='error' style='color:red'>"+message+"</label></center><br>");
                         }
 
         // Action Listener
@@ -256,7 +261,7 @@
                 //         console.log(data);
                         // var isbnNumber = $('#isbn13').val();
                     if(response.ok){
-                        alert('Profile Information Successfully Updated!')
+                        alert('Profile Information Successfully Updated!');
                         window.location.href = "account.html";
             
                             
@@ -269,6 +274,16 @@
                         console.error(error);
                     }
                 }
+</script>
+<script>
+    // Logout
+    $("#logoutBtn").click(function(event){
+        event.preventDefault(); // event - allows console logs to be displayed (solves refresh problem)
+        console.log(event);
+        alert("Successful Logout");
+        sessionStorage.clear();
+        window.location.href = "index.html";
+    })
 </script>
 
 </html>
