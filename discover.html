@@ -49,6 +49,9 @@
                 var showGender = "Gender: " + gender;
                 var showBio = "Bio: " + bio;
 
+                imageURL = "http://127.0.0.1:3000/getimage/" + partnerId;
+                document.getElementById("profileImage").src = imageURL;
+
             }catch (error) {
                 console.log('error in retrieving profile')
             } // error  
@@ -146,7 +149,7 @@
                     <div class="card-body">
                         <h5 id="name" class="card-title">Name</h5>
                         <br>
-                        
+                        <img src='' id="profileImage">
                     </div>
                     <div class="card-footer">
                         <strong>Age      : </strong><i id="age">Age</i><br>
@@ -164,8 +167,10 @@
     <br>
     <form action="Discover.php">
     <div class="text-center">
-        <button id="likeBtn" style="width:100px; color:white; background-color: green;" type="submit" class="btn btn-status" name="Like">Like</button>
-        <button id="dislikeBtn" style="width:100px; color:white; background-color:#800000;" type="button" value = "dislike" class="btn btn-status" name="notLike">Dislike</button>
+        <img id="likeBtn" class="rounded-circle" style="width:10%; height:10%; margin-right:5%;" src="img/like.png">
+        <img id="dislikeBtn" class="rounded-circle" style="width:10%; height:10%;" src="img/dislike.png">
+        <!-- <button id="likeBtn" style="width:100px; color:white; background-color: green;" type="submit" class="btn btn-status" name="Like">Like</button> -->
+        <!-- <button id="dislikeBtn" style="width:100px; color:white; background-color:#800000;" type="button" value = "dislike" class="btn btn-status" name="notLike">Dislike</button> -->
     </div>
     </form>
 </section>

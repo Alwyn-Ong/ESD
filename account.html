@@ -47,6 +47,9 @@
                 var showGender = "Gender: " + gender
                 var showBio = "Bio: " + bio
 
+                imageURL = "http://127.0.0.1:3000/getimage/" + profileID;
+                document.getElementById("profileImage").src = imageURL;
+
             }catch (error) {
                 console.log('error in retrieving profile')
             } // error
@@ -119,7 +122,7 @@
                     <div class="col-md-12 col-12 user-detail-main border mb-3 pb-2">
                         <div class="row">
                             <div class="col-md-12 col-12 profile-back">
-                                <img src="img/profile.jpg" class="rounded-circle">
+                                <img id="profileImage" src="img/profile.jpg" class="rounded-circle">
                             </div>
                             
                         </div>
