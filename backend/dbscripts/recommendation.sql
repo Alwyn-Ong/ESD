@@ -25,16 +25,16 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `account`
+-- Table structure for table `recommendation`
 --
 
-DROP TABLE IF EXISTS `account`;
-CREATE TABLE IF NOT EXISTS `account` (
-  `AccountID` int(50) NOT NULL AUTO_INCREMENT,
-  `Email` varchar(255) NOT NULL,
-  `Password` varchar(255) NOT NULL,
-  PRIMARY KEY (`AccountID`),
-  UNIQUE KEY `Email` (`Email`)
+DROP TABLE IF EXISTS `recommendation`;
+CREATE TABLE IF NOT EXISTS `recommendation` (
+  `visit_id` int(50) NOT NULL AUTO_INCREMENT,
+  `user_id` int(50) NOT NULL,
+  `visited_id` int(50) NOT NULL,
+  `like_status` boolean NOT NULL,
+  PRIMARY KEY (`visit_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 COMMIT;
 

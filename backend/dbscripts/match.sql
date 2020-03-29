@@ -25,16 +25,17 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `account`
+-- Table structure for table `match`
 --
 
-DROP TABLE IF EXISTS `account`;
-CREATE TABLE IF NOT EXISTS `account` (
-  `AccountID` int(50) NOT NULL AUTO_INCREMENT,
-  `Email` varchar(255) NOT NULL,
-  `Password` varchar(255) NOT NULL,
-  PRIMARY KEY (`AccountID`),
-  UNIQUE KEY `Email` (`Email`)
+DROP TABLE IF EXISTS `match`;
+CREATE TABLE IF NOT EXISTS `match` (
+  `MatchID` int(50) NOT NULL AUTO_INCREMENT,
+  `id1` int(50) NOT NULL,
+  `id2` int(50) NOT NULL,
+  `ready_status_1` BOOLEAN NOT NULL DEFAULT FALSE,
+  `ready_status_2` BOOLEAN NOT NULL DEFAULT FALSE,
+  PRIMARY KEY (`MatchID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 COMMIT;
 

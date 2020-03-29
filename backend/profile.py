@@ -31,7 +31,7 @@ class profile(db.Model):
         self.location = location
 
     def json(self):
-        return {"profileid": self.profileID, "bio": self.bio, "gender": self.gender, "age": self.age, "location":self.location}
+        return {"profileid": self.profileID, "name":self.name, "bio": self.bio, "gender": self.gender, "age": self.age, "location":self.location}
 
 ## retrieve all profiles
 @app.route("/allprofiles")
@@ -40,7 +40,7 @@ def get_all():
     return jsonify({"all profiles": [profiles.json() for profiles in profile.query.all()]})    
 
 #retrieve current profile (used as placeholder to edit)
-@app.route("/profile/<int:profileid>")
+@app.route("/profile/<int:profileid>",methods=['GET'])
 def find_by_userid(profileid):
     userprofile = profile.query.filter_by(profileID=profileid).first()
     if userprofile:
@@ -48,10 +48,10 @@ def find_by_userid(profileid):
     return jsonify({"message": "profile not found"}), 404
 
 #update profile
-@app.route("/updateprofile",methods=['PUT'])
-def update_profile():
+@app.route("/updateprofile/<int:profileID>",methods=['PUT'])
+def update_profile(profileID):
     #profileID hardcoded for now
-    profileID = 1
+    # profileID = 1
     ##
     userprofile = profile.query.filter_by(profileID=profileID).first()
     #update the entire profile
@@ -87,7 +87,7 @@ def create_profile():
     age = request.json['age']
 
     new_profile = profile(profileID, name, bio, gender, age, location)
-    return new_profile.json()
+    # return new_profile.json()
     ## retrieve image,
     ## pass and store image in image microservice.
     try:
@@ -100,4 +100,4 @@ def create_profile():
 
 
 if __name__ == "__main__":
-    app.run(port=5001,debug=True)
+    app.run(port=2000,debug=True)
