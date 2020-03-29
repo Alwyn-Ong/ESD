@@ -172,7 +172,7 @@ def store_visited():
     {
         "id1":"1",
         "id2":"2",
-        "like":"0/1" - 0 for false, 1 for true
+        "like_status":"0/1" - 0 for false, 1 for true
     }
 
     First checks if the opposing user has liked the user
