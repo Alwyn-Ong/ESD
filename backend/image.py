@@ -43,12 +43,11 @@ def upload(profileID = 3):
     return 'successful upload of image' 
 
 #retrieve image
-@app.route("/getimage")
-def retrieve():
+@app.route("/getimage/<int:id>")
+def retrieve(id):
     ##pass profileID to this function
     ##hardcode for now
-    profileID = 2
-    userprofile = image.query.filter_by(profileID=profileID).first()
+    userprofile = image.query.filter_by(profileID=id).first()
     filepic = userprofile.data
     # encoded = base64.b64encode(filepic)
     # return encoded

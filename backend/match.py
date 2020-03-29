@@ -249,7 +249,7 @@ def update_partner_ready_status():
 
 # Execute this program if it is run as a main script (not by 'import')
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(port=7007, debug=True)
     # print("This is " + os.path.basename(__file__) + ": creating an order...")
     # order = create_order("sample_order.txt")
     # send_order(order)
