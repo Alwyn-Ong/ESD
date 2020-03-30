@@ -22,4 +22,4 @@ def handleMessage(msg):
 
 
 if __name__ == '__main__':
-    socketio.run(app, port=5002)
+    socketio.run(app, port=8002)
