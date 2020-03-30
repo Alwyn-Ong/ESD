@@ -70,11 +70,9 @@ def add_match(id1,id2):
 
     # Implemented to account for function call from match_receiver
 
-    data = request.get_json()
-    id1 = data["id1"]
-    id2 = data["id2"]
-
+    
     if id1 == None and id2 == None:
+        data = request.get_json()
         id1 = data["id1"]
         id2 = data["id2"]
 

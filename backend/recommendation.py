@@ -232,6 +232,9 @@ def store_visited():
         # Sends a message to match receiver to create a new record in match
         send_match_update(user_id,visited_id)
 
+        # Create subsequent row in chat DB, using HTTP Call to chat ms
+        
+
         # Returns Match status along with userid
         return jsonify({"status":"match","message":"You have a match!","userid":user_id})
 

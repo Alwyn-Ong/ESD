@@ -19,7 +19,9 @@
         $(async() => {
             // Change serviceURL to your own
             var profileID = sessionStorage.getItem("accountID");
-            retrieveprofileURL = 'http://127.0.0.1:9000/recommendation/' + profileID
+            retrieveprofileURL = 'http://127.0.0.1:9000/recommendation/' + profileID;
+            dp1URL = 'http://127.0.0.1:3000/getimage/' + profileID;
+            sessionStorage.setItem("dp1URL", dp1URL);
 
             console.log(retrieveprofileURL);
 
@@ -50,14 +52,17 @@
                 var showBio = "Bio: " + bio;
 
                 imageURL = "http://127.0.0.1:3000/getimage/" + partnerId;
-                document.getElementById("profileImage").src = imageURL;
 
+                document.getElementById("profileImage").src = imageURL;
+                
+                dp2URL = imageURL;
+                sessionStorage.setItem("dp2URL", dp2URL);
             }catch (error) {
                 console.log('error in retrieving profile')
             } // error  
             
             $('#name').text(name);
-            $('#bio').text(bio)
+            $('#bio').text(bio);
             $('#loc').text(loc);
             $('#gender').text(gender);
             $('#age').text(age);
@@ -116,10 +121,10 @@
     <br>
     <!-- Modal -->
 <div class="modal fade" id="matchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 id="matchName" class="modal-title" id="exampleModalLabel">Partner Name</h5>
+    <div style="background-color:black;" class="modal-dialog" role="document">
+      <div style="background-color:black;" class="modal-content">
+        <div style="background-color:black;" class="modal-header">
+          <h1 id="matchName" style="color:white; font-family:Brush Script MT;margin-left:35%;" class="modal-title" id="exampleModalLabel">Partner Name</h1>
           
           
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -127,7 +132,11 @@
           </button>
         </div>
         <div class="modal-body">
-            <center><img src='img/babe.jpg' style="width:65%;height:65%"></center><br>
+            <center>
+                <img class="rounded-circle" id="dp1" src='' style="width:25%;height:25%; box-shadow: F F F 4px; border: 2px solid white;">
+                <img class="rounded-circle" id="dp2" src='' style="width:25%;height:25%;box-shadow: F F F 4px; margin-left:10%; border: 2px solid white;">
+            </center>
+            
             <p id="matchBio" class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
         </div>
         <div class="modal-footer">
@@ -147,15 +156,15 @@
                 <div class="card ">
                     
                     <div class="card-body">
-                        <h5 id="name" class="card-title">Name</h5>
+                        <h3 id="name" class="card-title">loading...</h3>
                         <br>
-                        <img src='' id="profileImage">
+                        <center><img style="width:55%; height:55%;" src='' id="profileImage" alt="loading..."></center>
                     </div>
                     <div class="card-footer">
-                        <strong>Age      : </strong><i id="age">Age</i><br>
-                        <strong>Gender   : </strong><i id="gender">Gender</i><br>
-                        <strong>Location : </strong><i id="loc">Location</i><br><br>
-                        <p id="bio" class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        <strong>Age      : </strong><i id="age">loading...</i><br>
+                        <strong>Gender   : </strong><i id="gender">loading...</i><br>
+                        <strong>Location : </strong><i id="loc">loading...</i><br><br>
+                        <p id="bio" class="card-text">loading...</p>
                         
                     </div>
                 </div>
@@ -169,8 +178,6 @@
     <div class="text-center">
         <img id="likeBtn" class="rounded-circle" style="width:10%; height:10%; margin-right:5%;" src="img/like.png">
         <img id="dislikeBtn" class="rounded-circle" style="width:10%; height:10%;" src="img/dislike.png">
-        <!-- <button id="likeBtn" style="width:100px; color:white; background-color: green;" type="submit" class="btn btn-status" name="Like">Like</button> -->
-        <!-- <button id="dislikeBtn" style="width:100px; color:white; background-color:#800000;" type="button" value = "dislike" class="btn btn-status" name="notLike">Dislike</button> -->
     </div>
     </form>
 </section>
@@ -193,12 +200,6 @@
 <script>
     // Like
     $("#likeBtn").click(function(event){
-        // var partnerName = sessionStorage.getItem("partnerName");
-        // var partnerBio = sessionStorage.getItem("partnerBio");
-        // alert(partnerName);
-        // $('#matchModal').modal('show');
-        // $('#matchName').text(partnerName);
-        // $('#matchBio').text(partnerBio);
         var visited_id = sessionStorage.getItem("partnerID");
         console.log(visited_id);
         event.preventDefault(); // event - allows console logs to be displayed (solves refresh problem)
@@ -263,23 +264,28 @@
                         var partnerBio = sessionStorage.getItem("partnerBio");
                         // alert(partnerName);
                         $('#matchModal').modal('show');
-                        $('#matchName').text(partnerName);
+                        $('#matchName').text("It's a Match!");
                         $('#matchBio').text(partnerBio);
+
+                        var dp1URL = sessionStorage.getItem("dp1URL");
+                        var dp2URL = sessionStorage.getItem("dp2URL");
+                        document.getElementById("dp1").src = dp1URL;
+                        document.getElementById("dp2").src = dp2URL;
                         // window.location.href = "discover.html";
                     }else{
-                        alert("She's just a few clicks away!");
+                        // alert("She's just a few clicks away!");
                         window.location.href = "discover.html";
                     }
                     
                 }else{
-                    alert("She's just a few clicks away!");
+                    // alert("She's just a few clicks away!");
                     window.location.href = "discover.html";
                 }
 
                 
         }
         else{
-            alert('Like not submitted successfully!');
+            alert('Please wait for profile to be loaded!');
         }
         } catch (error) {
 
