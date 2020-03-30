@@ -20,12 +20,14 @@
                 <form style='margin-top:50px;' method='POST' action='createProfile.html'>
                     <!-- Upload Profile Picture -->
                     <div class="form-group">
-                        <label><strong>Upload Profile Picture</strong></label>
-                        <div class="custom-file">
-                          <!-- <input type="file" name="profilepic" class="custom-file-input" id="customFile"> -->
-                            <label for="myfile">Select a file:</label>
-                            <input type="file" id="inputFileToLoad" name="profilepic"><br><br>
-                        </div>
+                        <form id="FileForm" name="file" enctype="multipart/form-data">
+                            <label><strong>Upload Profile Picture</strong></label>
+                            <div class="custom-file">
+                              <!-- <input type="file" name="profilepic" class="custom-file-input" id="customFile"> -->
+                                <label for="myfile">Select a file:</label>
+                                <input type="file" id="inputFileToLoad" name="profilepic"><br><br>
+                            </div>
+                        </form>
                     </div>
                     <!-- Input Name -->
                     <div class="form-group">
@@ -114,7 +116,7 @@
                     // console.log('----------');
                     
                     var serviceURL = "http://127.0.0.1:2000/profile";
-                    var imageURL = "http://127.0.0.1:5007/upload"
+                    var imageURL = "http://127.0.0.1:3000/upload/" + profileID
                     var requestBody = {
                         
                         profileID: profileID, name: name, location : location, bio: bio, gender: gender, age: age
@@ -122,54 +124,17 @@
 
                     postData(serviceURL, requestBody);
                 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    
-                function uploadPicture(){
-                        //Prepare form data
-                        var formData = new FormData();
-                        formData.append("file", $("#inputFileToLoad")[0].files[0]);
-                        //formData.append("url", "http://i.telegraph.co.uk/multimedia/archive/02007/Plate-1_2007614b.jpg"); //url of remote image
-                        formData.append("language", "eng");
-                        formData.append("apikey", "helloworld");
-                        callService(formData);                     
-                }
-                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                function callService(formData){
-                    //Send OCR Parsing request asynchronously
-                    jQuery.ajax({
-                        url: imageURL,
-                        data: formData,
-                        dataType: 'json',
-                        mode:'cors',
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        type: 'POST',
-                        success: function (ocrParsedResult) {
-                            //Get the parsed results, exit code and error message and details
-                            console.log("Success!");
-                            var parsedResults = ocrParsedResult["ParsedResults"];
-                            var ocrExitCode = ocrParsedResult["OCRExitCode"];
-                            var isErroredOnProcessing = ocrParsedResult["IsErroredOnProcessing"];
-                            var errorMessage = ocrParsedResult["ErrorMessage"];
-                            var errorDetails = ocrParsedResult["ErrorDetails"];
-                            //If we have got parsed results, then loop over the results to do something
-                            if (parsedResults != null) {
-                                //Uncomment these lines if parsing multiple results
-                                $.each(parsedResults, function (index, value) {
-                                    var exitCode = value["FileParseExitCode"];
-                                    var parsedText = value["ParsedText"];
-                                    var errorMessage = value["ParsedTextFileName"];
-                                    var errorDetails = value["ErrorDetails"];
-                                    
-                                    console.log("OCR: " + parsedText);
-                                    $("#text").html( parsedText);
-                                });
-                            }
-                        }
-                    });   
-                    
 
-                }        
-                uploadPicture()    
+                    var form_data = new FormData();
+                    var fileInput = document.getElementById('inputFileToLoad');
+
+                    form_data.append('profilepic', fileInput.files[0])
+
+                    var xhr = new XMLHttpRequest();
+                    var url = encodeURI(imageURL);
+                    xhr.open('POST',url);
+                    xhr.send(form_data);
+                
                 //~end of onsubmit    
                 })
 
