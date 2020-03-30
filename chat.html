@@ -102,9 +102,12 @@
                   );
                   var matchedprofile = await matchedprofiles.json();
                   // console.log(matchedprofile);
-                  var currentname = matchedprofile.name
+                  var currentname = matchedprofile.name;
+
                   imageURL = "http://127.0.0.1:5007/getimage/" + matcheslist[index]
                 //   console.log(imageURL)
+                  var otheruserID = matcheslist[index];
+                  console.log(otheruserID);
 
                   checkmatchURL = "http://127.0.0.1:7007/match/" + matcheslist[index] + "/" + tempID
 
@@ -131,7 +134,7 @@
 
                   $('<div class="friend-drawer friend-drawer--onhover">'+
                   '<img class="profile-image" id="'+readystatus+'" src='+imageURL+'>'
-                  +'<div class="text">'+'<h6>'+currentname+'</h6>'+'</div>'+'<button onclick="gotoprivate('+currentmatchID+')" class="time text-muted small">Join</button>'
+                  +'<div class="text">'+'<h6>'+currentname+'</h6>'+'</div>'+'<button onclick="gotoprivate('+currentmatchID+','+otheruserID+')" class="time text-muted small">Join</button>'
                   +'</div><hr>').appendTo("#appendhere");
                   
                   
@@ -140,8 +143,9 @@
             console.log(listofmatches);
   })
 
-  function gotoprivate(matchID){
+  function gotoprivate(matchID,otheruserID){
       sessionStorage.setItem("matchID", matchID);
+      sessionStorage.setItem("otheruserID",otheruserID)
     //   console.log('SUCCESS');
     //   console.log(matchID);
       window.location.href = "./backend/chatms/privatechat.html";
@@ -150,12 +154,12 @@
 <style>
 
 #blur{
-  filter: blur(8px);
-  -webkit-filter: blur(3px);
+  filter: blur(3px);
+  /* -webkit-filter: blur(3px); */
 }
 #clear{
   filter: blur(0px);
-  -webkit-filter: blur(0px);
+  /* -webkit-filter: blur(0px); */
 }
 
 

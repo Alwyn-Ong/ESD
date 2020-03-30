@@ -67,10 +67,10 @@
 			<div class="col-md-8">
                 <div class="settings-tray">
                     <div class="friend-drawer no-gutters friend-drawer--grey">
-                    <img class="profile-image" src="https://clarity-enhanced.net/wp-content/themes/clarity-enhanced/assets/img/bootstrap-chat-app-assets/robocop.jpg" alt="">
+                    <img class="profile-image" id="changevariable" src="https://clarity-enhanced.net/wp-content/themes/clarity-enhanced/assets/img/bootstrap-chat-app-assets/robocop.jpg" alt="">
                     <div class="text">
-                      <h6>Robo Cop</h6>
-                      <p class="text-muted">Layin' down the law since like before Christ...</p>
+                      <h6 id="dynamicname">Robo Cop</h6>
+                      <!-- <p class="text-muted">Layin' down the law since like before Christ...</p> -->
                     </div>
                     <span class="settings-tray--right">
                       <i class="material-icons">cached</i>
@@ -108,6 +108,38 @@ $(document).ready(function() {
 		$(async()=>{
 			console.log('here');
 			//CODE SESSION HERE//
+			var matchID = sessionStorage.getItem("matchID");
+			var otheruserID = sessionStorage.getItem("otheruserID");
+			otherimageURL = "http://127.0.0.1:5007/getimage/"+otheruserID;
+
+			checkreadyURL = "http://127.0.0.1:7007/checkreadystatus/"+matchID;
+			
+			matchedURL = "http://127.0.0.1:2000/profile/" + otheruserID;
+			// console.log(matchedURL);
+			const matchedprofiles =
+			await fetch(
+			matchedURL, { method: 'GET' }
+			);
+			var matchedprofile = await matchedprofiles.json();
+			// console.log(matchedprofile);
+			var currentname = matchedprofile.name;
+			console.log(currentname);
+			document.getElementById("dynamicname").innerHTML = currentname;
+
+			const readyresult = 
+			await fetch(
+			checkreadyURL, {method: 'GET'}
+			);
+			var checkreadystatus = await readyresult.json();
+			
+
+			if(checkreadystatus.message == "success"){
+				document.getElementById("changevariable").src = otherimageURL;
+			}else{
+				document.getElementById("changevariable").style.filter = "blur(8px)";
+				document.getElementById("changevariable").src = otherimageURL;
+			}
+			
 			var userID = 1;
 			getnameURL = "http://127.0.0.1:2000/profile/"+userID;
 			const userIDname =
@@ -117,17 +149,16 @@ $(document).ready(function() {
 			var username = await userIDname.json();
 			var user = username.name;
 
-			var matchID = sessionStorage.getItem("matchID");
+			
 			getchatURL = "http://127.0.0.1:5009/getchataddress/"+matchID;
-			console.log(getchatURL)
+
 			const chatroomIP =
 			await fetch(
 				getchatURL, { method: 'GET' }
 			);
 			var chatI = await chatroomIP.json();
 			var chatIP = chatI.chatserver;
-			console.log(chatIP);
-			console.log('above');
+
 		
 	var socket = io.connect(chatIP);
 
