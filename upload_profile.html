@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Create Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/account.css" type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <body>
+    
+    <div class='container'>
+      <div class='col-sm'></div>
+      <div class='col-sm'>
+        <div style='height:50px;' class='row'><h1>Create profile</h1></div>
+        <h1 id='msg'>TEST</h1>
+                <form style='margin-top:50px;' method='POST'>
+                    <!-- Upload Profile Picture -->
+                    <div class="form-group">
+                        <form id="FileForm" name="file" enctype=multipart/form-data>
+                          <label><strong>Upload Profile Picture</strong></label>
+                          <div class="custom-file">
+                            <!-- <input type="file" name="profilepic" class="custom-file-input" id="customFile"> -->
+                              <!-- <label for="myfile">Select a file:</label> -->
+                              Select a file:
+                              <input type="file" id="File" name="file"><br><br>
+                              <button id='submitpicture' type="submit" class="btn btn-primary">Upload</button>
+                          </div>
+                        </form>
+                    </div>
+                    <!-- Input Name -->
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Name</label>
+                      <input id='name' type="text" class="form-control" aria-describedby="emailHelp" placeholder="Name" >
+                    </div>
+                    <!-- Input Bio -->
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Bio</label>
+                      <input id='bio' type="text" class="form-control" aria-describedby="emailHelp" placeholder="Biography" >
+                      <small id="emailHelp" class="form-text text-muted">Write something interesting about yourself, you never know when you will actually BTO.</small>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Location</label>
+                      <input id='location' type="text" class="form-control" placeholder="Location" >
+                    </div>
+                    <div class="form-group">
+                        <label for="sel1">Gender:</label>
+                        <select id='gender' class="form-control" id="gender">
+                          <option>M</option>
+                          <option>F</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Age</label>
+                        <input id='age' type="number" class="form-control" min='18' >
+                      </div>
+                    
+                    <button id='submitprofile' type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+
+                <!-- Create Profile JavaScript -->
+                <script>
+                  // Error Function
+                  function addError(message) {
+                    // Display an error under the main container
+                    $('body').append("<br><center><label id='error' style='color:red'>"+message+"</label></center><br>");
+                  }
+
+                $("#submitpicture").click(function(event){
+                  event.preventDefault()
+                  console.log("test")
+                  // var form_data = new FormData();
+                  // form_data.append("files[]",document.getElementById('multiFiles').files);
+                  // var formDataRaw = $('#FileForm');
+                  // console.log(formDataRaw);
+                  // var form_data = new FormData(formDataRaw);
+                  // var ins = document.getElementById('multiFiles').files.length;
+                  var form_data = new FormData(); //FormData object
+                  var fileInput = document.getElementById('File');
+                  //Iterating through each files selected in fileInput
+                  // for (i = 0; i < fileInput.files.length; i++) {
+                      //Appending each file to FormData object
+                      // form_data.append('profilepic', fileInput.files[i]);
+                  // }
+                  form_data.append('profilepic', fileInput.files[0]);
+                  form_data.append('profileID',"1")
+                  
+
+                  console.log(form_data)
+                  var xhr = new XMLHttpRequest();
+                  // var url = encodeURI('posturl');
+                  var url = encodeURI('http://127.0.0.1:5007/upload/8')
+                  xhr.open('POST', url);
+                  xhr.send(form_data);
+                  // xhr.onreadystatechange = function () {
+                  //     if (xhr.readyState == 4 && xhr.status == 200) {
+                  //         $('#returnMessage').html(xhr.responseText);
+                  //     }
+                  // }
+                  // $.ajax({
+                  //   url: 'http://127.0.0.1:5007/upload', // point to server-side URL
+                  //   dataType: 'json', // what to expect back from server
+                  //   cache: false,
+                  //   contentType: false,
+                  //   processData: false,
+                  //   crossDomain: true,
+                  //   data: form_data,
+                  //   type: 'post',
+                  //   beforeSend: function(xhrObj){
+                  //     xhrObj.setRequestHeader("Content-Type","application/json");
+                  //     xhrObj.setRequestHeader("Accept","application/json");
+                  //     xhrObj.setRequestHeader("Access-Control-Allow-Headers","x-requested-with");
+                  //   },
+                  //   success: function (response) { // display success response
+                  //     console.log(response)
+                  //     $('#msg').html('');
+                  //     $.each(response, function (key, data) {							
+                  //       if(key !== 'message') {
+                  //         $('#msg').append(key + ' -> ' + data + '<br/>');
+                  //       } else {
+                  //         $('#msg').append(data + '<br/>');
+                  //       }
+                  //     })
+                  //   },
+                  //   error: function (response) {
+                  //     $('#msg').html(response.message); // display error response
+                  //   },
+
+                  // });
+                    
+                //   const insightPDF = (dataObject) => {
+                //     var config = { headers: {'Content-Type': undefined} };
+                //     return $http.post('/app/api/insights_pdf', dataObject, config)
+                //     .then((res) => {
+                //         console.log('PDF uploaded res', res)
+                //         return res;
+                //     }).catch(apiError);
+                // };
+
+                // var file = inputElem[0].files[0];
+                // insightPDF(file);
+
+                //     console.log("Test")
+                //     event.preventDefault();
+                //     var formData = new FormData();
+                //     // formData.append('section', 'general');
+                //     // formData.append('action', 'previewImg');
+                //     // Attach file
+                //     // formData.append('image', $('input[type=file]')[0].files[0]); 
+                //     formData.append("inputFile", $("#inputFileToLoad").files[0]);
+                //     console.log(formData);
+
+
+                    // var serviceURL = "http://127.0.0.1:5007/upload";
+                //     var requestBody =  $.ajax({
+                //         url: serviceURL,
+                //         data: formData,
+                //         type: 'POST',
+                //         contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+                //         processData: false, // NEEDED, DON'T OMIT THIS
+                //         headers: { "content-type": undefined }
+
+                //         // ... Other options like success and etc
+                //     });
+
+                //     postData(serviceURL,requestBody);
+                    
+                //     async function postData(serviceURL, requestBody){
+                //     // console.log(requestBody);
+                // //     var requestParam = {
+                // //         headers: { "content-type": "application/json;" },
+                // // //         mode: 'cors', // other options: no-cors, navigate, same-origin
+                // //         method: 'POST',
+                // //         body: JSON.stringify(requestBody)
+                // //     }
+                    
+                // var form_data = new FormData();
+                // form_data.append('file', $('#inputFiletoLoad').prop('files')[0]);
+
+                // console.log(form_data);
+
+                // $(function() {
+                // $.ajax({
+                //     type: 'POST',
+                //     url:  serviceURL,
+                //     data: form_data,
+                //     contentType: false,
+                //     cache: false,
+                //     processData: false,
+                //     success: function(data) {
+                //         console.log('Success!');
+                //         var response = data.json;
+                //         console.log(response);
+
+                //     },
+                //   })
+                // });
+
+            //     try {
+            //         const response = await fetch(serviceURL, requestParam);
+            //         console.log(response);
+            //         data = await response.json();
+            //         console.log(data);
+
+            //     if(response.ok){
+
+            //         // alert('Hi ' + name + ', your account has been created!')
+            //         alert('Your account has been created!')
+            //         window.location.href = "index.html";
+                
+            //     }
+            //     else{
+            //         alert('Error: your profile already exists.')
+            //     }
+            //     } catch (error) {
+
+            //         console.error(error);
+            //     }
+              })
+                </script>
+            </div>
+            <div class='col-sm'></div>
+        </div>
+
+    </body>
+</html>
