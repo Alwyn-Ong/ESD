@@ -30,17 +30,18 @@ class image(db.Model):
         return {"profileid": self.profileID, "profileImage": self.profileImage, "data": self.data}
 
 #upload image
-@app.route("/upload", methods= ['POST','PUT'])
-def upload(profileID = 3):
+@app.route("/upload/<int:profileID>", methods= ['POST','PUT'])
+def upload(profileID):
     ##pass profileID to this function (retrieve from json)
     ##hardcode for now
     if request.method == 'POST':
-        
-        file = request.files['profilepic']
+        # print(request.form)
+        file = request.files["profilepic"]
+        # print(file)
         newfile = image(profileID, file.filename, file.read())
         db.session.add(newfile)
         db.session.commit()
-    return 'successful upload of image' 
+    return jsonify({"message":"successful upload of image"}) 
 
 #retrieve image
 @app.route("/getimage")
