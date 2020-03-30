@@ -109,8 +109,9 @@ $(document).ready(function() {
 			console.log('here');
 			//CODE SESSION HERE//
 			var matchID = sessionStorage.getItem("matchID");
+			//
 			var otheruserID = sessionStorage.getItem("otheruserID");
-			otherimageURL = "http://127.0.0.1:5007/getimage/"+otheruserID;
+			otherimageURL = "http://127.0.0.1:3000/getimage/"+otheruserID;
 
 			checkreadyURL = "http://127.0.0.1:7007/checkreadystatus/"+matchID;
 			
