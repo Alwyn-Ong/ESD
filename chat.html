@@ -63,17 +63,6 @@
                     <input placeholder="Search here" type="text">
                   </div>
                 </div>
-
-                <!-- <div class="friend-drawer friend-drawer--onhover">
-                  <img class="profile-image" src="https://clarity-enhanced.net/wp-content/themes/clarity-enhanced/assets/img/bootstrap-chat-app-assets/robocop.jpg" alt="">
-                  <div class="text">
-                    <h6>Robo Cop</h6>
-                    <!-- <p class="text-muted">Hey, you're arrested!</p> -->
-                  <!-- </div>
-                  <span class="time text-muted small">Join</span>
-                </div>
-                <hr> --> 
-
               </div>  
         </div>
     </div>
@@ -90,7 +79,7 @@
             var tempID = 1
             retrieveprofileURL = 'http://127.0.0.1:7007/allmatches/' + tempID
             //+profileID
-            console.log(retrieveprofileURL)
+            // console.log(retrieveprofileURL)
 
             try {
                 const response =
@@ -101,24 +90,51 @@
                 var matcheslist = matchesJSON.matchids
 
             }catch (error) {
-                console.log('error in retrieving profiles')
+                // console.log('error in retrieving profiles')
             }
             for (let index = 0; index < matcheslist.length; ++index){
                   // console.log(matcheslist[index]);
                   matchedURL = "http://127.0.0.1:2000/profile/" + matcheslist[index] 
-                  console.log(matchedURL);
+                  // console.log(matchedURL);
                   const matchedprofiles =
                   await fetch(
                     matchedURL, { method: 'GET' }
                   );
                   var matchedprofile = await matchedprofiles.json();
-                  var currentname = matchedprofile.name
+                  // console.log(matchedprofile);
+                  var currentname = matchedprofile.name;
+
                   imageURL = "http://127.0.0.1:3000/getimage/" + matcheslist[index]
-                  console.log(imageURL)
+                //   console.log(imageURL)
+                  var otheruserID = matcheslist[index];
+                  console.log(otheruserID);
+
+                  checkmatchURL = "http://127.0.0.1:7007/match/" + matcheslist[index] + "/" + tempID
+
+                  const matchIDresult =
+                  await fetch(
+                      checkmatchURL, { method: 'GET' }
+                  );
+                  var currentmatchID = await matchIDresult.json();
+
+                  checkreadyURL = "http://127.0.0.1:7007/checkreadystatus/"+currentmatchID;
+
+                  const readyresult = 
+                  await fetch(
+                    checkreadyURL, {method: 'GET'}
+                  );
+                  var checkreadystatus = await readyresult.json();
+                  
+
+                  if(checkreadystatus.message == "success"){
+                      var readystatus = 'clear';
+                  }else{
+                      var readystatus = 'blur';
+                  }
 
                   $('<div class="friend-drawer friend-drawer--onhover">'+
-                  '<img class="profile-image" src='+imageURL+'>'
-                  +'<div class="text">'+'<h6>'+currentname+'</h6>'+'</div>'+'<button class="time text-muted small">Join</button>'
+                  '<img class="profile-image" id="'+readystatus+'" src='+imageURL+'>'
+                  +'<div class="text">'+'<h6>'+currentname+'</h6>'+'</div>'+'<button onclick="gotoprivate('+currentmatchID+','+otheruserID+')" class="time text-muted small">Join</button>'
                   +'</div><hr>').appendTo("#appendhere");
                   
                   
@@ -126,5 +142,26 @@
             }
             console.log(listofmatches);
   })
+
+  function gotoprivate(matchID,otheruserID){
+      sessionStorage.setItem("matchID", matchID);
+      sessionStorage.setItem("otheruserID",otheruserID)
+    //   console.log('SUCCESS');
+    //   console.log(matchID);
+      window.location.href = "./backend/chatms/privatechat.html";
+  }
 </script>
+<style>
+
+#blur{
+  filter: blur(3px);
+  /* -webkit-filter: blur(3px); */
+}
+#clear{
+  filter: blur(0px);
+  /* -webkit-filter: blur(0px); */
+}
+
+
+</style>
 </html>
