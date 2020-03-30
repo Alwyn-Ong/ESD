@@ -143,8 +143,8 @@ def get_match_id(id1,id2):
 
     return jsonify({"message":f"A match with userid pair {id1} and {id2} does not exist."}) , 404
 
-@app.route("/ready/<int:id1>/<int:id2>",methods=['GET'])
-def get_partner_ready_status(id1,id2):
+@app.route("/ready/<int:matchid>/<int:vid>")
+def get_partner_ready_status(matchid,vid):
     """
     Retrieves the ready status of the partner of an id in the Match DB.
 
@@ -161,15 +161,15 @@ def get_partner_ready_status(id1,id2):
     # id1 = request.args.get("id1")
     # id2 = request.args.get("id2")
     
-    matchid1 = Match.query.filter_by(id1 = id1, id2 = id2).first()
-    matchid2 = Match.query.filter_by(id1 = id2, id2 = id1).first()
+    matchid1 = Match.query.filter_by(matchid = matchid, id1 = vid).first()
+    matchid2 = Match.query.filter_by(matchid = matchid, id2 = vid).first()
 
     if matchid1 != None:
         return json.dumps(matchid1.ready_status_2)
     elif matchid2 != None:
         return json.dumps(matchid2.ready_status_1)
 
-    return jsonify({"message":f"A match with userid pair {id1} and {id2} does not exist."}) , 404
+    return jsonify({"message":f"A match with matchID does not exist."}) , 404
 
 @app.route("/allmatches/<int:id>",methods=['GET'])
 def get_all_matches(id):
@@ -245,6 +245,14 @@ def update_partner_ready_status():
             return jsonify({"message": f"An error {e} occured updating the database."})   
 
     return jsonify({"message":f"A match with userid pair {id1} and {id2} does not exist."}) , 404
+
+@app.route("/checkreadystatus/<int:matchid>")
+def checkreadystatus(matchid):
+    matchids = Match.query.filter_by(matchid = matchid).first()
+    if matchids.ready_status_1 == 1 and matchids.ready_status_2 == 1:
+        return jsonify({"message": "success"})
+    else:
+        return jsonify({"message":"fail"})
 
 
 # Execute this program if it is run as a main script (not by 'import')

@@ -63,17 +63,6 @@
                     <input placeholder="Search here" type="text">
                   </div>
                 </div>
-
-                <!-- <div class="friend-drawer friend-drawer--onhover">
-                  <img class="profile-image" src="https://clarity-enhanced.net/wp-content/themes/clarity-enhanced/assets/img/bootstrap-chat-app-assets/robocop.jpg" alt="">
-                  <div class="text">
-                    <h6>Robo Cop</h6>
-                    <!-- <p class="text-muted">Hey, you're arrested!</p> -->
-                  <!-- </div>
-                  <span class="time text-muted small">Join</span>
-                </div>
-                <hr> --> 
-
               </div>  
         </div>
     </div>
@@ -106,12 +95,13 @@
             for (let index = 0; index < matcheslist.length; ++index){
                   // console.log(matcheslist[index]);
                   matchedURL = "http://127.0.0.1:2000/profile/" + matcheslist[index] 
-                //   console.log(matchedURL);
+                  // console.log(matchedURL);
                   const matchedprofiles =
                   await fetch(
                     matchedURL, { method: 'GET' }
                   );
                   var matchedprofile = await matchedprofiles.json();
+                  // console.log(matchedprofile);
                   var currentname = matchedprofile.name
                   imageURL = "http://127.0.0.1:5007/getimage/" + matcheslist[index]
                 //   console.log(imageURL)
@@ -124,8 +114,23 @@
                   );
                   var currentmatchID = await matchIDresult.json();
 
+                  checkreadyURL = "http://127.0.0.1:7007/checkreadystatus/"+currentmatchID;
+
+                  const readyresult = 
+                  await fetch(
+                    checkreadyURL, {method: 'GET'}
+                  );
+                  var checkreadystatus = await readyresult.json();
+                  
+
+                  if(checkreadystatus.message == "success"){
+                      var readystatus = 'clear';
+                  }else{
+                      var readystatus = 'blur';
+                  }
+
                   $('<div class="friend-drawer friend-drawer--onhover">'+
-                  '<img class="profile-image" src='+imageURL+'>'
+                  '<img class="profile-image" id="'+readystatus+'" src='+imageURL+'>'
                   +'<div class="text">'+'<h6>'+currentname+'</h6>'+'</div>'+'<button onclick="gotoprivate('+currentmatchID+')" class="time text-muted small">Join</button>'
                   +'</div><hr>').appendTo("#appendhere");
                   
@@ -142,4 +147,17 @@
       window.location.href = "./backend/chatms/privatechat.html";
   }
 </script>
+<style>
+
+#blur{
+  filter: blur(8px);
+  -webkit-filter: blur(3px);
+}
+#clear{
+  filter: blur(0px);
+  -webkit-filter: blur(0px);
+}
+
+
+</style>
 </html>
