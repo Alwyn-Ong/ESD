@@ -139,8 +139,10 @@
                           <div class="form-group">
                             <label><strong>Upload Profile Picture</strong></label>
                             <div class="custom-file">
-                              <input type="file" name="files" multiple class="custom-file-input" id="customFile">
-                              <label class="custom-file-label" for="customFile">Choose file</label>
+                                <form>
+                                    <input type="file" name="files" multiple class="custom-file-input" id="customFile">
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                </form>
                             </div>
                           </div>
                           <div class="form-group">
@@ -245,7 +247,26 @@
 
                     putData(serviceURL, requestBody);
                     $('#error').remove();
-                });
+            });
+
+        $("#upload").click(function(event){
+            event.preventDefault();
+
+            console.log("test")
+
+            var profileID = sessionStorage.getItem("accountID");
+
+            var form_data = new FormData();
+            var fileInput = document.getElementById('customFile');
+
+            form_data.append('profilepic', fileInput.files[0])
+            
+            var uploadURL = "http://127.0.0.1:3000/upload/" + profileID
+            var xhr = new XMLHttpRequest();
+            var url = encodeURI(uploadURL);
+            xhr.open('PUT',url);
+            xhr.send(form_data);
+        });
 
                 async function putData(serviceURL, requestBody){
                     // console.log(requestBody);

@@ -41,6 +41,22 @@ def upload(profileID):
         newfile = image(profileID, file.filename, file.read())
         db.session.add(newfile)
         db.session.commit()
+    if request.method == 'PUT':
+        # Gets current profile
+        currentprofile = image.query.filter_by(profileID=profileID)
+
+        # Grabs file from request
+        file = request.files["profilepic"]
+
+        # Changes the attributes of the current profile object
+        currentprofile.filename = file.filename
+        currentprofile.filename = file.read()
+
+        # Adds back into the database
+        try:
+            db.session.commit()
+        except:
+            return jsonify({"message":"Error adding into the database."})
     return jsonify({"message":"successful upload of image"}) 
 
 #retrieve image
