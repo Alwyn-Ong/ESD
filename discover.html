@@ -9,8 +9,88 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="css/bootstrap.css" type='text/css'>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 <body>
+    <script>
+        
+        $(async() => {
+            // Change serviceURL to your own
+            var profileID = sessionStorage.getItem("accountID");
+            retrieveprofileURL = 'http://127.0.0.1:9000/recommendation/' + profileID;
+            dp1URL = 'http://127.0.0.1:3000/getimage/' + profileID;
+            sessionStorage.setItem("dp1URL", dp1URL);
+
+            console.log(retrieveprofileURL);
+
+            try {
+                const response =
+                 await fetch(
+                   retrieveprofileURL, { method: 'GET' }
+                );
+                
+                var profileJSON = await response.json();
+                console.log(profileJSON);
+                var partnerId = profileJSON['profileid'];
+                sessionStorage.setItem("partnerID", partnerId);
+                
+                var name = profileJSON['name'];
+                sessionStorage.setItem("partnerName", name);
+                // var partnerName = sessionStorage.getItem("partnerName");
+                // alert(parnterName);
+                var bio = profileJSON['bio'];
+                sessionStorage.setItem("partnerBio", bio);
+                var loc = profileJSON['location'];
+                var gender = profileJSON['gender'];
+                var age = profileJSON['age'];
+
+                var showName = "Name: " + name;
+                var showLoc = "Location: " + loc;
+                var showGender = "Gender: " + gender;
+                var showBio = "Bio: " + bio;
+
+                imageURL = "http://127.0.0.1:3000/getimage/" + partnerId;
+
+                document.getElementById("profileImage").src = imageURL;
+                
+                dp2URL = imageURL;
+                sessionStorage.setItem("dp2URL", dp2URL);
+            }catch (error) {
+                console.log('error in retrieving profile')
+            } // error  
+            
+            $('#name').text(name);
+            $('#bio').text(bio);
+            $('#loc').text(loc);
+            $('#gender').text(gender);
+            $('#age').text(age);
+            
+            // biography
+            // $('#display-name').text(name);
+            // document.getElementById("display-name").value = name;
+            // document.getElementById("display-age").value = age;
+            // document.getElementById("display-gender").value = gender;
+            // document.getElementById("display-loc").value = loc;
+            // document.getElementById("display-bio").value = bio;
+            // $('#display-loc').text(loc);
+            // $('#display-gender').text(gender);
+            // $('#display-age').text(age);
+            // $('#display-bio').text(bio);
+        });
+
+
+        var accountJSON = {
+                    email: 'jwwong.2018@sis.smu.edu.sg',
+                    password: 'walaoeheh'
+        }
+        var email = accountJSON['email'];
+        var password = accountJSON['password'];
+
+
+        
+    </script>
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <a class="navbar-brand" href="#">SGLoveLah</a>
@@ -39,7 +119,32 @@
         </div>
     </nav>
     <br>
-    
+    <!-- Modal -->
+<div class="modal fade" id="matchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div style="background-color:black;" class="modal-dialog" role="document">
+      <div style="background-color:black;" class="modal-content">
+        <div style="background-color:black;" class="modal-header">
+          <h1 id="matchName" style="color:white; font-family:Brush Script MT;margin-left:35%;" class="modal-title" id="exampleModalLabel">Partner Name</h1>
+          
+          
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <center>
+                <img class="rounded-circle" id="dp1" src='' style="width:25%;height:25%; box-shadow: F F F 4px; border: 2px solid white;">
+                <img class="rounded-circle" id="dp2" src='' style="width:25%;height:25%;box-shadow: F F F 4px; margin-left:10%; border: 2px solid white;">
+            </center>
+            
+            <p id="matchBio" class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" onclick="window.location.href = 'discover.html';" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 <section class="py-2">
@@ -49,22 +154,18 @@
         <div class="row justify-content-center">
             <div class="col-8">
                 <div class="card ">
-                    <!-- <?php
-                        $image_new = "img\dating_3";
-                        if(!isset($_GET["Like"])){
-                            echo "<img class=\"card-img-top\" src=\"https://source.unsplash.com/collection/190727/1400x700\" alt=\"Card image cap\">";
-                        } else {
-                            echo "<img class=\"card-img-top\" src=\"$image_new\" alt=\"Card image cap\">";
-                        } -->   
-                         
-                    <!-- ?> -->
-                    <!-- <img class="card-img-top" src="https://source.unsplash.com/collection/190727/1400x700" alt="Card image cap"> -->
+                    
                     <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        <h3 id="name" class="card-title">loading...</h3>
+                        <br>
+                        <center><img style="width:55%; height:55%;" src='' id="profileImage" alt="loading..."></center>
                     </div>
                     <div class="card-footer">
-                        <small class="text-muted">Posted on 07/03/2020</small>
+                        <strong>Age      : </strong><i id="age">loading...</i><br>
+                        <strong>Gender   : </strong><i id="gender">loading...</i><br>
+                        <strong>Location : </strong><i id="loc">loading...</i><br><br>
+                        <p id="bio" class="card-text">loading...</p>
+                        
                     </div>
                 </div>
             </div>
@@ -74,18 +175,16 @@
     </div>
     <br>
     <form action="Discover.php">
-    <div class="text-center" >
-        <button style="width:100px; color:white; background-color: green;" type="submit" onclick="likeSelected()" value = "Like" class="btn btn-status" name="Like">Like</button>
-        <button style="width:100px; color:white; background-color:#800000;" type="button" value = "dislike" class="btn btn-status" name="notLike">Dislike</button>
+    <div class="text-center">
+        <img id="likeBtn" class="rounded-circle" style="width:10%; height:10%; margin-right:5%;" src="img/like.png">
+        <img id="dislikeBtn" class="rounded-circle" style="width:10%; height:10%;" src="img/dislike.png">
     </div>
     </form>
 </section>
 </header>
 
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 </body>
 <script>
     // Logout
@@ -96,6 +195,103 @@
         sessionStorage.clear();
         window.location.href = "index.html";
     })
+</script>
+
+<script>
+    // Like
+    $("#likeBtn").click(function(event){
+        var visited_id = sessionStorage.getItem("partnerID");
+        console.log(visited_id);
+        event.preventDefault(); // event - allows console logs to be displayed (solves refresh problem)
+        console.log(event);
+        var user_id = sessionStorage.getItem("accountID");
+        var like_status = 1;
+        
+        
+        var serviceURL = "http://127.0.0.1:9000/recommendation/";
+
+        var requestBody = {
+            id1: user_id, id2: visited_id, like_status: like_status
+        };
+
+        postData(serviceURL, requestBody);
+        $('#error').remove();
+    });
+    // Dislike
+    $("#dislikeBtn").click(function(event){
+        var visited_id = sessionStorage.getItem("partnerID");
+        console.log(visited_id);
+        event.preventDefault(); // event - allows console logs to be displayed (solves refresh problem)
+        console.log(event);
+        var user_id = sessionStorage.getItem("accountID");
+        var like_status = 0;
+        
+        
+        var serviceURL = "http://127.0.0.1:9000/recommendation/";
+
+        var requestBody = {
+            id1: user_id, id2: visited_id, like_status: like_status
+        };
+
+        postData(serviceURL, requestBody);
+        $('#error').remove();
+    });
+
+
+
+    async function postData(serviceURL, requestBody){
+        // console.log(requestBody);
+        var requestParam = {
+            headers: { "content-type": "application/json;" },
+            mode: 'cors', // other options: no-cors, navigate, same-origin
+            method: 'POST',
+            body: JSON.stringify(requestBody)
+        }
+        
+        try {
+            const response = await fetch(serviceURL, requestParam);
+            console.log(response);
+            data = await response.json();
+            console.log(data);
+            
+            // var isbnNumber = $('#isbn13').val();
+        if(response.ok){
+                
+                if(data){
+                    if(data['status']=="match"){
+                        // alert("It's a match!");
+                        var partnerName = sessionStorage.getItem("partnerName");
+                        var partnerBio = sessionStorage.getItem("partnerBio");
+                        // alert(partnerName);
+                        $('#matchModal').modal('show');
+                        $('#matchName').text("It's a Match!");
+                        $('#matchBio').text(partnerBio);
+
+                        var dp1URL = sessionStorage.getItem("dp1URL");
+                        var dp2URL = sessionStorage.getItem("dp2URL");
+                        document.getElementById("dp1").src = dp1URL;
+                        document.getElementById("dp2").src = dp2URL;
+                        // window.location.href = "discover.html";
+                    }else{
+                        // alert("She's just a few clicks away!");
+                        window.location.href = "discover.html";
+                    }
+                    
+                }else{
+                    // alert("She's just a few clicks away!");
+                    window.location.href = "discover.html";
+                }
+
+                
+        }
+        else{
+            alert('Please wait for profile to be loaded!');
+        }
+        } catch (error) {
+
+            console.error(error);
+        }
+    }
 </script>
 
 </html>

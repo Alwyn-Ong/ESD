@@ -106,7 +106,7 @@ def send_match_update(user_id,visited_id):
 @app.route("/recommendation/<int:userid>",methods=["GET"])
 def get_recommendation(userid):
     """
-    Retrieves a list of recommendations, based on user.
+    Retrieves a recommendation, based on user.
 
     Takes in an url in the format
 
@@ -130,11 +130,21 @@ def get_recommendation(userid):
 
     profiles = result["all profiles"]
 
+
+    # First finds the gender of the user by getting from the user profile
+    
+    for profile in profiles:
+        if profile["profileid"] == userid:
+            gender = profile["gender"]
+
     # Stores a list of profiles (excluding original userid)
     profile_list = []
 
+    # Next generates a list of relevant profiles to choose from
     for profile in profiles:
-        if profile["profileid"] != int(userid):
+
+        # Adds if not the user and different gender
+        if profile["profileid"] != userid and profile["gender"] != gender:
             profile_list.append(profile)
 
     # Finds an appropiate person to return
@@ -166,13 +176,13 @@ def get_recommendation(userid):
 @app.route("/recommendation/",methods=["POST"])
 def store_visited():
     """
-    Retrieves a person's profile, based on user.
+    Stores the visitation of id1 visiting id2
 
     Takes in json data in the format
     {
         "id1":"1",
         "id2":"2",
-        "like":"0/1" - 0 for false, 1 for true
+        "like_status":"0/1" - 0 for false, 1 for true
     }
 
     First checks if the opposing user has liked the user
@@ -221,6 +231,9 @@ def store_visited():
         
         # Sends a message to match receiver to create a new record in match
         send_match_update(user_id,visited_id)
+
+        # Create subsequent row in chat DB, using HTTP Call to chat ms
+        
 
         # Returns Match status along with userid
         return jsonify({"status":"match","message":"You have a match!","userid":user_id})

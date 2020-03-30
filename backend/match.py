@@ -70,11 +70,9 @@ def add_match(id1,id2):
 
     # Implemented to account for function call from match_receiver
 
-    data = request.get_json()
-    id1 = data["id1"]
-    id2 = data["id2"]
-
+    
     if id1 == None and id2 == None:
+        data = request.get_json()
         id1 = data["id1"]
         id2 = data["id2"]
 
@@ -249,7 +247,7 @@ def update_partner_ready_status():
 
 # Execute this program if it is run as a main script (not by 'import')
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(port=7007, debug=True)
     # print("This is " + os.path.basename(__file__) + ": creating an order...")
     # order = create_order("sample_order.txt")
     # send_order(order)
