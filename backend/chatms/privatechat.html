@@ -64,83 +64,13 @@
 
 	<div class="container">
         <div class="row no-gutters">
-            <!-- <div class="col-md-4 border-right">
-                <div class="settings-tray">
-                  <img class="profile-image" src="/esdproject/img/profile.jpg" alt="Profile img">
-                  <span class="settings-tray--right">
-                    <i class="material-icons">cached</i>
-                    <i class="material-icons">message</i>
-                    <i class="material-icons">menu</i>
-                  </span>
-                </div>
-                <div class="search-box">
-                  <div class="input-wrapper">
-                    <i class="material-icons">search</i>
-                    <input placeholder="Search here" type="text">
-                  </div>
-                </div>
-                <div class="friend-drawer friend-drawer--onhover">
-                  <img class="profile-image" src="https://clarity-enhanced.net/wp-content/themes/clarity-enhanced/assets/img/bootstrap-chat-app-assets/robocop.jpg" alt="">
-                  <div class="text">
-                    <h6>Robo Cop</h6>
-                    <p class="text-muted">Hey, you're arrested!</p>
-                  </div>
-                  <span class="time text-muted small">13:21</span>
-                </div>
-                <hr>
-                <div class="friend-drawer friend-drawer--onhover">
-                  <img class="profile-image" src="https://clarity-enhanced.net/wp-content/themes/clarity-enhanced/assets/img/bootstrap-chat-app-assets/optimus-prime.jpeg" alt="">
-                  <div class="text">
-                    <h6>Optimus</h6>
-                    <p class="text-muted">Wanna grab a beer?</p>
-                  </div>
-                  <span class="time text-muted small">00:32</span>
-                </div>
-                <hr>
-                <div class="friend-drawer friend-drawer--onhover ">
-                  <img class="profile-image" src="https://clarity-enhanced.net/wp-content/themes/clarity-enhanced/assets/img/bootstrap-chat-app-assets/real-terminator.png" alt="">
-                  <div class="text">
-                    <h6>Skynet</h6>
-                    <p class="text-muted">Seen that canned piece of s?</p>
-                  </div>
-                  <span class="time text-muted small">13:21</span>
-                </div>
-                <hr>
-                <div class="friend-drawer friend-drawer--onhover">
-                  <img class="profile-image" src="https://clarity-enhanced.net/wp-content/themes/clarity-enhanced/assets/img/bootstrap-chat-app-assets/termy.jpg" alt="">
-                  <div class="text">
-                    <h6>Termy</h6>
-                    <p class="text-muted">Im studying spanish...</p>
-                  </div>
-                  <span class="time text-muted small">13:21</span>
-                </div>
-                <hr>
-                <div class="friend-drawer friend-drawer--onhover">
-                  <img class="profile-image" src="https://clarity-enhanced.net/wp-content/themes/clarity-enhanced/assets/img/bootstrap-chat-app-assets/rick.jpg" alt="">
-                  <div class="text">
-                    <h6>Richard</h6>
-                    <p class="text-muted">I'm not sure...</p>
-                  </div>
-                  <span class="time text-muted small">13:21</span>
-                </div>
-                <hr>
-                <div class="friend-drawer friend-drawer--onhover">
-                  <img class="profile-image" src="https://clarity-enhanced.net/wp-content/themes/clarity-enhanced/assets/img/bootstrap-chat-app-assets/rachel.jpeg" alt="">
-                  <div class="text">
-                    <h6>Alice</h6>
-                    <p class="text-muted">Hey, I have something for you!</p>
-                  </div>
-                  <span class="time text-muted small">13:21</span>
-                </div>
-			</div> -->
-
 			<div class="col-md-8">
                 <div class="settings-tray">
                     <div class="friend-drawer no-gutters friend-drawer--grey">
-                    <img class="profile-image" src="https://clarity-enhanced.net/wp-content/themes/clarity-enhanced/assets/img/bootstrap-chat-app-assets/robocop.jpg" alt="">
+                    <img class="profile-image" id="changevariable" src="https://clarity-enhanced.net/wp-content/themes/clarity-enhanced/assets/img/bootstrap-chat-app-assets/robocop.jpg" alt="">
                     <div class="text">
-                      <h6>Robo Cop</h6>
-                      <p class="text-muted">Layin' down the law since like before Christ...</p>
+                      <h6 id="dynamicname">Robo Cop</h6>
+                      <!-- <p class="text-muted">Layin' down the law since like before Christ...</p> -->
                     </div>
                     <span class="settings-tray--right">
                       <i class="material-icons">cached</i>
@@ -172,26 +102,73 @@
 
 <script type="text/javascript">
 // hardcoded user & IP for now
-var user = 'John'
-var IP = 'http://127.0.0.1:5002'
+
+
 $(document).ready(function() {
-	
-    // if(IP == 'http://127.0.0.1:5001'){
-    //     msg = 'johnybaby'
-    //     $("#messages").append('<li>'+msg+'</li>');
-    // }else{
-    //     msg = 'Steven'
-    //     $("#messages").append('<li>'+msg+'</li>');
-    // }
-    //connect to IP must be retrieve from database
-	var socket = io.connect(IP);
+		$(async()=>{
+			console.log('here');
+			//CODE SESSION HERE//
+			var matchID = sessionStorage.getItem("matchID");
+			//
+			var otheruserID = sessionStorage.getItem("otheruserID");
+			otherimageURL = "http://127.0.0.1:3000/getimage/"+otheruserID;
+
+			checkreadyURL = "http://127.0.0.1:7007/checkreadystatus/"+matchID;
+			
+			matchedURL = "http://127.0.0.1:2000/profile/" + otheruserID;
+			// console.log(matchedURL);
+			const matchedprofiles =
+			await fetch(
+			matchedURL, { method: 'GET' }
+			);
+			var matchedprofile = await matchedprofiles.json();
+			// console.log(matchedprofile);
+			var currentname = matchedprofile.name;
+			console.log(currentname);
+			document.getElementById("dynamicname").innerHTML = currentname;
+
+			const readyresult = 
+			await fetch(
+			checkreadyURL, {method: 'GET'}
+			);
+			var checkreadystatus = await readyresult.json();
+			
+
+			if(checkreadystatus.message == "success"){
+				document.getElementById("changevariable").src = otherimageURL;
+			}else{
+				document.getElementById("changevariable").style.filter = "blur(8px)";
+				document.getElementById("changevariable").src = otherimageURL;
+			}
+			
+			var userID = 1;
+			getnameURL = "http://127.0.0.1:2000/profile/"+userID;
+			const userIDname =
+			await fetch(
+				getnameURL, { method: 'GET' }
+			);
+			var username = await userIDname.json();
+			var user = username.name;
+
+			
+			getchatURL = "http://127.0.0.1:5009/getchataddress/"+matchID;
+
+			const chatroomIP =
+			await fetch(
+				getchatURL, { method: 'GET' }
+			);
+			var chatI = await chatroomIP.json();
+			var chatIP = chatI.chatserver;
+
+		
+	var socket = io.connect(chatIP);
 
 	socket.on('connect', function() {
 		
 		// socket.send(chatlogs);
 		console.log('hello')
 		$(async()=>{
-			var SERVICEURL = 'http://127.0.0.1:5000/postchathistory';
+			var SERVICEURL = 'http://127.0.0.1:5009/postchathistory/'+matchID ;
 
 			// console.log(isbnNumber)
 			console.log(SERVICEURL)
@@ -209,7 +186,19 @@ $(document).ready(function() {
 				var chatlogs = data.chathistory;
 				console.log(chatlogs);
 				chatlogs.forEach(function(item,index){
-					socket.send('('+item.created_on+') '+ user + ': ' + item.msg)
+					$(async()=>{
+							var tempuserid = item.userID
+
+							getnameURL = "http://127.0.0.1:2000/profile/"+tempuserid;
+							const userIDname =
+							await fetch(
+								getnameURL, { method: 'GET' }
+							);
+							var usern = await userIDname.json();
+							var tempuser = usern.name;
+
+							socket.send('('+item.created_on+') '+ tempuser + ': ' + item.msg)
+						});
 				});
 			}
 			}catch(error){
@@ -238,7 +227,7 @@ $(document).ready(function() {
 			var testvariable = 'sendmessageover';
 			console.log(testvariable);
 
-			var updateURL = 'http://127.0.0.1:5000/updatechatlogs';
+			var updateURL = 'http://127.0.0.1:5009/updatechatlogs';
 			console.log(updateURL);
 			try{
 				const response = 
@@ -246,7 +235,7 @@ $(document).ready(function() {
 							updateURL, {
 							method: 'POST',
 							headers: { "Content-Type": "application/json" },
-							body: JSON.stringify({ messagetosend: messagetosend, userID: 3, matchID: 5 })
+							body: JSON.stringify({ messagetosend: messagetosend, userID: userID, matchID: matchID })
 							});
 				if(!response.ok){
 					console.log('fail');
@@ -264,6 +253,7 @@ $(document).ready(function() {
 		
 	});
 
+	})
 });
 </script>
 <!-- <ul id="messages"></ul>
