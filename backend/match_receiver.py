@@ -209,5 +209,5 @@ def callback(channel, method, properties, body): # required signature for the ca
 
 if __name__ == "__main__":
     # app.run(port=5000,debug=True)
-    print("Waiting for requests to add matches...")
+    print("Waiting for messages...")
     receiveOrder()
