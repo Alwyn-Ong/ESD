@@ -69,13 +69,16 @@
                     <div class="friend-drawer no-gutters friend-drawer--grey">
                     <img class="profile-image" id="changevariable" src="https://clarity-enhanced.net/wp-content/themes/clarity-enhanced/assets/img/bootstrap-chat-app-assets/robocop.jpg" alt="">
                     <div class="text">
-                      <h6 id="dynamicname">Robo Cop</h6>
+					  <h6 id="dynamicname">Robo Cop</h6>
+					  
                       <!-- <p class="text-muted">Layin' down the law since like before Christ...</p> -->
                     </div>
                     <span class="settings-tray--right">
+						<button id="readyBtn" type="button" class="btn btn-success">Ready</button>
                       <i class="material-icons">cached</i>
                       <i class="material-icons">message</i>
-                      <i class="material-icons">menu</i>
+					  <!-- <i class="material-icons">menu</i> -->
+					  
                     </span>
                   </div>
                 </div>
@@ -141,7 +144,7 @@ $(document).ready(function() {
 				document.getElementById("changevariable").src = otherimageURL;
 			}
 			
-			var userID = 1;
+			var userID = 17;
 			getnameURL = "http://127.0.0.1:2000/profile/"+userID;
 			const userIDname =
 			await fetch(
@@ -226,7 +229,7 @@ $(document).ready(function() {
 			console.log(messagetosend);
 			var testvariable = 'sendmessageover';
 			console.log(testvariable);
-
+			var matchID = sessionStorage.getItem("matchID");
 			var updateURL = 'http://127.0.0.1:5009/updatechatlogs';
 			console.log(updateURL);
 			try{
@@ -261,6 +264,73 @@ $(document).ready(function() {
 <input type="text" id="myMessage">
 <button id="sendbutton">Send</button>
 </div> -->
+
+<script>
+	
+	
+	// Action Listener
+	$("#readyBtn").click(function(event){
+				alert("hi");
+				event.preventDefault(); // event - allows console logs to be displayed (solves refresh problem)
+				console.log(event);
+				var matchID = sessionStorage.getItem("matchID");
+				var userID = 17;
+				console.log('test');
+				console.log(matchID);
+				// var profileID = sessionStorage.getItem("accountID");
+			    var serviceURL = "http://127.0.0.1:7007/ready/"+matchID+"/"+userID;
+
+			    var requestBody = {
+			        
+			    };
+
+			    putData(serviceURL, requestBody);
+				$('#error').remove();
+
+				var readyURL = "http://127.0.0.1:7007/checkreadystatus/"+matchID;
+				const readystatus =
+					await fetch(
+					readyURL, { method: 'GET' }
+					);
+					var readiness = await readystatus.json();
+					// console.log(matchedprofile);
+					if(readiness.message == "success"){
+						document.getElementById("changevariable").style.filter = "blur(0px)";
+						// window.location.href = "privatechat.html";
+					}
+			});
+
+			async function putData(serviceURL, requestBody){
+				// console.log(requestBody);
+			    var requestParam = {
+			        headers: { "content-type": "application/json;" },
+			        mode: 'cors', // other options: no-cors, navigate, same-origin
+			        method: 'PUT',
+			        body: JSON.stringify(requestBody)
+			    }
+				
+			    try {
+			        const response = await fetch(serviceURL, requestParam);
+					console.log(response);
+					
+					// data = await response.json();
+			//         console.log(data);
+					// var isbnNumber = $('#isbn13').val();
+				if(response.ok){
+					alert('you have readied up');
+					// window.location.href = "account.html";
+		
+						
+				}
+				else{
+					// alert('Profile Information Failed to update!');
+				}
+			    } catch (error) {
+
+			        console.error(error);
+			    }
+			}
+</script>
 </body>
 
 

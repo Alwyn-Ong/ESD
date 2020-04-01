@@ -76,7 +76,7 @@
             // Change serviceURL to your own
             var listofmatches = [];
             var profileID = sessionStorage.getItem("accountID");
-            var tempID = 1
+            var tempID = 17
             retrieveprofileURL = 'http://127.0.0.1:7007/allmatches/' + tempID
             //+profileID
             // console.log(retrieveprofileURL)
@@ -134,7 +134,10 @@
 
                   $('<div class="friend-drawer friend-drawer--onhover">'+
                   '<img class="profile-image" id="'+readystatus+'" src='+imageURL+'>'
-                  +'<div class="text">'+'<h6>'+currentname+'</h6>'+'</div>'+'<button onclick="gotoprivate('+currentmatchID+','+otheruserID+')" class="time text-muted small">Join</button>'
+
+                  +'<div class="text">'+'<h6>'+currentname+'</h6>'+'</div>'+
+          
+                  '<button onclick="gotoprivate('+currentmatchID+','+otheruserID+')" class="time text-muted small">Join</button>'
                   +'</div><hr>').appendTo("#appendhere");
                   
                   

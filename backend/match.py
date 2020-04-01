@@ -201,8 +201,8 @@ def get_all_matches(id):
     # Returns a list of users that are matched with user as id1 and id2
     return jsonify({"matchids": [matchid.id2 for matchid in matchids] + [matchid2.id1 for matchid2 in matchids2]})
 
-@app.route("/ready/",methods=['PUT'])
-def update_partner_ready_status():
+@app.route("/ready/<int:matchid>/<int:userid>",methods=['PUT'])
+def update_partner_ready_status(matchid,userid):
     """
     Updates the ready status of of an id in the Match DB
     The ready status of the id1 will be updated to true.
@@ -217,6 +217,19 @@ def update_partner_ready_status():
 
     Else, return error message match does not exist
     """
+    matchid1 = Match.query.filter_by(matchid = matchid, id1 = userid).first()
+    matchid2 = Match.query.filter_by(matchid = matchid, id2 = userid).first()
+    if matchid1 != None:
+        matchid1.ready_status_1 = 1
+    else:
+        matchid1.ready_status_2 = 1
+
+    try:
+        db.session.commit()
+        return jsonify({"message": f"The update status of {id1} has been updated!"})
+    except Exception as e:
+        return jsonify({"message": f"An error {e} occured updating the database."})
+
     data = request.get_json()
     id1 = data["id1"]
     id2 = data["id2"]
