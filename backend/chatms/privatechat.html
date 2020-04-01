@@ -223,7 +223,7 @@ $(document).ready(function() {
 			var chatI = await chatroomIP.json();
 			var chatIP = chatI.chatserver;
 
-		
+	console.log(chatIP);	
 	var socket = io.connect(chatIP);
 
 	socket.on('connect', function() {

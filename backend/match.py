@@ -98,7 +98,7 @@ def add_match(id1 = None,id2 = None):
     #     return jsonify({"message":"An account with email '{}' already exists.".format(data["email"])}), 400
 
     match = Match(id1,id2)
-
+    
     try: 
         db.session.add(match)
         db.session.commit()
