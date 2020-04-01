@@ -135,8 +135,11 @@ class chatroom5(db.Model):
 
 ## create new row in chatdetails
 @app.route("/createchat", methods=['POST'])
-def createchat(matchID=1):
+def createchat():
     # hardcode matchID but retrieve from matchMS.
+    data = request.get_json()
+    matchID = data["matchid"]
+
     desired_room_status = 0
     chatroom = chatroom_details.query.filter_by(Used=desired_room_status).first()
     newchatroom_id = chatroom.chatroom_ID
