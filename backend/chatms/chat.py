@@ -143,22 +143,33 @@ def createchat():
 
     desired_room_status = 0
     chatroom = chatroom_details.query.filter_by(Used=desired_room_status).first()
+    
+    if chatroom == None:
+        return jsonify({"message":"There are no chatrooms available at the moment."})
+    
     newchatroom_id = chatroom.chatroom_ID
     newchatrow = chatdetails(matchID,newchatroom_id)
     try:
         db.session.add(newchatrow)
         db.session.commit()
-        updateoccupancy(newchatroom_id)
-    except:
-        return jsonify({"message": "An error occurred creating the profile."}), 500
+    except Exception as e:
+        return jsonify({"message": f"An error {e} occurred creating the profile."}), 500
 
+    updateoccupancy_status = updateoccupancy(newchatroom_id)
+    if updateoccupancy_status != "Success":
+        return jsonify({"message":f"An error {updateoccupancy_status}"})
+    
     return jsonify(newchatrow.json()), 201
 
 def updateoccupancy(id):
     chatroom = chatroom_details.query.filter_by(chatroom_ID=id).first()
-    chatroom.Used = 1
-    db.session.commit()
-    return '201'
+    if chatroom != None:
+        chatroom.Used = 1
+        try:
+            db.session.commit()
+        except Exception as e:
+            return e
+    return "Success"
 
 @app.route("/blacklist", methods=['PUT'])
 def blacklistuser():
