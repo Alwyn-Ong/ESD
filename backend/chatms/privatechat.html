@@ -248,9 +248,9 @@ $(document).ready(function() {
 				const data = await response.json();
 				var chatlogs = data.chathistory;
 				console.log(chatlogs);
-				chatlogs.forEach(function(item,index){
+				for(let i = 0; i < chatlogs.length; i++){
 					$(async()=>{
-							var tempuserid = item.userID
+							var tempuserid = chatlogs[i].userID
 
 							getnameURL = "http://127.0.0.1:2000/profile/"+tempuserid;
 							const userIDname =
@@ -260,9 +260,24 @@ $(document).ready(function() {
 							var usern = await userIDname.json();
 							var tempuser = usern.name;
 
-							socket.send('('+item.created_on+') '+ tempuser + ': ' + item.msg)
+							socket.send('('+chatlogs[i].created_on+') '+ tempuser + ': ' + chatlogs[i].msg)
 						});
-				});
+				}
+				// chatlogs.forEach(function(item,index){
+				// 	$(async()=>{
+				// 			var tempuserid = item.userID
+
+				// 			getnameURL = "http://127.0.0.1:2000/profile/"+tempuserid;
+				// 			const userIDname =
+				// 			await fetch(
+				// 				getnameURL, { method: 'GET' }
+				// 			);
+				// 			var usern = await userIDname.json();
+				// 			var tempuser = usern.name;
+
+				// 			socket.send('('+item.created_on+') '+ tempuser + ': ' + item.msg)
+				// 		});
+				// });
 			}
 			}catch(error){
                 console.log('error')
