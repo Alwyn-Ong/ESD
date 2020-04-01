@@ -34,7 +34,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app)
 
-chatURL = 'http://localhost:5009/'
+chatURL = 'http://localhost:5009'
 
 
 class Match(db.Model):
@@ -67,36 +67,35 @@ def add_match(id1 = None,id2 = None):
         "id2"=""
     }
 
-    Upon successful creation in account DB, return True.
+    If there is an error creating in account DB, return error message
+    
+    Else, after adding to account DB, gets the matchid of the newly created match,
+    and creates a corresponding row in chat DB, using HTTP Call.
 
-    Else, if there is an error creating, return error message
+    If there is an error creating in chat DB, return error message.
+    Else, returns success message.
+
     """
 
     # Gets variables if done through http call
 
     # Implemented to account for function call from match_receiver
 
-    
     if id1 == None and id2 == None:
         data = request.get_json()
         id1 = data["id1"]
         id2 = data["id2"]
 
     # Checks if there are currently any existing matches in the database
-
     match_check = Match.query.filter_by(id1=id1, id2=id2).first()
     match_check_2 = Match.query.filter_by(id1=id2, id2=id1).first()
 
     
-    if match_check != None and match_check_2 != None:
+    # Returns error message if the match already exists
+    if match_check != None or match_check_2 != None:
         return jsonify({"message": f"The match with id1:{id1} and id2:{id2} already exists."}), 500
     
-    # if (Account.query.filter_by(username=data["username"]).first()) :
-    #     return jsonify({"message":"A match with userid pair '{}' already exists.".format(data["username"])}), 400
-    
-    # elif (Account.query.filter_by(email=data["email"]).first()) :
-    #     return jsonify({"message":"An account with email '{}' already exists.".format(data["email"])}), 400
-
+    # Adds to match db if match does not exist
     match = Match(id1,id2)
 
     try: 
@@ -107,31 +106,33 @@ def add_match(id1 = None,id2 = None):
         matchid = Match.query.filter_by(id1=id1,id2=id2).first()
 
     except Exception as e:
-        # print(e)  
         return jsonify({"message": f"An error {e} occured creating the match."}), 500
-    # return jsonify({"matchid":matchid.matchid})
-    # Obtains the matchid from the row for processing
+
+    # Obtains the newly created matchid for creating row in chat
     matchid = matchid.matchid
+
     # Creates a new rom in chat, through HTTP Call.
     create_chat_url = chatURL + "/createchat"
 
     # Prepares POST message for sending
-    message = json.loads(json.dumps({"matchid":int(matchid)}))
+    message = {"matchid":int(matchid)}
 
+    # Sends request with message as JSON
     r = requests.post(create_chat_url,json=message)
-    # return r
-    # return json.dumps("hehe")
 
+    # Saves response
     result = r.json()
-    return json.dumps(str(type(result)))
-    # return result
 
-        # if result["message"] != None:
-            # return jsonify(result)
+    # Returns error message or success message accordingly
+    try:
+        error = result["message"]
+        return jsonify({"message":error})
+
+    except KeyError:
+        return jsonify({"message":"Successful creation into DB"}), 200
+        # 201 is create
 
 
-    return jsonify({"message":"Successful creation into DB"}), 200
-    # 201 is create
 
 @app.route("/match/<int:id1>/<int:id2>",methods=['GET'])
 def get_match_id(id1,id2):
