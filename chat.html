@@ -50,7 +50,7 @@
         <div class="row no-gutters">
             <div class="col-md-4 border-right" id="appendhere">
                 <div class="settings-tray">
-                  <img class="profile-image" src="img/profile.jpg" alt="Profile img">
+                  <img class="profile-image" id="selfprofilepic" src="img/profile.jpg" alt="Profile img">
                   <span class="settings-tray--right">
                     <i class="material-icons">cached</i>
                     <i class="material-icons">message</i>
@@ -75,8 +75,11 @@
   $(async() => {           
             // Change serviceURL to your own
             var listofmatches = [];
-            var profileID = sessionStorage.getItem("accountID");
-            var tempID = 17
+            var tempID = sessionStorage.getItem("accountID");
+            var selfimageURL = "http://127.0.0.1:3000/getimage/" + tempID;
+            document.getElementById("selfprofilepic").src = selfimageURL;
+            // var tempID = 17
+            console.log(tempID);
             retrieveprofileURL = 'http://127.0.0.1:7007/allmatches/' + tempID
             //+profileID
             // console.log(retrieveprofileURL)

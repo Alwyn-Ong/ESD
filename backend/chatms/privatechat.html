@@ -144,7 +144,7 @@ $(document).ready(function() {
 				document.getElementById("changevariable").src = otherimageURL;
 			}
 			
-			var userID = 17;
+			var userID = sessionStorage.getItem("accountID");
 			getnameURL = "http://127.0.0.1:2000/profile/"+userID;
 			const userIDname =
 			await fetch(
@@ -274,7 +274,7 @@ $(document).ready(function() {
 				event.preventDefault(); // event - allows console logs to be displayed (solves refresh problem)
 				console.log(event);
 				var matchID = sessionStorage.getItem("matchID");
-				var userID = 17;
+				var userID = sessionStorage.getItem("accountID");;
 				console.log('test');
 				console.log(matchID);
 				// var profileID = sessionStorage.getItem("accountID");
