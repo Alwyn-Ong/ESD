@@ -25,10 +25,7 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
             <ul class="navbar-nav">
               <li class="nav-item active">
-                <a class="nav-link" href="frontend/Discover.php">Discover</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="frontend/Matches.php">Matches</a>
+                <a class="nav-link" href="discover.html">Discover</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="chat.html">Chat</a>
@@ -37,6 +34,9 @@
                   <a class="nav-link" href="account.html">Account</a>
               </li>
             </ul>
+            <br>
+            <!-- Logout Button -->
+            <button id='logoutBtn' type="submit" class="btn btn-danger">Logout</button>
         </div>
     </nav>
 </header>
@@ -128,8 +128,16 @@
                   );
                   var checkreadystatus = await readyresult.json();
                   
+                  var status_1 = checkreadystatus['status_1'];
+			            var status_2 = checkreadystatus['status_2'];
 
-                  if(checkreadystatus.message == "success"){
+                  if(status_1 == true && status_2 == true){
+                    revealImage = true;
+                  }else{
+                    revealImage = false;
+                  }
+
+                  if(revealImage == true){
                       var readystatus = 'clear';
                   }else{
                       var readystatus = 'blur';
@@ -156,6 +164,18 @@
     //   console.log(matchID);
       window.location.href = "./backend/chatms/privatechat.html";
   }
+</script>
+
+
+<script>
+  // Logout
+  $("#logoutBtn").click(function(event){
+      event.preventDefault(); // event - allows console logs to be displayed (solves refresh problem)
+      console.log(event);
+      alert("Successful Logout");
+      sessionStorage.clear();
+      window.location.href = "index.html";
+  })
 </script>
 <style>
 

@@ -20,7 +20,11 @@
 	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css'>
 	<link rel="stylesheet" href="../../css/chat.css">
 	<link rel="stylesheet" href="../../css/bootstrap.css" type='text/css'>
-
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<style>
 		.live_chat {
 		height:500px;
@@ -31,6 +35,9 @@
 
 </head>
 <body>
+	
+	
+
 <header>
 	<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
 		<a class="navbar-brand" href="#">SGLoveLah</a>
@@ -41,21 +48,51 @@
 		<div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
 			<ul class="navbar-nav">
 				<li class="nav-item active">
-				<a class="nav-link" href="/esdproject/frontend/Discover.php">Discover</a>
+				<a class="nav-link" href="../../discover.html">Discover</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/esdproject/frontend/Matches.php">Matches</a>
+					<a class="nav-link" href="../../matches.html">Matches</a>
 				</li>
 				<li class="nav-item">
-				<a class="nav-link" href="chat.html">Chat</a>
+				<a class="nav-link" href="../../chat.html">Chat</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="account.html">Account</a>
+					<a class="nav-link" href="../../account.html">Account</a>
 				</li>
 			</ul>
 		</div>
 	</nav>
 </header>
+
+<!-- Modal -->
+<div class="modal fade" id="imagesBox" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div style="background-color:black;" class="modal-dialog" role="document">
+	<div style="background-color:black;" class="modal-content">
+		<div style="background-color:black;" class="modal-header">
+		<h1 id="matchName" style="color:white; font-family:Brush Script MT;margin-left:35%;" class="modal-title" id="exampleModalLabel">Partner Name</h1>
+		
+		
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		</div>
+		<div class="modal-body">
+			<center>
+				<img class="rounded-circle" id="dp1" src='' style="width:25%;height:25%; box-shadow: F F F 4px; border: 2px solid white;">
+				<img class="rounded-circle" id="dp2" src='' style="width:25%;height:25%;box-shadow: F F F 4px; margin-left:10%; border: 2px solid white;">
+			</center>
+			
+			<p id="matchBio" class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+		</div>
+		<div class="modal-footer">
+		<button type="button" onclick="window.location.href = 'discover.html';" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		</div>
+	</div>
+	</div>
+</div>
+
+
+
 <section class="py-5">
     <div class="container">
 				<!-- text-center -->
@@ -67,14 +104,14 @@
 			<div class="col-md-8">
                 <div class="settings-tray">
                     <div class="friend-drawer no-gutters friend-drawer--grey">
-                    <img class="profile-image" id="changevariable" src="https://clarity-enhanced.net/wp-content/themes/clarity-enhanced/assets/img/bootstrap-chat-app-assets/robocop.jpg" alt="">
+                    <img class="profile-image" id="changevariable" onclick='imagePop()' src="https://clarity-enhanced.net/wp-content/themes/clarity-enhanced/assets/img/bootstrap-chat-app-assets/robocop.jpg" alt="">
                     <div class="text">
 					  <h6 id="dynamicname">Robo Cop</h6>
 					  
                       <!-- <p class="text-muted">Layin' down the law since like before Christ...</p> -->
                     </div>
                     <span class="settings-tray--right">
-						<button id="readyBtn" type="button" class="btn btn-success">Ready</button>
+						<button id="readyBtn" type="button" onclick='myFunc()' class="btn btn-success">Ready</button>
                       <i class="material-icons">cached</i>
                       <i class="material-icons">message</i>
 					  <!-- <i class="material-icons">menu</i> -->
@@ -136,8 +173,27 @@ $(document).ready(function() {
 			);
 			var checkreadystatus = await readyresult.json();
 			
+			var id1 = checkreadystatus['id1'];
+			var id2 = checkreadystatus['id2'];
+			var status_1 = checkreadystatus['status_1'];
+			var status_2 = checkreadystatus['status_2'];
 
-			if(checkreadystatus.message == "success"){
+			if(otheruserID == id2){
+				if(status_1 == true){
+					document.getElementById("readyBtn").disabled = true;
+				}
+			}else{
+				if(status_2 == true){
+					document.getElementById("readyBtn").disabled = true;
+				}
+			}
+
+			if(status_1 == true && status_2 == true){
+				revealImage = true;
+			}else{
+				revealImage = false;
+			}
+			if(revealImage == true){
 				document.getElementById("changevariable").src = otherimageURL;
 			}else{
 				document.getElementById("changevariable").style.filter = "blur(8px)";
@@ -269,8 +325,20 @@ $(document).ready(function() {
 	
 	
 	// Action Listener
-	$("#readyBtn").click(function(event){
-				alert("hi");
+	// $("#readyBtn").click(function(event){
+		$("#imagesBox").modal("show");
+		async function imagePop(){
+			// alert("image");
+			// $('#imageModal').modal('show');
+			// $("#imagesBox").modal("show");
+			// document.getElementById("imagesBox").showModal();
+			document.getElementById("changevariable").width = "3000";
+			document.getElementById("changevariable").height = "3000";
+		}
+		
+		async function myFunc(){
+			// alert("hi");
+				document.getElementById("readyBtn").disabled = true;
 				event.preventDefault(); // event - allows console logs to be displayed (solves refresh problem)
 				console.log(event);
 				var matchID = sessionStorage.getItem("matchID");
@@ -296,9 +364,11 @@ $(document).ready(function() {
 					// console.log(matchedprofile);
 					if(readiness.message == "success"){
 						document.getElementById("changevariable").style.filter = "blur(0px)";
-						// window.location.href = "privatechat.html";
 					}
-			});
+					window.location.href = "privatechat.html";
+			};
+		
+				
 
 			async function putData(serviceURL, requestBody){
 				// console.log(requestBody);
@@ -330,8 +400,40 @@ $(document).ready(function() {
 			        console.error(error);
 			    }
 			}
+			
 </script>
+
+
+
+
+
+
+
+
+<!-- <div id="imgModal"class="modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title">Modal title</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+		  <p>Modal body text goes here.</p>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-primary">Save changes</button>
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		</div>
+	  </div>
+	</div>
+  </div> -->
+
+
 </body>
+
+
 
 
 </html>

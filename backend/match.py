@@ -260,10 +260,12 @@ def update_partner_ready_status(matchid,userid):
 @app.route("/checkreadystatus/<int:matchid>")
 def checkreadystatus(matchid):
     matchids = Match.query.filter_by(matchid = matchid).first()
-    if matchids.ready_status_1 == 1 and matchids.ready_status_2 == 1:
-        return jsonify({"message": "success"})
-    else:
-        return jsonify({"message":"fail"})
+    if matchids != None:
+        return jsonify({"id1":matchids.id1,"status_1":matchids.ready_status_1,"id2":matchids.id2,"status_2":matchids.ready_status_2})
+    # if matchids.ready_status_1 == 1 and matchids.ready_status_2 == 1:
+    #     return jsonify({"message": "success"})
+    # else:
+    #     return jsonify({"message":"fail"})
 
 
 # Execute this program if it is run as a main script (not by 'import')

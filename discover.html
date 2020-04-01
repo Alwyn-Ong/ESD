@@ -104,9 +104,6 @@
                     <a class="nav-link" href="discover.html">Discover</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="matches.html">Matches</a>
-                </li>
-                <li class="nav-item">
                   <a class="nav-link" href="chat.html">Chat</a>
                 </li>
                 <li class="nav-item">
@@ -254,6 +251,7 @@
             data = await response.json();
             console.log(data);
             
+            
             // var isbnNumber = $('#isbn13').val();
         if(response.ok){
                 
@@ -288,7 +286,8 @@
             alert('Please wait for profile to be loaded!');
         }
         } catch (error) {
-
+            alert("You have ran out of likes!");
+            window.location.href = "account.html";
             console.error(error);
         }
     }
