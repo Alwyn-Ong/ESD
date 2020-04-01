@@ -7,6 +7,10 @@ from flask_sqlalchemy import SQLAlchemy
 import json
 from flask_cors import CORS
 
+# For HTTP Calls
+import requests
+
+
 # import sys
 # import os
 # import random
@@ -15,10 +19,10 @@ from flask_cors import CORS
 # Communication patterns:
 # Use a message-broker with 'direct' exchange to enable interaction
 # Use a reply-to queue and correlation_id to get a corresponding reply
-import pika
+# import pika
 # If see errors like "ModuleNotFoundError: No module named 'pika'", need to
 # make sure the 'pip' version used to install 'pika' matches the python version used.
-import uuid
+# import uuid
 # import csv
 
 app = Flask(__name__)
@@ -29,6 +33,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 CORS(app)
+
+chatURL = 'http://localhost:5009/'
 
 
 class Match(db.Model):
@@ -51,7 +57,7 @@ class Match(db.Model):
         return {"matchid": self.matchid, "id1": self.id1, "id2": self.id2, "ready_status_1": self.ready_status_1, "ready_status_2": self.ready_status_2}
 
 @app.route("/match/",methods=['POST'])
-def add_match(id1,id2):
+def add_match(id1 = None,id2 = None):
     """
     Creates a match in the Match DB.
 
@@ -79,8 +85,10 @@ def add_match(id1,id2):
     # Checks if there are currently any existing matches in the database
 
     match_check = Match.query.filter_by(id1=id1, id2=id2).first()
+    match_check_2 = Match.query.filter_by(id1=id2, id2=id1).first()
 
-    if match_check != None:
+    
+    if match_check != None and match_check_2 != None:
         return jsonify({"message": f"The match with id1:{id1} and id2:{id2} already exists."}), 500
     
     # if (Account.query.filter_by(username=data["username"]).first()) :
@@ -98,17 +106,29 @@ def add_match(id1,id2):
         # Returns a MySQL row corresponding to the newly created match
         matchid = Match.query.filter_by(id1=id1,id2=id2).first()
 
-        # Obtains the matchid from the row for processing
-        matchid = matchid.matchid
-
-        # Request from chat
-
-
-
-
     except Exception as e:
-        # print(e)
+        # print(e)  
         return jsonify({"message": f"An error {e} occured creating the match."}), 500
+    # return jsonify({"matchid":matchid.matchid})
+    # Obtains the matchid from the row for processing
+    matchid = matchid.matchid
+    # Creates a new rom in chat, through HTTP Call.
+    create_chat_url = chatURL + "/createchat"
+
+    # Prepares POST message for sending
+    message = json.loads(json.dumps({"matchid":int(matchid)}))
+
+    r = requests.post(create_chat_url,json=message)
+    # return r
+    # return json.dumps("hehe")
+
+    result = r.json()
+    return json.dumps(str(type(result)))
+    # return result
+
+        # if result["message"] != None:
+            # return jsonify(result)
+
 
     return jsonify({"message":"Successful creation into DB"}), 200
     # 201 is create

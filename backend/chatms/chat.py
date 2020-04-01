@@ -19,16 +19,17 @@ class chatdetails(db.Model):
     __tablename__ = 'chatdetails'
 
     matchID = db.Column(db.Integer(), primary_key=True, autoincrement=False)
-    blacklisted = db.Column(db.Boolean, default=False, nullable=False)
+    # blacklisted = db.Column(db.Boolean, default=False, nullable=False)
     chatroom_ID = db.Column(db.VARCHAR(50), nullable=False)
 
-    def __init__(self, matchID, chatroom_ID, blacklisted = False):
+    def __init__(self, matchID, chatroom_ID):
         self.matchID = matchID
-        self.blacklisted = blacklisted
+        # self.blacklisted = blacklisted
         self.chatroom_ID= chatroom_ID
 
     def json(self):
-        return {"matchID": self.matchID, "blacklisted": self.blacklisted, "chatroom_ID": self.chatroom_ID}
+        # return {"matchID": self.matchID, "blacklisted": self.blacklisted, "chatroom_ID": self.chatroom_ID}
+        return {"matchID": self.matchID, "chatroom_ID": self.chatroom_ID}
 
 class chatroom_details(db.Model):
     __tablename__ = 'chatroom_details'
@@ -135,8 +136,11 @@ class chatroom5(db.Model):
 
 ## create new row in chatdetails
 @app.route("/createchat", methods=['POST'])
-def createchat(matchID=1):
+def createchat():
     # hardcode matchID but retrieve from matchMS.
+    data = request.get_json()
+    matchID = data["matchid"]
+
     desired_room_status = 0
     chatroom = chatroom_details.query.filter_by(Used=desired_room_status).first()
     newchatroom_id = chatroom.chatroom_ID

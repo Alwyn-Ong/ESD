@@ -154,7 +154,7 @@ def get_recommendation(userid):
         # Currently prioritises people that already like you
 
         # First checks for people that already like user
-        if (Recommendation.query.filter_by(user_id=int(profile_id),visited_id=int(userid),like_status="1").first() == None
+        if (Recommendation.query.filter_by(user_id=int(profile_id),visited_id=int(userid),like_status="1").first() != None
             
             # Next checks if you have already visited the person
             and Recommendation.query.filter_by(user_id=int(userid),visited_id=int(profile_id)).first() == None):
