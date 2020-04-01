@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 09, 2020 at 06:40 AM
+-- Generation Time: Apr 01, 2020 at 03:05 PM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -19,23 +19,34 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `sglovelah`
+-- Database: `sglovelah_recommendation`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `account`
+-- Table structure for table `recommendation`
 --
 
-DROP TABLE IF EXISTS `account`;
-CREATE TABLE IF NOT EXISTS `account` (
-  `AccountID` int(50) NOT NULL AUTO_INCREMENT,
-  `Email` varchar(255) NOT NULL,
-  `Password` varchar(255) NOT NULL,
-  PRIMARY KEY (`AccountID`),
-  UNIQUE KEY `Email` (`Email`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+DROP TABLE IF EXISTS `recommendation`;
+CREATE TABLE IF NOT EXISTS `recommendation` (
+  `visit_id` int(50) NOT NULL AUTO_INCREMENT,
+  `user_id` int(50) NOT NULL,
+  `visited_id` int(50) NOT NULL,
+  `like_status` tinyint(1) NOT NULL,
+  PRIMARY KEY (`visit_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `recommendation`
+--
+
+INSERT INTO `recommendation` (`visit_id`, `user_id`, `visited_id`, `like_status`) VALUES
+(1, 2, 1, 1),
+(2, 3, 1, 1),
+(3, 4, 1, 1),
+(4, 5, 1, 1),
+(5, 1, 6, 1);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

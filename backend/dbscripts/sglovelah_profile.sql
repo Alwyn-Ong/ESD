@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 18, 2020 at 01:39 PM
+-- Generation Time: Apr 01, 2020 at 03:05 PM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -37,17 +37,19 @@ CREATE TABLE IF NOT EXISTS `profiledetails` (
   `age` int(3) NOT NULL,
   `location` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`profileID`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `profiledetails`
 --
 
 INSERT INTO `profiledetails` (`profileID`, `name`, `bio`, `gender`, `age`, `location`) VALUES
-(1, '', 'hello i am so handsome', 'M', 25, 'Bedok'),
-(2, '', 'HELLO i am so pretty!', 'F', 9, 'Jurong'),
-(5, '', 'hey updated noobs', 'F', 5, 'updated loc too'),
-(11, '', 'testing #1', 'F', 21, 'testing update');
+(1, 'Clement Sim', 'Happy wife, happy life!', 'M', 23, 'Tampines'),
+(2, 'Kelsey Lim', 'Moomoo, I am a cow!', 'F', 22, 'Jurong East'),
+(3, 'Jessica Liu', 'Here to make friends!', 'F', 21, 'Bugis'),
+(4, 'Kaela Sim', 'Here for a supper friend!', 'F', 20, 'Changi'),
+(5, 'Amanda Tan', 'Need a text buddy, look no more.', 'F', 24, 'West Coast'),
+(6, 'Alichel Wong', 'I look better with a few more pounds!', 'F', 23, 'Bukit Batok');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
