@@ -263,21 +263,6 @@ $(document).ready(function() {
 							socket.send('('+chatlogs[i].created_on+') '+ tempuser + ': ' + chatlogs[i].msg)
 						});
 				}
-				// chatlogs.forEach(function(item,index){
-				// 	$(async()=>{
-				// 			var tempuserid = item.userID
-
-				// 			getnameURL = "http://127.0.0.1:2000/profile/"+tempuserid;
-				// 			const userIDname =
-				// 			await fetch(
-				// 				getnameURL, { method: 'GET' }
-				// 			);
-				// 			var usern = await userIDname.json();
-				// 			var tempuser = usern.name;
-
-				// 			socket.send('('+item.created_on+') '+ tempuser + ': ' + item.msg)
-				// 		});
-				// });
 			}
 			}catch(error){
                 console.log('error')
@@ -371,7 +356,7 @@ $(document).ready(function() {
 			    var requestBody = {
 			        
 			    };
-
+				console.log(serviceURL);
 			    putData(serviceURL, requestBody);
 				// $('#error').remove();
 
@@ -385,7 +370,7 @@ $(document).ready(function() {
 				// 	if(readiness.message == "success"){
 				// 		document.getElementById("changevariable").style.filter = "blur(0px)";
 				// 	}
-					window.location.href = "privatechat.html";
+					// window.location.href = "privatechat.html";
 			};
 		
 				
@@ -407,7 +392,7 @@ $(document).ready(function() {
 			//         console.log(data);
 					// var isbnNumber = $('#isbn13').val();
 				if(response.ok){
-					alert('you have readied up');
+					alert('You are ready to show your picture! Please refresh to see if there are any new changes!');
 					// window.location.href = "account.html";
 		
 						
