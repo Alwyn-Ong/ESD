@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 01, 2020 at 03:04 PM
+-- Generation Time: Apr 02, 2020 at 02:55 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -31,7 +31,6 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `chatdetails`;
 CREATE TABLE IF NOT EXISTS `chatdetails` (
   `matchID` int(50) NOT NULL,
-  `blacklisted` tinyint(1) NOT NULL,
   `chatroom_ID` int(50) NOT NULL,
   PRIMARY KEY (`matchID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -40,8 +39,8 @@ CREATE TABLE IF NOT EXISTS `chatdetails` (
 -- Dumping data for table `chatdetails`
 --
 
-INSERT INTO `chatdetails` (`matchID`, `blacklisted`, `chatroom_ID`) VALUES
-(1, 0, 1);
+INSERT INTO `chatdetails` (`matchID`, `chatroom_ID`) VALUES
+(1, 1);
 
 -- --------------------------------------------------------
 
