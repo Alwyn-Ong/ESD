@@ -115,7 +115,6 @@ def get_recommendation(userid):
     Returns the details of the first recommended person's 
     ID (by cross checking profiles with visited)
     profile (by accessing profile microservice) 
-    image (by accessing image microservice) 
     """
     # Gets the variables from the url
   
@@ -169,8 +168,6 @@ def get_recommendation(userid):
         # Else return a user that you have already visited
         if Recommendation.query.filter_by(user_id=int(userid),visited_id=int(profile_id)).first() == None:
             return jsonify(profile)
-
-    # Finds the image of the person to return
 
 
 @app.route("/recommendation/",methods=["POST"])
