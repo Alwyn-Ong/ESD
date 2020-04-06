@@ -4,8 +4,6 @@ from flask_cors import CORS
 import json
 
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/sglovelah_account'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://clement:clementbaby@localhost:3310/sglovelah_account'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/sglovelah_account'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -52,14 +50,13 @@ def authenticate_user():
         "password":""
     }
 
-    For correct username/password
-    Returns accountid
+    Returns True/False
 
-    For invalid email
-    Returns errror message 
+    Returns a message saying user does not exist if the user is not in the DB
+    
+    If email is in DB,
+    Returns True or False, depending if the password matches that in the DB
 
-    For wrong password/email
-    Returns error message
 
     """
     data = request.get_json() 
