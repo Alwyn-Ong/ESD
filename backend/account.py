@@ -4,6 +4,8 @@ from flask_cors import CORS
 import json
 
 app = Flask(__name__)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/sglovelah_account'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://clement:clementbaby@localhost:3310/sglovelah_account'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/sglovelah_account'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
