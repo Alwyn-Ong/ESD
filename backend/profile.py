@@ -50,6 +50,9 @@ def find_by_userid(profileid):
 #update profile
 @app.route("/updateprofile/<int:profileID>",methods=['PUT'])
 def update_profile(profileID):
+    #profileID hardcoded for now
+    # profileID = 1
+    ##
     userprofile = profile.query.filter_by(profileID=profileID).first()
     #update the entire profile
     data = request.get_json()
