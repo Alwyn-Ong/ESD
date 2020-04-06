@@ -3,8 +3,13 @@
 account.py -> port: 8000
 profile.py -> port: 2000
 recommendation.py -> port: 9000
-match.py -> port:
-image.py -> port:
+match.py -> port: 7007
+image.py -> port: 3000
+chatsocket1 -> port: 8001
+chatsocket2 -> port: 8002
+chatsocket3 -> port: 8003
+chatsocket4 -> port: 8004
+chatsocket5 -> port: 8005
 
 # open wamp
 # create databases, sglovelah_chat, sglovelah_profile, sglovelah_account, sglovelah_match, sglovelah_recommendation, sglovelah_image
