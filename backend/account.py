@@ -50,13 +50,14 @@ def authenticate_user():
         "password":""
     }
 
-    Returns True/False
+    For correct username/password
+    Returns accountid
 
-    Returns a message saying user does not exist if the user is not in the DB
-    
-    If email is in DB,
-    Returns True or False, depending if the password matches that in the DB
+    For invalid email
+    Returns errror message 
 
+    For wrong password/email
+    Returns error message
 
     """
     data = request.get_json() 
