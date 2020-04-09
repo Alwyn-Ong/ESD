@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 01, 2020 at 03:05 PM
+-- Generation Time: Apr 09, 2020 at 08:26 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `recommendation` (
   `visited_id` int(50) NOT NULL,
   `like_status` tinyint(1) NOT NULL,
   PRIMARY KEY (`visit_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `recommendation`
@@ -46,7 +46,8 @@ INSERT INTO `recommendation` (`visit_id`, `user_id`, `visited_id`, `like_status`
 (2, 3, 1, 1),
 (3, 4, 1, 1),
 (4, 5, 1, 1),
-(5, 1, 6, 1);
+(5, 1, 6, 1),
+(155, 1, 2, 1);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
