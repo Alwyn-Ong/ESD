@@ -9,6 +9,6 @@
 
 To run the entire app,
 1. cd into project directory, click on "start_microservices" batch file 
-1. docker pull alwynong/account:1.0.0
+1. open another cmd and docker pull alwynong/account:1.0.0
 2. docker run -p 8000:8000 -e dbURL=mysql+mysqlconnector://is213@host.docker.internal:3306/sglovelah_account alwynong/account:1.0.0
 3. right click on index.html, click on open in default browser.
