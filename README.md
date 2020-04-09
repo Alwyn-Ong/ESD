@@ -1,6 +1,6 @@
 # ESD
 
-# open wamp
+# make sure wamp is on.
 # create databases, sglovelah_chat, sglovelah_profile, sglovelah_account, sglovelah_match, sglovelah_recommendation, sglovelah_image
 # cd into /backend/dbscripts and import all files to populate each database accordingly
 # `` pip3 install flask-socketio
